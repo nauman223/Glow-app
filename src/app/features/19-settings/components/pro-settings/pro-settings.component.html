@@ -1,0 +1,31 @@
+<app-card [heading]="strings.heading">
+  <ul class="pro-settings">
+    <li>
+      @if (isPro()) {
+        <div class="pro-settings__row">
+          <app-icon class="pro-settings__crown" name="crown" />
+          <span class="pro-settings__label">{{ strings.owned }}</span>
+          <span class="pro-settings__value">{{ strings.ownedStatus }}</span>
+        </div>
+      } @else {
+        <a class="pro-settings__row" [routerLink]="goProRoute">
+          <app-icon class="pro-settings__crown" name="crown" />
+          <span class="pro-settings__label">{{ strings.upgrade }}</span>
+          <app-icon name="chevron-right" [size]="18" />
+        </a>
+      }
+    </li>
+    <li>
+      <button
+        type="button"
+        class="pro-settings__row"
+        [disabled]="restoring()"
+        [attr.aria-busy]="restoring()"
+        (click)="restore()"
+      >
+        <app-icon name="rotate-left" />
+        <span class="pro-settings__label">{{ restoreLabel() }}</span>
+      </button>
+    </li>
+  </ul>
+</app-card>

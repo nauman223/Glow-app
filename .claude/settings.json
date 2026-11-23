@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(npx prettier --write src/app/features/04-picker | Out-Null; npx eslint --max-warnings=0 src/app/features/04-picker; \"ESLINT EXIT $LASTEXITCODE\"; npm run lint:styles 2>&1 | Select-Object -Last 15; \"STYLES EXIT $LASTEXITCODE\"; npx prettier --check src/app/features/04-picker; \"PRETTIER EXIT $LASTEXITCODE\"; Get-ChildItem -Recurse src/app/features/04-picker -File | ForEach-Object { \"{0,6} {1,4} {2}\" -f $_.Length, \\(Get-Content $_.FullName\\).Count, $_.FullName.Replace\\(\\(Get-Location\\).Path + '\\\\',''\\) })",
+      "PowerShell(npx cap sync android 2>&1)",
+      "PowerShell(cd android; .\\\\gradlew.bat --no-daemon assembleDebug -q 2>&1 | Select-Object -Last 5; Get-Item app/build/outputs/apk/debug/app-debug.apk | Select-Object Length, LastWriteTime; cd ..; npx eslint --max-warnings=0 src/app/core/media src/app/core/export; npx prettier --check src/app/core/media src/app/core/export; Get-ChildItem src/app/core/media, src/app/core/export | % { \"{0} {1}\" -f $_.Name, \\(Get-Content $_.FullName\\).Count })",
+      "PowerShell(\"{0:N0} MB\" -f \\(\\(Get-ChildItem -Recurse -File android/app/build -ErrorAction SilentlyContinue | Measure-Object Length -Sum\\).Sum/1MB\\); \"{0:N0} MB\" -f \\(\\(Get-ChildItem -Recurse -File android/build -ErrorAction SilentlyContinue | Measure-Object Length -Sum\\).Sum/1MB\\))",
+      "Bash(wc -l src/app/features/05-editor/*.ts src/app/features/05-editor/**/*.ts src/app/features/05-editor/tools/09-draw/*.ts src/app/features/14-export/*.ts src/app/features/14-export/components/*/*.ts src/app/features/15-export-success/*.ts)",
+      "Bash(grep -oE 'aria-label=\"[^\"]+\"|<span[^>]*>[A-Za-z ]{3,14}</span>' \"/c/Users/USER/Downloads/Tookit/Glow-Design/html/02-Editor-tools_07_5-Editor-Main-canvas.html\")",
+      "Bash(grep -v \"^\\\\s*//\")",
+      "Bash(grep -o -E \"Recent projects.{0,3000}\" \"/c/Users/USER/Downloads/Tookit/Glow-Design/html/01-Onboarding-Home_05_3-Home.html\")",
+      "Bash(node make-stickers.mjs \"N:/Nauman/Glow/public/stickers\")",
+      "Bash(wc -l src/app/core/project/*.ts src/app/features/05-editor/editor*.ts src/app/features/03-home/components/*/*.ts src/app/features/03-home/*.ts src/app/core/platform/app-lifecycle.service.ts)",
+      "Bash(wc -l src/app/core/project/*.ts)"
+    ]
+  }
+}

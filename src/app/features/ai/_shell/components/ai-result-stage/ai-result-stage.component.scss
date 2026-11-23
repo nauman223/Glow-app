@@ -1,0 +1,68 @@
+// Fills the stage; the frame is the largest box of the source's aspect ratio that fits.
+:host {
+  position: relative;
+  display: block;
+  flex: 1 1 auto;
+  inline-size: 100%;
+  min-block-size: 0;
+}
+
+// The size container is an absolutely positioned layer: its height is always definite. As a
+// flex item the host's height was not, and `100cqb` resolved to 0 in Android WebView, so the
+// photo vanished whenever the stage shared space with other content (Enhance's size readout).
+.ai-stage__fit {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  container-type: size;
+}
+
+.ai-stage__frame {
+  position: relative;
+  inline-size: min(100cqi, 100cqb * var(--ai-aspect));
+  aspect-ratio: var(--ai-aspect);
+  overflow: hidden;
+  border-radius: var(--app-radius-xs);
+  background-color: var(--app-surface);
+}
+
+.ai-stage__fill {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+.ai-stage__image {
+  object-fit: contain;
+}
+
+// Page drawings over the photo (face ovals): the frame's box is the fitted photo rect.
+// Touches pass through to the compare handle; opt in with `pointer-events: auto`.
+.ai-stage__overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.ai-stage__shimmer {
+  opacity: 0.7;
+}
+
+.ai-stage__pill {
+  position: absolute;
+  inset-block-end: var(--app-space-3);
+  inset-inline-start: 50%;
+  margin: 0;
+  padding: var(--app-space-1) var(--app-space-3);
+  border-radius: var(--app-radius-pill);
+  background-color: var(--app-scrim);
+  color: var(--app-text);
+  font-size: var(--app-font-caption-size);
+  translate: -50% 0;
+
+  &:dir(rtl) {
+    translate: 50% 0;
+  }
+}

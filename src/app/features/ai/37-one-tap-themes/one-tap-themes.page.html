@@ -1,0 +1,42 @@
+@if (selected(); as theme) {
+  <app-ai-screen
+    [eyebrow]="strings.previewEyebrow"
+    [heading]="theme.name"
+    [status]="status()"
+    [error]="error()"
+    [canApply]="canApply()"
+    [optionsLabel]="strings.previewOptionsLabel"
+    (backRequested)="closePreview()"
+    (cancelRequested)="closePreview()"
+    (applyRequested)="apply()"
+    (retryRequested)="retryPreview()"
+  >
+    <app-ai-result-stage
+      aiStage
+      [beforeSrc]="beforeUrl()"
+      [afterSrc]="afterUrl()"
+      [width]="width()"
+      [height]="height()"
+      [busy]="working()"
+      [busyLabel]="progressLabel()"
+    />
+  </app-ai-screen>
+} @else {
+  <app-theme-gallery
+    [categories]="categories()"
+    [category]="category()"
+    [themes]="themes()"
+    [thumbnails]="thumbnails()"
+    [nextDropAt]="nextDropAt()"
+    [loading]="loading()"
+    [error]="galleryError()"
+    [proLocked]="!proAccess()"
+    (categoryChange)="selectCategory($event)"
+    (themeSelected)="openTheme($event)"
+    (backRequested)="leave()"
+    (retryRequested)="retryGallery()"
+  />
+}
+
+<!-- Gallery only: the preview is a full-screen photo stage, so no ad there. -->
+<app-ad-banner-slot [visible]="selected() === null" />

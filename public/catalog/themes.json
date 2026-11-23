@@ -1,0 +1,132 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-11-17T00:00:00Z",
+  "nextDropAt": null,
+  "categories": [
+    { "id": "seasonal", "label": "Seasonal" },
+    { "id": "festive", "label": "Festive" },
+    { "id": "aesthetic", "label": "Aesthetic" }
+  ],
+  "themes": [
+    {
+      "id": "winter-frost",
+      "name": "Winter frost",
+      "category": "seasonal",
+      "thumbnailUrl": null,
+      "isNew": true,
+      "isPro": false,
+      "uses": 12400,
+      "recipe": {
+        "filter": { "preset": "cool", "intensity": 70 },
+        "adjust": { "brightness": 8, "saturation": -15, "warmth": -35, "contrast": 5 },
+        "sky": null,
+        "relight": null
+      }
+    },
+    {
+      "id": "festive-lights",
+      "name": "Festive lights",
+      "category": "festive",
+      "thumbnailUrl": null,
+      "isNew": true,
+      "isPro": false,
+      "uses": 9800,
+      "recipe": {
+        "filter": { "preset": "warm", "intensity": 60 },
+        "adjust": { "contrast": 10, "saturation": 15, "vignette": 30 },
+        "sky": null,
+        "relight": { "preset": "golden-hour", "intensity": 35, "temperature": 20 }
+      }
+    },
+    {
+      "id": "retro-90s",
+      "name": "Retro 90s",
+      "category": "aesthetic",
+      "thumbnailUrl": null,
+      "isNew": false,
+      "isPro": false,
+      "uses": 21000,
+      "recipe": {
+        "filter": { "preset": "vintage", "intensity": 80 },
+        "adjust": { "contrast": -5, "warmth": 20, "vignette": 25 },
+        "sky": null,
+        "relight": null
+      }
+    },
+    {
+      "id": "cyber-neon",
+      "name": "Cyber neon",
+      "category": "aesthetic",
+      "thumbnailUrl": null,
+      "isNew": false,
+      "isPro": true,
+      "uses": 7100,
+      "recipe": {
+        "filter": { "preset": "cinematic", "intensity": 60 },
+        "adjust": { "contrast": 20, "saturation": 30, "warmth": -20 },
+        "sky": null,
+        "relight": { "preset": "neon", "intensity": 60, "temperature": -40 }
+      }
+    },
+    {
+      "id": "golden-glow",
+      "name": "Golden glow",
+      "category": "seasonal",
+      "thumbnailUrl": null,
+      "isNew": false,
+      "isPro": false,
+      "uses": 15000,
+      "recipe": {
+        "filter": { "preset": "warm", "intensity": 70 },
+        "adjust": { "brightness": 5, "warmth": 25 },
+        "sky": null,
+        "relight": { "preset": "golden-hour", "intensity": 50, "temperature": 30 }
+      }
+    },
+    {
+      "id": "monsoon-mood",
+      "name": "Monsoon mood",
+      "category": "seasonal",
+      "thumbnailUrl": null,
+      "isNew": true,
+      "isPro": true,
+      "uses": 4300,
+      "recipe": {
+        "filter": { "preset": "film", "intensity": 60 },
+        "adjust": { "brightness": -8, "contrast": 12, "saturation": -20, "warmth": -15 },
+        "sky": { "preset": "storm", "blend": 70 },
+        "relight": null
+      }
+    },
+    {
+      "id": "sunset-bliss",
+      "name": "Sunset bliss",
+      "category": "seasonal",
+      "thumbnailUrl": null,
+      "isNew": false,
+      "isPro": false,
+      "uses": 8600,
+      "recipe": {
+        "filter": { "preset": "warm", "intensity": 40 },
+        "adjust": { "contrast": 8, "saturation": 10 },
+        "sky": { "preset": "sunset", "blend": 85 },
+        "relight": { "preset": "golden-hour", "intensity": 30, "temperature": 25 }
+      }
+    },
+    {
+      "id": "aurora-dream",
+      "name": "Aurora dream",
+      "category": "aesthetic",
+      "thumbnailUrl": null,
+      "isNew": false,
+      "isPro": false,
+      "uses": 5200,
+      "recipe": {
+        "filter": { "preset": "cool", "intensity": 35 },
+        "adjust": { "brightness": -6, "contrast": 10, "vignette": 20 },
+        "sky": { "preset": "aurora", "blend": 90 },
+        "relight": null
+      }
+    }
+  ]
+}

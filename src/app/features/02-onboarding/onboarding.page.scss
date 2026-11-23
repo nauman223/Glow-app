@@ -1,0 +1,145 @@
+@use 'abstracts/mixins' as *;
+
+// Slides move one viewport width per step: --onboarding-step comes from the page host,
+// --app-swipe-offset from the swipe directive while a finger is down.
+:host {
+  --onboarding-direction: 1;
+  --onboarding-stage: 500px;
+
+  @media (height < 820px) {
+    --onboarding-stage: 400px;
+  }
+
+  // Small phones (e.g. 360 × 640 dp): the title, copy and Next button must stay on screen.
+  @media (height < 700px) {
+    --onboarding-stage: 240px;
+    --onboarding-dots-end: var(--app-space-4);
+  }
+}
+
+// The illustrations are drawn at the design's 412 dp width; scale them on narrow or short screens.
+@media (width < 400px), (height < 700px) {
+  .onboarding__stage > * {
+    scale: 0.8;
+  }
+}
+
+// The tallest scene (layers + opacity card, ≈ 340 px) must fit the 240 px stage.
+@media (height < 700px) {
+  .onboarding__stage > * {
+    scale: 0.7;
+  }
+}
+
+:host-context([dir='rtl']) {
+  --onboarding-direction: -1;
+}
+
+.onboarding {
+  @include safe-area-block-start;
+  @include safe-area-block-end(var(--app-space-6));
+
+  display: flex;
+  flex-direction: column;
+  min-block-size: 100%;
+}
+
+.onboarding__top {
+  display: flex;
+  flex-shrink: 0;
+  justify-content: flex-end;
+  min-block-size: 60px;
+  padding: var(--app-space-2) var(--app-space-4) 0;
+}
+
+.onboarding__skip {
+  @include touch-target;
+
+  padding: var(--app-space-3) var(--app-space-2);
+  border: 0;
+  background: none;
+  color: var(--app-text-muted);
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.onboarding__viewport {
+  flex-shrink: 0;
+  overflow: hidden;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.onboarding__track {
+  --onboarding-shift: calc(var(--onboarding-step, 0) * -100% * var(--onboarding-direction));
+
+  display: flex;
+  transform: translateX(calc(var(--onboarding-shift) + var(--app-swipe-offset, 0px)));
+  transition: transform var(--app-dur-medium) var(--app-ease);
+
+  .app-swipe--dragging & {
+    transition: none;
+  }
+}
+
+.onboarding__slide {
+  flex: 0 0 100%;
+  min-inline-size: 0;
+}
+
+.onboarding__stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  block-size: var(--onboarding-stage);
+
+  // Keeps each slide's halo from bleeding into the neighbouring slide.
+  overflow: hidden;
+}
+
+.onboarding__dots {
+  display: flex;
+  justify-content: center;
+  gap: var(--app-space-2);
+  padding: var(--app-space-2) 0 var(--onboarding-dots-end, var(--app-space-7));
+}
+
+.onboarding__dot {
+  inline-size: 8px;
+  block-size: 8px;
+  border-radius: 4px;
+  background: var(--app-text-disabled);
+}
+
+.onboarding__dot--active {
+  inline-size: 24px;
+  background: var(--app-primary);
+}
+
+.onboarding__copy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-3);
+  padding-inline: var(--app-space-8);
+  text-align: center;
+}
+
+.onboarding__title {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+}
+
+.onboarding__body {
+  margin: 0;
+  color: var(--app-text-muted);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.onboarding__footer {
+  margin-block-start: auto;
+  padding: var(--app-space-6) var(--app-space-6) 0;
+}

@@ -1,0 +1,14 @@
+<figure class="preview">
+  @if (src(); as src) {
+    <img class="preview__image" decoding="async" [src]="src" [alt]="strings.previewLabel" />
+  } @else {
+    <div class="preview__placeholder skeleton" aria-hidden="true"></div>
+    <span class="visually-hidden" role="status">{{ strings.previewLoading }}</span>
+  }
+  <figcaption class="preview__caption">
+    <span>{{ sizeLabel() }}</span>
+    @if (clamped()) {
+      <span class="preview__notice">{{ strings.clamped }}</span>
+    }
+  </figcaption>
+</figure>

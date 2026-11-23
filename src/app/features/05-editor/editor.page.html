@@ -1,0 +1,110 @@
+<ion-header [attr.inert]="behindDrawer()">
+  <ion-toolbar>
+    <app-editor-top-bar
+      [toolTitle]="toolTitle()"
+      [canUndo]="canUndo()"
+      [canRedo]="canRedo()"
+      [undoLabel]="undoLabel()"
+      [redoLabel]="redoLabel()"
+      [layerCount]="layerCount()"
+      [exportDisabled]="notReady()"
+      (back)="requestLeave()"
+      (undo)="undo()"
+      (redo)="redo()"
+      (layersRequested)="openTool('layers')"
+      (moreRequested)="openOptions()"
+      (exportRequested)="openExport()"
+    />
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [scrollY]="false" [attr.inert]="behindDrawer()">
+  <div class="editor">
+    <main
+      class="editor__main"
+      [attr.aria-label]="strings.canvasLabel"
+      [attr.aria-busy]="notReady()"
+    >
+      <app-editor-stage
+        [loading]="loading()"
+        [toolMode]="dockedPanelOpen()"
+        (measured)="onStageMeasured($event)"
+      />
+      @if (loading()) {
+        <span class="visually-hidden" role="status">{{ loadingLabel() }}</span>
+      } @else if (failed()) {
+        <app-state-message
+          class="editor__error"
+          variant="error"
+          [heading]="strings.loadErrorTitle"
+          [message]="strings.loadErrorMessage"
+          [retryLabel]="strings.loadErrorAction"
+          (retry)="goHome()"
+        />
+      }
+    </main>
+
+    @if (dockedPanelOpen()) {
+      @if (panel.hasValue()) {
+        <ng-container *ngComponentOutlet="panel.value()" />
+      }
+    } @else {
+      <app-editor-toolbar
+        [tools]="tools"
+        [disabled]="toolbarDisabled()"
+        (toolSelected)="openTool($event)"
+      />
+    }
+
+    <!-- Below the toolbar, never over the canvas; .editor already pads the gesture bar. -->
+    <app-ad-banner-slot [visible]="!panelOpen()" [suspended]="adSuspended()" [safeArea]="false" />
+  </div>
+
+  <p class="visually-hidden" aria-live="polite">{{ announcement() }}</p>
+
+  <app-bottom-sheet modal showClose [(open)]="optionsOpen" [heading]="barStrings.optionsTitle">
+    <div class="editor__options">
+      <button
+        type="button"
+        class="editor__option"
+        [disabled]="!canReset()"
+        (click)="resetFromOptions()"
+      >
+        <app-icon name="reset" [size]="22" />
+        {{ strings.reset }}
+      </button>
+    </div>
+  </app-bottom-sheet>
+
+  <app-dialog [(open)]="discardOpen" icon="info" [heading]="strings.discardTitle">
+    <p>{{ strings.discardMessage }}</p>
+    <div class="editor__dialog-actions" dialogActions>
+      <app-button variant="danger" block (pressed)="confirmDiscard()">
+        {{ strings.discardConfirm }}
+      </app-button>
+      <app-button variant="secondary" block (pressed)="keepEditing()">
+        {{ strings.discardCancel }}
+      </app-button>
+    </div>
+  </app-dialog>
+
+  <app-dialog [(open)]="resetOpen" icon="reset" [heading]="strings.resetTitle">
+    <p>{{ strings.resetMessage }}</p>
+    <div class="editor__dialog-actions" dialogActions>
+      <app-button variant="danger" block (pressed)="confirmReset()">
+        {{ strings.resetConfirm }}
+      </app-button>
+      <app-button variant="secondary" block (pressed)="cancelReset()">
+        {{ strings.resetCancel }}
+      </app-button>
+    </div>
+  </app-dialog>
+</ion-content>
+
+<!--
+  Side-drawer panels (Layers) render at page level: ion-content's scroll area is its own
+  stacking context under the header, and the drawer must cover the whole page.
+-->
+@if (drawerOpen() && panel.hasValue()) {
+  <ng-container *ngComponentOutlet="panel.value()" />
+}

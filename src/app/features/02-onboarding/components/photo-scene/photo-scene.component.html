@@ -1,0 +1,114 @@
+<svg focusable="false" preserveAspectRatio="xMidYMid slice" [attr.viewBox]="viewBox()">
+  @switch (scene()) {
+    @case ('lake') {
+      <defs>
+        <linearGradient x1="0" y1="0" x2="0" y2="1" [attr.id]="gradient.id">
+          <stop offset="0" stop-color="#2B1B5A" />
+          <stop offset="0.55" stop-color="#E0658A" />
+          <stop offset="1" stop-color="#FFB36B" />
+        </linearGradient>
+      </defs>
+      <rect width="400" height="300" [attr.fill]="gradient.url" />
+      <circle cx="268" cy="150" r="34" fill="#FFE2A8" />
+      <path d="M0 190L70 118L122 166L192 88L262 170L322 124L400 186V300H0Z" fill="#46306F" />
+      <path d="M0 222L90 170L160 206L240 158L312 202L400 176V300H0Z" fill="#2A1D4D" />
+      <rect y="236" width="400" height="64" fill="#1C1538" />
+      <path
+        d="M228 250h80M248 262h44M212 274h112"
+        stroke="#FFB36B"
+        stroke-opacity="0.55"
+        stroke-width="3"
+        stroke-linecap="round"
+      />
+    }
+    @case ('portrait') {
+      <defs>
+        <linearGradient x1="0" y1="0" x2="1" y2="1" [attr.id]="gradient.id">
+          <stop offset="0" stop-color="#0F4C5C" />
+          <stop offset="1" stop-color="#3D7EA6" />
+        </linearGradient>
+      </defs>
+      <rect width="300" height="400" [attr.fill]="gradient.url" />
+      <circle cx="60" cy="70" r="40" fill="#FFFFFF" opacity="0.06" />
+      <circle cx="250" cy="120" r="60" fill="#FFFFFF" opacity="0.05" />
+      <path d="M40 400C48 300 96 268 150 268C204 268 252 300 260 400Z" fill="#F06A5A" />
+      <rect x="132" y="222" width="36" height="52" rx="14" fill="#C98E6E" />
+      <ellipse cx="150" cy="172" rx="56" ry="66" fill="#E2A985" />
+      <path
+        d="M92 166C88 112 118 92 152 92C192 92 214 120 208 168C200 136 182 124 150 126C120 128 100 140 92 166Z"
+        fill="#2B1A12"
+      />
+    }
+    @case ('forest') {
+      <defs>
+        <linearGradient x1="0" y1="0" x2="0" y2="1" [attr.id]="gradient.id">
+          <stop offset="0" stop-color="#C9E4D6" />
+          <stop offset="1" stop-color="#7FB89A" />
+        </linearGradient>
+      </defs>
+      <rect width="400" height="300" [attr.fill]="gradient.url" />
+      <path
+        d="M20 230L50 140L80 230ZM110 230L150 110L190 230ZM230 230L262 130L294 230ZM310 230L350 100L390 230Z"
+        fill="#4E8B6C"
+      />
+      <path
+        d="M-10 300L40 170L90 300ZM70 300L130 150L190 300ZM180 300L230 180L280 300ZM270 300L330 160L390 300Z"
+        fill="#245C43"
+      />
+      <rect y="270" width="400" height="30" fill="#17402E" />
+    }
+    @case ('selfie') {
+      <defs>
+        <linearGradient x1="0" y1="0" x2="0" y2="1" [attr.id]="gradient.id">
+          <stop offset="0" stop-color="#F7A8B8" />
+          <stop offset="1" stop-color="#FFD58A" />
+        </linearGradient>
+      </defs>
+      <rect width="300" height="400" [attr.fill]="gradient.url" />
+      <circle cx="50" cy="60" r="26" fill="#FFFFFF" opacity="0.35" />
+      <circle cx="240" cy="90" r="18" fill="#FFFFFF" opacity="0.4" />
+      <circle cx="270" cy="200" r="30" fill="#FFFFFF" opacity="0.25" />
+      <path d="M30 400C40 310 92 280 150 280C208 280 260 310 270 400Z" fill="#00A7C4" />
+      <rect x="132" y="230" width="36" height="56" rx="14" fill="#8D5A3C" />
+      <ellipse cx="150" cy="180" rx="58" ry="68" fill="#A86C48" />
+      <path
+        d="M86 196C70 120 108 96 150 96C196 96 232 122 214 196C212 158 196 136 150 136C110 136 92 158 86 196Z"
+        fill="#1A0F0A"
+      />
+      <path
+        d="M126 210c14 12 34 12 48 0"
+        stroke="#5A2E1C"
+        stroke-width="5"
+        stroke-linecap="round"
+        fill="none"
+      />
+    }
+    @case ('beach') {
+      <defs>
+        <linearGradient x1="0" y1="0" x2="0" y2="1" [attr.id]="gradient.id">
+          <stop offset="0" stop-color="#5EC4F0" />
+          <stop offset="1" stop-color="#CFF0FB" />
+        </linearGradient>
+      </defs>
+      <rect width="400" height="300" [attr.fill]="gradient.url" />
+      <circle cx="320" cy="64" r="26" fill="#FFF3B0" />
+      <rect y="150" width="400" height="60" fill="#1C8CC9" />
+      <path
+        d="M0 168c40-8 80 8 120 0s80-8 120 0 80 8 160 0"
+        stroke="#FFFFFF"
+        stroke-opacity="0.5"
+        stroke-width="3"
+        fill="none"
+      />
+      <path d="M0 206C100 190 220 196 400 214V300H0Z" fill="#F3D9A4" />
+      <path d="M84 230V150" stroke="#6B4A2B" stroke-width="7" stroke-linecap="round" />
+      <path
+        d="M84 150c-30-6-44 6-52 18M84 150c30-8 46 2 54 16M84 150c-14-22-34-26-48-24M84 150c14-22 34-26 48-22"
+        stroke="#2E8B57"
+        stroke-width="9"
+        stroke-linecap="round"
+        fill="none"
+      />
+    }
+  }
+</svg>

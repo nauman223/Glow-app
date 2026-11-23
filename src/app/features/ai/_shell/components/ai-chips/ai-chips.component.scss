@@ -1,0 +1,55 @@
+@use 'abstracts/mixins' as *;
+
+:host {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--app-space-2);
+}
+
+.ai-chip {
+  @include touch-target-expand;
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--app-space-2);
+  min-block-size: 2.75rem;
+  padding-inline: var(--app-space-4);
+  border: 1px solid var(--app-control-border);
+  border-radius: var(--app-radius-pill);
+  background-color: var(--app-surface-2);
+  color: var(--app-text);
+  font-size: var(--app-font-body-size);
+  font-weight: 500;
+  transition:
+    background-color var(--app-dur-short) var(--app-ease),
+    border-color var(--app-dur-short) var(--app-ease);
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &:disabled {
+    color: var(--app-text-disabled);
+  }
+}
+
+.ai-chip--tile {
+  justify-content: center;
+  inline-size: var(--app-touch-min);
+  padding: 0;
+  border-color: var(--app-surface-2);
+  border-radius: var(--app-radius-sm);
+  color: var(--app-pro);
+}
+
+.ai-chip--selected {
+  border-color: var(--app-primary);
+  background-color: var(--app-primary);
+  color: var(--app-on-primary);
+
+  &.ai-chip--tile {
+    background-color: var(--app-primary-tint);
+    color: var(--app-pro);
+  }
+}

@@ -1,0 +1,80 @@
+<ion-header>
+  <ion-toolbar>
+    <div class="ai-screen__bar">
+      <button
+        type="button"
+        class="ai-screen__back"
+        [attr.aria-label]="strings.back"
+        (click)="backRequested.emit()"
+      >
+        <app-icon name="arrow-back" />
+      </button>
+      <div class="ai-screen__titles">
+        @if (eyebrow(); as eyebrow) {
+          <p class="ai-screen__eyebrow">{{ eyebrow }}</p>
+        }
+        <h1 class="ai-screen__title">{{ heading() }}</h1>
+      </div>
+      <ng-content select="[aiHeaderAction]" />
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [scrollY]="false">
+  <div class="ai-screen">
+    <main class="ai-screen__stage" [attr.aria-label]="strings.stageLabel" [attr.aria-busy]="busy()">
+      @if (shownError(); as error) {
+        <app-state-message
+          variant="error"
+          [heading]="error.title"
+          [message]="error.message"
+          [retryLabel]="retryLabel()"
+          (retry)="retryRequested.emit()"
+        />
+      } @else {
+        <ng-content select="[aiStatus]" />
+        <ng-content select="[aiStage]" />
+      }
+    </main>
+
+    <section class="ai-screen__sheet" [attr.aria-label]="optionsLabel()">
+      <span class="ai-screen__handle" aria-hidden="true"></span>
+      <div class="ai-screen__options">
+        <div class="ai-screen__options-list">
+          <ng-content select="[aiOptions]" />
+        </div>
+      </div>
+      <div class="ai-screen__footer" [class.ai-screen__footer--split]="split()">
+        @if (secondaryLabel(); as secondary) {
+          <app-button
+            class="ai-screen__action"
+            block
+            [variant]="secondaryVariant()"
+            [disabled]="secondaryDisabled()"
+            [loading]="secondaryLoading()"
+            [loadingLabel]="loadingLabel()"
+            (pressed)="secondaryRequested.emit()"
+          >
+            {{ secondary }}
+          </app-button>
+        } @else {
+          <app-button variant="ghost" [disabled]="applying()" (pressed)="cancelRequested.emit()">
+            {{ cancelLabel() }}
+          </app-button>
+        }
+        <app-button
+          class="ai-screen__action"
+          [block]="split()"
+          [variant]="applyVariant()"
+          [size]="applySize()"
+          [disabled]="!canApply()"
+          [loading]="applyBusy()"
+          [loadingLabel]="loadingLabel()"
+          (pressed)="applyRequested.emit()"
+        >
+          {{ applyLabel() }}
+        </app-button>
+      </div>
+    </section>
+  </div>
+</ion-content>

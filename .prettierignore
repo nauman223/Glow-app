@@ -1,0 +1,13 @@
+dist
+www
+android
+ios
+node_modules
+.angular
+coverage
+resources
+package-lock.json
+# Source specs and design briefs are kept exactly as authored.
+doc
+# Claude Code agent/tooling definitions are not project source.
+.claude

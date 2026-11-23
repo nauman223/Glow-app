@@ -1,0 +1,68 @@
+<app-ai-screen
+  [eyebrow]="strings.eyebrow"
+  [heading]="strings.title"
+  [status]="status()"
+  [error]="error()"
+  [canApply]="canApply()"
+  [optionsLabel]="strings.optionsLabel"
+  (backRequested)="cancel()"
+  (cancelRequested)="cancel()"
+  (applyRequested)="apply()"
+  (retryRequested)="retry()"
+>
+  <app-relight-stage
+    aiStage
+    [src]="stageSrc()"
+    [alt]="afterAlt"
+    [width]="width()"
+    [height]="height()"
+    [light]="light()"
+    [target]="target()"
+    [glowColour]="glowColour()"
+    [interactive]="!optionsDisabled()"
+    [busy]="working()"
+    [busyLabel]="progressLabel()"
+    (lightMoved)="moveLight($event)"
+  />
+
+  <app-light-chips
+    aiOptions
+    [presets]="presets"
+    [value]="presetId()"
+    [label]="strings.presetsLabel"
+    [disabled]="optionsDisabled()"
+    (selected)="selectPreset($event)"
+  />
+
+  <app-ai-option-row aiOptions [label]="strings.intensity">
+    <app-slider
+      class="relight__slider"
+      readout="end"
+      [label]="strings.intensity"
+      [labelVisible]="false"
+      [defaultValue]="defaultIntensity"
+      [disabled]="optionsDisabled()"
+      [value]="intensity()"
+      (valueChange)="previewIntensity($event)"
+      (committed)="commitIntensity($event)"
+    />
+  </app-ai-option-row>
+
+  <app-ai-option-row aiOptions [label]="strings.temperature">
+    <app-slider
+      class="relight__slider"
+      readout="end"
+      track="temperature"
+      bipolar
+      [min]="-100"
+      [max]="100"
+      [label]="strings.temperature"
+      [labelVisible]="false"
+      [defaultValue]="defaultTemperature()"
+      [disabled]="optionsDisabled()"
+      [value]="temperature()"
+      (valueChange)="previewTemperature($event)"
+      (committed)="commitTemperature($event)"
+    />
+  </app-ai-option-row>
+</app-ai-screen>

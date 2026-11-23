@@ -1,0 +1,60 @@
+<app-bottom-sheet [(open)]="sheetOpen" [label]="strings.panelLabel" (closed)="cancel()">
+  <div class="crop-panel">
+    <div
+      class="crop-panel__aspects"
+      appScrollFade
+      role="group"
+      [attr.aria-label]="strings.aspectGroup"
+    >
+      @for (aspect of aspects(); track aspect.id) {
+        <button
+          type="button"
+          class="crop-panel__aspect"
+          [class.crop-panel__aspect--selected]="aspect.selected"
+          [attr.aria-pressed]="aspect.selected"
+          [disabled]="busy()"
+          (click)="setAspect(aspect.id)"
+        >
+          {{ aspect.label }}
+        </button>
+      }
+    </div>
+
+    <div class="crop-panel__row">
+      @for (button of steps; track button.step) {
+        <button
+          type="button"
+          class="crop-panel__step"
+          [attr.aria-label]="button.label"
+          [disabled]="busy()"
+          (click)="applyStep(button)"
+        >
+          <app-icon [name]="button.icon" [size]="20" />
+        </button>
+      }
+      <app-slider
+        class="crop-panel__straighten"
+        readout="bubble"
+        unit="degree"
+        bipolar
+        [label]="strings.straighten"
+        [labelVisible]="false"
+        [min]="straightenRange.min"
+        [max]="straightenRange.max"
+        [defaultValue]="0"
+        [disabled]="busy()"
+        [value]="straighten()"
+        (valueChange)="setStraighten($event)"
+        (committed)="setStraighten($event)"
+      />
+    </div>
+    <p class="visually-hidden" aria-live="polite">{{ status() }}</p>
+  </div>
+
+  <div class="crop-panel__footer" sheetFooter>
+    <app-button variant="ghost" [disabled]="busy()" (pressed)="cancel()">
+      {{ strings.cancel }}
+    </app-button>
+    <app-button size="sm" [disabled]="busy()" (pressed)="apply()">{{ strings.apply }}</app-button>
+  </div>
+</app-bottom-sheet>

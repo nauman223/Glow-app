@@ -1,0 +1,27 @@
+export const GO_PRO_STRINGS = {
+  close: 'Close',
+  title: 'Go Pro',
+  subtitle: 'Everything unlocked. Pay once, keep it forever.',
+  featuresLabel: 'Included with Glow Pro',
+  /** Only benefits the app delivers today; add a line when a Pro feature ships. */
+  features: [
+    { id: 'no-ads', label: 'No ads' },
+    { id: 'pro-filters', label: 'All Pro filters' },
+    { id: 'pro-themes', label: 'All Pro themes and skies' },
+    { id: 'no-watermark', label: 'No watermark' },
+  ],
+  planTitle: 'One-time · lifetime',
+  planSubtitle: 'No subscription',
+  priceLoading: 'Loading price',
+  priceUnavailable: 'Price shown in the store',
+  buy: 'Unlock Pro',
+  buying: 'Opening the store…',
+  restore: 'Restore purchase',
+  restoring: 'Restoring…',
+  owned: 'You have Glow Pro',
+  ownedBody: 'Ads, the watermark and PRO locks are gone. Thank you for supporting Glow.',
+  done: 'Done',
+  terms: 'Terms',
+  privacy: 'Privacy',
+  opensInBrowser: '(opens in your browser)',
+} as const;

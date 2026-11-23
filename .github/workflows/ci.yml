@@ -1,0 +1,100 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+# Third-party actions are pinned to a full commit SHA (tag in the trailing comment) so a moved or
+# compromised tag cannot change what runs. Update SHA and comment together.
+
+jobs:
+  quality:
+    name: Lint, type-check and build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install (lockfile only)
+        run: npm ci
+
+      # Runtime dependencies only: dev tooling never ships in the app. Fails on high/critical.
+      - name: Audit runtime dependencies
+        run: npm audit --omit=dev --audit-level=high
+
+      - name: Lint (TypeScript + templates)
+        run: npm run lint
+
+      - name: Lint (styles)
+        run: npm run lint:styles
+
+      - name: Format check
+        run: npm run format:check
+
+      # Covers the app (tsconfig.app.json) and the MediaPipe vision worker (tsconfig.worker.json).
+      - name: Type check
+        run: npm run type-check
+
+      # PR builds use the committed values (empty ad IDs, so no ads load). Secrets are only
+      # injected in the release workflow, so a PR can never read them.
+      - name: Production build (fails on budget errors)
+        run: npm run build:prod
+
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: web-build
+          path: dist/glow/browser
+          retention-days: 7
+
+  # Catches native breakage (in-repo GlowMedia/GlowStickers Java, plugin updates, manifest/resource
+  # errors) that the web build cannot see. Debug only: no secrets, no R8 (the release workflow
+  # runs R8). Reuses the web build above; Gradle caches via setup-java keep it to a few minutes.
+  android-debug:
+    name: Android debug build
+    needs: quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - uses: actions/setup-java@77dd5b2ce225ea11469928ac317850245a74ae78 # v6.2.0
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+
+      # Capacitor's Android projects (and every plugin's native code) live in node_modules.
+      - name: Install (lockfile only)
+        run: npm ci
+
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: web-build
+          path: dist/glow/browser
+
+      - name: Sync Android
+        run: npx cap sync android
+
+      # Uses Google's test AdMob app ID (app/build.gradle), so no secret is needed.
+      - name: Assemble debug APK
+        working-directory: android
+        # chmod: the repo is authored on Windows, where git may not record gradlew's exec bit.
+        run: chmod +x gradlew && ./gradlew --no-daemon assembleDebug

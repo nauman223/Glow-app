@@ -1,0 +1,104 @@
+{
+  "name": "glow",
+  "version": "0.1.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "ionic:serve": "node scripts/ng-passthrough.mjs serve",
+    "ionic:build": "node scripts/ng-passthrough.mjs build",
+    "build": "ng build",
+    "build:dev": "ng build --configuration development",
+    "build:prod": "ng build --configuration production",
+    "build:release-test": "ng build --configuration production,release-test",
+    "android:release-test": "npm run build:release-test && cap sync android && node scripts/gradle.mjs assembleRelease -PGLOW_RELEASE_TEST=true",
+    "lint": "ng lint --max-warnings=0",
+    "lint:fix": "ng lint --fix",
+    "lint:styles": "stylelint \"src/**/*.scss\" --max-warnings=0",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "type-check": "tsc -p tsconfig.app.json --noEmit && tsc -p tsconfig.worker.json --noEmit",
+    "analyze": "ng build --configuration production --stats-json && node -e \"console.log('Open https://esbuild.github.io/analyze/ and load dist/glow/browser-stats.json')\"",
+    "version:sync": "node scripts/sync-version.mjs",
+    "licences": "node scripts/licences/generate-licences.mjs",
+    "cap:sync": "npm run build:prod && cap sync",
+    "cap:android": "npm run cap:sync && cap open android",
+    "cap:ios": "npm run cap:sync && cap open ios",
+    "assets": "npx --yes @capacitor/assets@3 generate --assetPath resources --android --ios --iconBackgroundColor #1A1A2E --iconBackgroundColorDark #1A1A2E --splashBackgroundColor #121212 --splashBackgroundColorDark #121212",
+    "prepare": "husky"
+  },
+  "private": true,
+  "packageManager": "npm@10.9.8",
+  "engines": {
+    "node": "^22.22.3 || ^24.15.0"
+  },
+  "dependencies": {
+    "@angular/cdk": "^22.2.4",
+    "@angular/common": "^22.2.0",
+    "@angular/compiler": "^22.2.0",
+    "@angular/core": "^22.2.0",
+    "@angular/forms": "^22.2.0",
+    "@angular/platform-browser": "^22.2.0",
+    "@angular/router": "^22.2.0",
+    "@capacitor-community/admob": "8.2.1",
+    "@capacitor-community/media": "^9.1.0",
+    "@capacitor/android": "^8.6.2",
+    "@capacitor/app": "^8.1.2",
+    "@capacitor/camera": "^8.2.6",
+    "@capacitor/core": "^8.6.2",
+    "@capacitor/filesystem": "^8.1.5",
+    "@capacitor/haptics": "^8.0.2",
+    "@capacitor/ios": "^8.6.2",
+    "@capacitor/keyboard": "^8.0.6",
+    "@capacitor/network": "^8.0.1",
+    "@capacitor/preferences": "^8.0.1",
+    "@capacitor/share": "^8.0.3",
+    "@capacitor/splash-screen": "^8.0.2",
+    "@capacitor/status-bar": "^8.0.4",
+    "@capgo/native-purchases": "^8.9.16",
+    "@ionic/angular": "^9.0.9",
+    "@mediapipe/tasks-vision": "^1.2.3",
+    "bootstrap": "^5.3.9",
+    "fabric": "^7.4.0",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "@angular/build": "^22.2.4",
+    "@angular/cli": "^22.2.4",
+    "@angular/compiler-cli": "^22.2.0",
+    "@capacitor/cli": "^8.6.2",
+    "@commitlint/cli": "^21.2.4",
+    "@commitlint/config-conventional": "^21.2.4",
+    "@eslint/js": "^10.0.1",
+    "angular-eslint": "22.6.0",
+    "eslint": "^10.12.0",
+    "eslint-config-prettier": "^10.1.8",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.6.0",
+    "prettier": "^3.8.1",
+    "stylelint": "^17.16.0",
+    "stylelint-config-standard-scss": "^17.0.0",
+    "typescript": "~6.0.2",
+    "typescript-eslint": "8.71.0"
+  },
+  "overrides": {
+    "vite": "^8.3.5"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix --max-warnings=0",
+      "prettier --write"
+    ],
+    "*.html": [
+      "eslint --fix --max-warnings=0",
+      "prettier --write"
+    ],
+    "*.scss": [
+      "stylelint --fix --max-warnings=0",
+      "prettier --write"
+    ],
+    "*.{json,md,js,mjs,yml,yaml}": [
+      "prettier --write"
+    ]
+  }
+}

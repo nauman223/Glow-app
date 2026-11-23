@@ -1,0 +1,234 @@
+@use 'abstracts/mixins' as *;
+
+// Board 18 hero: violet into teal. The text on it is white in both themes.
+:host {
+  --go-pro-hero-top: #5b2ee0;
+  --go-pro-hero: linear-gradient(160deg, var(--go-pro-hero-top) 0%, #3a1e9a 45%, #0b5563 100%);
+  --go-pro-on-hero: #fff;
+  --go-pro-on-hero-muted: #e6e0ff;
+}
+
+.go-pro {
+  @include safe-area-block-end(var(--app-space-2));
+
+  display: flex;
+  flex-direction: column;
+  min-block-size: 100%;
+}
+
+// Edge-to-edge (Android 15+, iOS): keeps the hero colour under the status bar while the page
+// scrolls, so the light status-bar icons this page requests always sit on a dark background.
+.go-pro__status-backdrop {
+  position: absolute;
+  z-index: 1;
+  inset-block-start: 0;
+  inset-inline: 0;
+  block-size: var(--ion-safe-area-top, 0);
+  background-color: var(--go-pro-hero-top);
+  pointer-events: none;
+}
+
+.go-pro__hero {
+  @include safe-area-block-start(var(--app-space-1));
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--app-space-3);
+  padding-block-end: var(--app-space-8);
+  padding-inline: var(--app-space-1);
+  border-end-start-radius: var(--app-space-8);
+  border-end-end-radius: var(--app-space-8);
+  background: var(--go-pro-hero);
+  color: var(--go-pro-on-hero);
+  text-align: center;
+}
+
+.go-pro__close {
+  @include touch-target;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: inherit;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.go-pro__crown {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 5.25rem;
+  block-size: 5.25rem;
+  border-radius: 1.625rem;
+  background-color: rgb(255 255 255 / 14%);
+  color: var(--app-pro);
+}
+
+.go-pro__title {
+  margin: 0;
+  font-size: var(--app-font-display-size);
+  font-weight: 900;
+  line-height: var(--app-font-display-line-height);
+}
+
+.go-pro__subtitle {
+  margin: 0;
+  padding-inline: var(--app-space-4);
+  color: var(--go-pro-on-hero-muted);
+  font-size: 0.9375rem;
+}
+
+.go-pro__features {
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-4);
+  margin: 0;
+  padding: var(--app-space-6) var(--app-space-8) var(--app-space-2);
+  list-style: none;
+}
+
+.go-pro__feature {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.go-pro__check {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  inline-size: 1.75rem;
+  block-size: 1.75rem;
+  border-radius: 50%;
+  background-color: rgb(0 229 255 / 15%);
+  color: var(--app-accent-text);
+}
+
+.go-pro__plan {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  margin: var(--app-space-3) var(--app-space-4) 0;
+  padding: var(--app-space-4) 1.125rem;
+  border: 2px solid var(--app-primary);
+  border-radius: 1.25rem;
+  background-color: rgb(124 77 255 / 12%);
+}
+
+.go-pro__radio {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  inline-size: 1.375rem;
+  block-size: 1.375rem;
+  border: 2px solid var(--app-primary);
+  border-radius: 50%;
+
+  &::after {
+    content: '';
+    inline-size: 0.625rem;
+    block-size: 0.625rem;
+    border-radius: 50%;
+    background-color: var(--app-primary);
+  }
+}
+
+.go-pro__plan-text {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 0.125rem;
+}
+
+.go-pro__plan-title {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.go-pro__plan-subtitle,
+.go-pro__price-note {
+  color: var(--app-text-muted);
+  font-size: 0.8125rem;
+}
+
+.go-pro__price {
+  font-size: var(--app-font-headline-size);
+  font-weight: 900;
+}
+
+.go-pro__message {
+  margin: var(--app-space-3) var(--app-space-4) 0;
+  color: var(--app-text-muted);
+  font-size: var(--app-font-body-size);
+  text-align: center;
+
+  &:empty {
+    display: none;
+  }
+}
+
+// Sticky so "Unlock Pro" is always on screen (it sat below the fold on 360 × 640 dp phones);
+// where the page fits, sticky has no effect and the layout matches the board.
+.go-pro__actions {
+  position: sticky;
+  z-index: 1;
+  inset-block-end: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.625rem;
+  margin-block-start: auto;
+  padding: var(--app-space-6) var(--app-space-4) var(--app-space-2);
+  background-color: var(--app-bg);
+}
+
+// Short phones: a smaller hero so the benefits and the plan show above the sticky actions.
+@media (height < 700px) {
+  .go-pro__hero {
+    gap: var(--app-space-2);
+    padding-block-end: var(--app-space-5);
+  }
+
+  .go-pro__crown {
+    inline-size: 3.5rem;
+    block-size: 3.5rem;
+    border-radius: 1.125rem;
+  }
+
+  .go-pro__features {
+    padding-block-start: var(--app-space-4);
+  }
+
+  .go-pro__actions {
+    padding-block-start: var(--app-space-3);
+  }
+}
+
+.go-pro__legal {
+  display: flex;
+  gap: 0.375rem;
+  margin: 0;
+  color: var(--app-text-muted);
+  font-size: var(--app-font-caption-size);
+
+  a {
+    @include touch-target;
+
+    display: inline-flex;
+    align-items: center;
+    color: var(--app-primary-text);
+  }
+}

@@ -1,0 +1,146 @@
+// Fills the stage; the frame is the largest box of the expanded shape that fits.
+:host {
+  position: relative;
+  display: block;
+  flex: 1 1 auto;
+  inline-size: 100%;
+  min-block-size: 0;
+}
+
+// Size container on an absolute layer (definite height): see AiResultStageComponent.
+.expand-stage__fit {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  container-type: size;
+}
+
+.expand-stage__frame {
+  position: relative;
+  inline-size: min(100cqi, 100cqb * var(--expand-aspect));
+  aspect-ratio: var(--expand-aspect);
+  overflow: hidden;
+  border-radius: var(--app-radius-xs);
+  background-color: var(--app-surface);
+}
+
+.expand-stage__fill {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}
+
+// Preview of the new areas: the photo stretched and blurred under a violet hatch.
+.expand-stage__backdrop {
+  filter: blur(16px) brightness(0.8);
+  scale: 1.15;
+}
+
+.expand-stage__hatch {
+  background: repeating-linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--app-primary) 18%, transparent) 0 10px,
+    transparent 10px 20px
+  );
+}
+
+// The original's box (the photo in the preview, the dashed outline over both).
+.expand-stage__original {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: fill;
+
+  :host(.expand-stage--block) & {
+    inset-block-start: var(--expand-inset);
+    block-size: calc(100% - 2 * var(--expand-inset));
+  }
+
+  :host(.expand-stage--inline) & {
+    inset-inline-start: var(--expand-inset);
+    inline-size: calc(100% - 2 * var(--expand-inset));
+  }
+}
+
+.expand-stage__outline {
+  border: 2px dashed #fff;
+}
+
+.expand-stage__tag {
+  position: absolute;
+  inset-block-start: var(--app-space-2);
+  inset-inline-start: var(--app-space-2);
+  padding-block: 2px;
+  padding-inline: var(--app-space-2);
+  border-radius: var(--app-space-2);
+  background-color: var(--app-scrim);
+  color: #fff;
+  font-size: 0.625rem;
+  font-weight: 700;
+}
+
+// A new area; its "AI-generated" pill hides when the area is too small to hold it.
+.expand-stage__area {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  container-type: size;
+
+  :host(.expand-stage--block) & {
+    inset-inline: 0;
+    block-size: var(--expand-inset);
+  }
+
+  :host(.expand-stage--inline) & {
+    inset-block: 0;
+    inline-size: var(--expand-inset);
+  }
+}
+
+.expand-stage__area--start {
+  inset-block-start: 0;
+  inset-inline-start: 0;
+}
+
+.expand-stage__area--end {
+  inset-block-end: 0;
+  inset-inline-end: 0;
+}
+
+.expand-stage__ai {
+  padding-block: 3px;
+  padding-inline: 0.625rem;
+  border-radius: 0.625rem;
+  background-color: var(--app-primary);
+  color: var(--app-on-primary);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+@container (max-inline-size: 6.5rem) or (max-block-size: 1.75rem) {
+  .expand-stage__ai {
+    display: none;
+  }
+}
+
+.expand-stage__pill {
+  position: absolute;
+  inset-block-end: var(--app-space-3);
+  inset-inline-start: 50%;
+  margin: 0;
+  padding: var(--app-space-1) var(--app-space-3);
+  border-radius: var(--app-radius-pill);
+  background-color: var(--app-scrim);
+  color: var(--app-text);
+  font-size: var(--app-font-caption-size);
+  translate: -50% 0;
+
+  &:dir(rtl) {
+    translate: 50% 0;
+  }
+}

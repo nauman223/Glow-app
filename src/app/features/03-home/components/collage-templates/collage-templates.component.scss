@@ -1,0 +1,80 @@
+@use 'abstracts/mixins' as *;
+
+:host {
+  display: block;
+}
+
+// Design: same header as Recent projects; four 16px-radius cards, 10px apart, each a 64 × 76
+// preview over a 12px muted caption.
+.templates__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: var(--app-space-1) 0;
+}
+
+.templates__heading {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.templates__see-all {
+  @include touch-target;
+
+  margin-inline-end: calc(-1 * var(--app-space-3));
+  padding-inline: var(--app-space-3);
+  border: 0;
+  border-radius: var(--app-radius-pill);
+  background: none;
+  color: var(--app-primary-text);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.templates__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.625rem;
+  margin: var(--app-space-1) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.templates__grid--all {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+}
+
+.templates__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--app-space-2);
+  inline-size: 100%;
+  padding: 0.625rem;
+  border: 0;
+  border-radius: var(--app-radius-lg);
+  background-color: var(--app-surface);
+  color: var(--app-text-muted);
+
+  &:active {
+    background-color: var(--app-surface-2);
+  }
+}
+
+.templates__see-all,
+.templates__card {
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.templates__caption {
+  font-size: var(--app-font-caption-size);
+}
+
+// In the sheet the cards sit on the sheet surface.
+.templates__grid--all .templates__card {
+  background-color: var(--app-surface-2);
+}

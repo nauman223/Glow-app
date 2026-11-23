@@ -1,0 +1,27 @@
+<section class="start-card">
+  <div class="start-card__top">
+    <div class="start-card__intro">
+      <h1 class="start-card__heading">{{ heading() }}</h1>
+      <p class="start-card__subheading">{{ subheading() }}</p>
+    </div>
+    <div class="start-card__tiles" aria-hidden="true">
+      @for (item of items(); track item.action.id) {
+        <span class="start-card__tile"><app-icon [name]="item.action.icon" [size]="22" /></span>
+      }
+    </div>
+  </div>
+  <div class="start-card__actions">
+    @for (item of items(); track item.action.id) {
+      <app-button
+        block
+        [variant]="item.action.emphasis"
+        [loading]="item.loading"
+        [loadingLabel]="item.action.busyLabel"
+        [disabled]="item.disabled"
+        (pressed)="actionSelected.emit(item.action)"
+      >
+        {{ item.action.label }}
+      </app-button>
+    }
+  </div>
+</section>

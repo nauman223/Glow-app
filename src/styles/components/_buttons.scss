@@ -1,0 +1,15 @@
+// Bootstrap button tweaks through its CSS-variable API (Sass variables cannot reach
+// these: _buttons.scss hard-codes the focus shadow and outline colours per variant).
+
+.btn {
+  // One theme-aware focus ring instead of a translucent per-variant shadow.
+  --bs-btn-focus-box-shadow: 0 0 0 var(--app-focus-width) var(--app-focus);
+}
+
+// Design outline button: white label, soft violet border. Bootstrap's default would put
+// #7c4dff text on #121212 (3.9:1), which fails AA for 15px text.
+.btn-outline-primary {
+  --bs-btn-color: var(--app-text);
+  --bs-btn-border-color: var(--app-primary-outline);
+  --bs-btn-border-width: 1.5px;
+}

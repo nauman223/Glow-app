@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar>
+    <div class="licences__bar">
+      <a class="licences__back" [routerLink]="settingsRoute" [attr.aria-label]="strings.backLabel">
+        <app-icon name="arrow-back" />
+      </a>
+      <h1 class="h5 mb-0">{{ strings.title }}</h1>
+    </div>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <main class="container d-flex flex-column gap-3 licences">
+    <p class="licences__intro">{{ strings.intro }}</p>
+
+    @switch (status()) {
+      @case ('ready') {
+        @for (section of sections(); track section.group) {
+          <app-card [heading]="section.heading">
+            <ul class="licences__list">
+              @for (entry of section.entries; track entry.component.id) {
+                <li>
+                  <app-licence-item
+                    [entry]="entry"
+                    (toggled)="toggle(entry.component)"
+                    (retried)="retryText(entry.component)"
+                  />
+                </li>
+              }
+            </ul>
+          </app-card>
+        }
+      }
+      @case ('error') {
+        <app-state-message
+          variant="error"
+          [heading]="strings.loadErrorTitle"
+          [message]="strings.loadErrorMessage"
+          [retryLabel]="strings.retry"
+          (retry)="retry()"
+        />
+      }
+      @default {
+        <section aria-busy="true">
+          <span class="visually-hidden" role="status">{{ strings.loading }}</span>
+          <app-skeleton shape="text" [lines]="10" />
+        </section>
+      }
+    }
+  </main>
+</ion-content>

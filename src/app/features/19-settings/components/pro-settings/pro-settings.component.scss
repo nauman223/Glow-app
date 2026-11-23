@@ -1,0 +1,48 @@
+@use 'abstracts/mixins' as *;
+
+.pro-settings {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li + li {
+    border-block-start: 1px solid var(--app-divider);
+  }
+}
+
+.pro-settings__row {
+  @include touch-target;
+
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-4);
+  inline-size: 100%;
+  padding-block: var(--app-space-2);
+  padding-inline: 0;
+  border: 0;
+  background: none;
+  color: var(--app-text);
+  font: inherit;
+  text-align: start;
+  text-decoration: none;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &:disabled {
+    color: var(--app-text-muted);
+  }
+}
+
+.pro-settings__crown {
+  color: var(--app-pro);
+}
+
+.pro-settings__label {
+  flex-grow: 1;
+}
+
+.pro-settings__value {
+  color: var(--app-text-muted);
+}

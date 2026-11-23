@@ -1,0 +1,46 @@
+@use 'abstracts/mixins' as *;
+
+:host {
+  display: block;
+}
+
+.app-access {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--app-space-3);
+  padding: var(--app-space-8) var(--app-space-6);
+  text-align: center;
+}
+
+.app-access__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 4rem;
+  block-size: 4rem;
+  border-radius: 50%;
+  background-color: var(--app-primary-tint);
+  color: var(--app-primary-text);
+}
+
+.app-access__title {
+  @include text-style(title);
+
+  margin: 0;
+}
+
+.app-access__message {
+  max-inline-size: 22rem;
+  margin: 0;
+  color: var(--app-text-muted);
+}
+
+.app-access__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-3);
+  inline-size: 100%;
+  max-inline-size: 20rem;
+  margin-block-start: var(--app-space-3);
+}

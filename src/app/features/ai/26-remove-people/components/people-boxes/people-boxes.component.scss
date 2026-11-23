@@ -1,0 +1,58 @@
+// Over the fitted photo; positions are photo fractions, so the box is laid out left to right
+// whatever the UI direction (the photo is never mirrored). Tags set their own direction.
+:host {
+  position: absolute;
+  inset: 0;
+  display: block;
+  direction: ltr;
+  pointer-events: auto;
+}
+
+:host(.people-boxes--disabled) {
+  pointer-events: none;
+}
+
+// Board 26: 2 px dashed cyan box, 8 px corners; the tag sits just above it.
+.people-box {
+  position: absolute;
+  inset-block-start: var(--box-top);
+  inset-inline-start: var(--box-left);
+  inline-size: var(--box-width);
+  block-size: var(--box-height);
+  border: 2px dashed var(--app-accent);
+  border-radius: 0.5rem;
+  transition: border-color var(--app-dur-short) var(--app-ease);
+}
+
+.people-box__tag {
+  position: absolute;
+  inset-block-end: calc(100% + 0.375rem);
+  inset-inline-start: -0.375rem;
+  padding-block: 0.125rem;
+  padding-inline: var(--app-space-2);
+  border-radius: 0.5rem;
+  background-color: rgb(0 0 0 / 65%);
+  color: var(--app-accent);
+  font-size: 0.625rem;
+  font-weight: 700;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.people-box--tag-inside .people-box__tag {
+  inset-block: 0.25rem auto;
+  inset-inline-start: 0.25rem;
+}
+
+// Selected = will be removed: solid danger-strong box and tag.
+.people-box--selected {
+  border-style: solid;
+  border-color: var(--app-danger-strong);
+
+  .people-box__tag {
+    background-color: var(--app-danger-strong);
+
+    // White in both themes (no on-danger token; on-primary is the same white).
+    color: var(--app-on-primary);
+  }
+}

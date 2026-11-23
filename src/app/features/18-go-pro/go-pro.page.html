@@ -1,0 +1,98 @@
+<ion-content>
+  <main class="go-pro">
+    <header class="go-pro__hero">
+      <button
+        type="button"
+        class="go-pro__close"
+        [attr.aria-label]="strings.close"
+        (click)="close()"
+      >
+        <app-icon name="close" />
+      </button>
+      <span class="go-pro__crown" aria-hidden="true">
+        <app-icon name="crown" [size]="44" />
+      </span>
+      <h1 class="go-pro__title">{{ heading() }}</h1>
+      <p class="go-pro__subtitle">{{ subtitle() }}</p>
+    </header>
+
+    <ul class="go-pro__features" [attr.aria-label]="strings.featuresLabel">
+      @for (feature of strings.features; track feature.id) {
+        <li class="go-pro__feature">
+          <span class="go-pro__check" aria-hidden="true">
+            <app-icon name="check" [size]="16" />
+          </span>
+          {{ feature.label }}
+        </li>
+      }
+    </ul>
+
+    @if (!isPro()) {
+      <div class="go-pro__plan" [attr.aria-busy]="priceLoading()">
+        <span class="go-pro__radio" aria-hidden="true"></span>
+        <span class="go-pro__plan-text">
+          <span class="go-pro__plan-title">{{ strings.planTitle }}</span>
+          <span class="go-pro__plan-subtitle">{{ strings.planSubtitle }}</span>
+        </span>
+        @if (price(); as price) {
+          <span class="go-pro__price">{{ price }}</span>
+        } @else if (priceLoading()) {
+          <span class="visually-hidden" role="status">{{ strings.priceLoading }}</span>
+          <app-skeleton width="4.5rem" height="1.75rem" />
+        } @else {
+          <span class="go-pro__price-note">{{ strings.priceUnavailable }}</span>
+        }
+      </div>
+    }
+
+    <p class="go-pro__message" role="status" aria-live="polite">
+      @if (message(); as message) {
+        {{ message }}
+      }
+    </p>
+
+    <div class="go-pro__actions">
+      @if (isPro()) {
+        <app-button size="lg" block (pressed)="close()">{{ strings.done }}</app-button>
+      } @else {
+        <app-button
+          size="lg"
+          block
+          [loading]="buying()"
+          [loadingLabel]="strings.buying"
+          [disabled]="busy()"
+          (pressed)="buy()"
+        >
+          {{ strings.buy }}
+        </app-button>
+        <app-button
+          variant="ghost"
+          [loading]="restoring()"
+          [loadingLabel]="strings.restoring"
+          [disabled]="busy()"
+          (pressed)="restore()"
+        >
+          {{ strings.restore }}
+        </app-button>
+      }
+      @if (hasLegalLinks) {
+        <p class="go-pro__legal">
+          @if (termsUrl) {
+            <a [href]="termsUrl" target="_blank" rel="noopener noreferrer">
+              {{ strings.terms }}<span class="visually-hidden">{{ strings.opensInBrowser }}</span>
+            </a>
+          }
+          @if (termsUrl && privacyPolicyUrl) {
+            <span aria-hidden="true">·</span>
+          }
+          @if (privacyPolicyUrl) {
+            <a [href]="privacyPolicyUrl" target="_blank" rel="noopener noreferrer">
+              {{ strings.privacy }}<span class="visually-hidden">{{ strings.opensInBrowser }}</span>
+            </a>
+          }
+        </p>
+      }
+    </div>
+  </main>
+</ion-content>
+<div class="go-pro__status-backdrop" aria-hidden="true"></div>

@@ -1,0 +1,7 @@
+<app-bottom-sheet modal showClose [(open)]="open" [heading]="strings.toolsTitle">
+  <app-ai-feature-grid
+    class="ai-tools-sheet__grid"
+    [features]="features()"
+    (featureSelected)="featureSelected.emit($event)"
+  />
+</app-bottom-sheet>

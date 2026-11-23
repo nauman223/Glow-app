@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-toolbar>
+    <div class="app-settings__bar">
+      <a class="app-settings__back" [routerLink]="homeRoute" [attr.aria-label]="strings.backLabel">
+        <app-icon name="arrow-back" />
+      </a>
+      <h1 class="h5 mb-0">{{ strings.title }}</h1>
+    </div>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <main class="container py-3 d-flex flex-column gap-3">
+    <app-card [heading]="strings.appearanceHeading">
+      <app-theme-selector [mode]="themeMode()" (modeChange)="onThemeChange($event)" />
+    </app-card>
+
+    <app-pro-settings />
+
+    <app-ad-privacy-row />
+
+    @if (hasLegalLinks) {
+      <app-card [heading]="strings.legalHeading">
+        <ul class="app-settings__links">
+          @if (privacyPolicyUrl) {
+            <li>
+              <a
+                class="app-settings__link"
+                [href]="privacyPolicyUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span>{{ strings.privacyPolicy }}</span>
+                <span class="visually-hidden">{{ strings.opensInBrowser }}</span>
+                <app-icon name="chevron-right" [size]="18" />
+              </a>
+            </li>
+          }
+          @if (termsUrl) {
+            <li>
+              <a
+                class="app-settings__link"
+                [href]="termsUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span>{{ strings.terms }}</span>
+                <span class="visually-hidden">{{ strings.opensInBrowser }}</span>
+                <app-icon name="chevron-right" [size]="18" />
+              </a>
+            </li>
+          }
+        </ul>
+      </app-card>
+    }
+
+    <app-card [heading]="strings.aboutHeading">
+      <dl class="app-settings__about">
+        <dt>{{ strings.versionLabel }}</dt>
+        <dd>{{ version }}</dd>
+      </dl>
+      <a class="app-settings__link app-settings__link--divided" [routerLink]="licencesRoute">
+        <span>{{ strings.licences }}</span>
+        <app-icon name="chevron-right" [size]="18" />
+      </a>
+    </app-card>
+  </main>
+</ion-content>
+
+<app-ad-banner-slot />

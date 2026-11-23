@@ -1,0 +1,98 @@
+@use 'abstracts/mixins' as *;
+
+.licence-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-1);
+  padding-block: var(--app-space-3);
+}
+
+.licence-item__name {
+  @include text-style(title-sm);
+
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.licence-item__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--app-space-1) var(--app-space-3);
+  margin: 0;
+  color: var(--app-text-muted);
+}
+
+.licence-item__notice {
+  @include text-style(caption);
+
+  margin: 0;
+  color: var(--app-text-muted);
+}
+
+.licence-item__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--app-space-4);
+}
+
+.licence-item__action {
+  @include touch-target;
+
+  display: inline-flex;
+  align-items: center;
+  gap: var(--app-space-1);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--app-primary-text);
+  font: inherit;
+  font-weight: 500;
+  text-decoration: none;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.licence-item__chevron {
+  transition: rotate var(--app-dur-short) var(--app-ease);
+
+  @include reduced-motion {
+    transition: none;
+  }
+}
+
+.licence-item__chevron--open {
+  rotate: 180deg;
+}
+
+.licence-item__panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--app-space-2);
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.licence-item__text {
+  @include text-style(caption);
+
+  inline-size: 100%;
+  margin: 0;
+  padding: var(--app-space-3);
+  overflow: visible;
+  border-radius: var(--app-radius-sm);
+  background-color: var(--app-surface-2);
+  color: var(--app-text);
+  font-family: inherit;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.licence-item__error {
+  margin: 0;
+  color: var(--app-danger);
+}

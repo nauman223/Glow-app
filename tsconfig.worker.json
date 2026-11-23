@@ -1,0 +1,12 @@
+/* Web workers (on-device AI). Built by the Angular builder through `webWorkerTsConfig`. */
+/* The worker sources are also part of tsconfig.app.json: they are written to type-check */
+/* against both the DOM and the WebWorker libs (see core/ai-local/vision.worker.ts). */
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/worker",
+    "lib": ["es2022", "webworker"],
+    "types": []
+  },
+  "include": ["src/**/*.worker.ts"]
+}

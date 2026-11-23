@@ -1,0 +1,40 @@
+@use 'abstracts/mixins' as *;
+
+// 44 px pill track with three equal segments (board 23).
+:host {
+  display: flex;
+  padding: 0.25rem;
+  border-radius: var(--app-radius-pill);
+  background-color: var(--app-surface-2);
+}
+
+.beauty-style {
+  @include touch-target-expand;
+
+  flex: 1 1 0;
+  min-block-size: 2.25rem;
+  padding: 0;
+  border: 0;
+  border-radius: var(--app-radius-pill);
+  background: none;
+  color: var(--app-text-muted);
+  font-size: var(--app-font-body-size);
+  font-weight: 500;
+  transition:
+    background-color var(--app-dur-short) var(--app-ease),
+    color var(--app-dur-short) var(--app-ease);
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &:disabled {
+    color: var(--app-text-disabled);
+  }
+}
+
+.beauty-style--selected {
+  background-color: var(--app-primary);
+  color: var(--app-on-primary);
+  font-weight: 700;
+}

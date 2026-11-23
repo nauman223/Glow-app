@@ -1,0 +1,84 @@
+@use 'abstracts/mixins' as *;
+
+:host {
+  display: block;
+  flex: 0 0 auto;
+}
+
+.crop-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.crop-panel__aspects {
+  display: flex;
+  gap: var(--app-space-2);
+  padding-block: var(--app-space-1);
+  padding-inline: var(--app-space-4);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.crop-panel__aspect {
+  @include text-style(label);
+  @include touch-target-expand;
+
+  flex: 0 0 auto;
+  block-size: var(--app-chip-height);
+  padding-inline: 0.875rem;
+  border: 1px solid var(--app-surface-3);
+  border-radius: var(--app-radius-pill);
+  background-color: var(--app-surface-2);
+  color: var(--app-text);
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.crop-panel__aspect--selected {
+  border-color: var(--app-primary);
+  background-color: var(--app-primary);
+  color: var(--app-on-primary);
+}
+
+.crop-panel__row {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-1);
+  padding-inline: var(--app-space-3);
+}
+
+.crop-panel__step {
+  @include touch-target-expand;
+
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  border: 0;
+  border-radius: var(--app-radius-sm);
+  background-color: var(--app-surface-2);
+  color: var(--app-text);
+
+  &:disabled {
+    color: var(--app-text-disabled);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.crop-panel__straighten {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  padding-inline-start: 0.625rem;
+}
+
+.crop-panel__footer {
+  display: contents;
+}

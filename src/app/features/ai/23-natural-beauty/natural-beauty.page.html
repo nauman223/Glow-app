@@ -1,0 +1,74 @@
+<app-ai-screen
+  [eyebrow]="strings.eyebrow"
+  [heading]="strings.title"
+  [status]="status()"
+  [error]="error()"
+  [canApply]="canApply()"
+  (backRequested)="cancel()"
+  (cancelRequested)="cancel()"
+  (applyRequested)="apply()"
+  (retryRequested)="retry()"
+>
+  @if (facesText(); as facesText) {
+    <app-ai-status-pill aiStatus variant="info" [text]="facesText" />
+  }
+
+  <app-ai-result-stage
+    aiStage
+    [beforeSrc]="beforeUrl()"
+    [afterSrc]="afterUrl()"
+    [width]="width()"
+    [height]="height()"
+    [busy]="working()"
+    [busyLabel]="progressLabel()"
+  >
+    @if (ovals().length > 0) {
+      <svg
+        aiStageOverlay
+        class="natural-beauty__faces"
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        @for (oval of ovals(); track oval.id) {
+          <ellipse
+            class="natural-beauty__oval"
+            vector-effect="non-scaling-stroke"
+            [attr.cx]="oval.cx"
+            [attr.cy]="oval.cy"
+            [attr.rx]="oval.rx"
+            [attr.ry]="oval.ry"
+          />
+        }
+      </svg>
+    }
+  </app-ai-result-stage>
+
+  <app-beauty-styles
+    aiOptions
+    [value]="style()"
+    [disabled]="applying()"
+    (selected)="selectStyle($event)"
+  />
+
+  <app-beauty-tools
+    aiOptions
+    [value]="tool()"
+    [disabled]="applying()"
+    (selected)="selectTool($event)"
+  />
+
+  <app-ai-option-row aiOptions [label]="toolLabel()">
+    <app-slider
+      class="natural-beauty__slider"
+      readout="end"
+      [label]="toolLabel()"
+      [labelVisible]="false"
+      [defaultValue]="defaultValue()"
+      [disabled]="applying()"
+      [value]="value()"
+      (valueChange)="previewValue($event)"
+      (committed)="commitValue($event)"
+    />
+  </app-ai-option-row>
+</app-ai-screen>

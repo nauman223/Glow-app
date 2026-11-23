@@ -1,0 +1,65 @@
+// Dark theme (default). Applies on :root so the app is dark before ThemeService sets
+// data-bs-theme, and on [data-bs-theme='dark'] for explicit or nested use.
+
+:root,
+[data-bs-theme='dark'] {
+  color-scheme: dark;
+
+  // Surfaces
+  --app-bg: #{$app-bg};
+  --app-bg-deep: #{$app-bg-deep};
+  --app-surface: #{$app-surface};
+  --app-surface-2: #{$app-surface-2};
+  --app-surface-3: #{$app-surface-3};
+  --app-divider: #{$app-divider};
+  --app-scrim: rgb(0 0 0 / 60%);
+  --app-checker-1: #262626;
+  --app-checker-2: #1a1a1a;
+
+  // Brand
+  --app-primary: #{$app-primary};
+  --app-on-primary: #fff;
+  --app-primary-soft: #{$app-primary-soft};
+  --app-primary-tint: rgb(124 77 255 / 22%);
+  --app-primary-text: #{$app-primary-text};
+  --app-primary-outline: #9e86ff;
+  --app-accent: #{$app-accent};
+  --app-on-accent: #{$app-on-accent};
+  --app-accent-text: #{$app-accent};
+
+  // Text
+  --app-text: #{$app-text};
+  --app-text-muted: #{$app-text-muted};
+  --app-text-disabled: #{$app-text-disabled};
+
+  // Status and badges
+  --app-pro: #{$app-pro};
+  --app-on-pro: #1a1a1a;
+  --app-ad-badge: #{$app-ad-badge};
+  --app-success: #{$app-success};
+  --app-danger: #{$app-danger};
+  --app-danger-strong: #{$app-danger-strong};
+
+  // Controls
+  --app-focus: #{$app-primary-text};
+  --app-control-border: #8a8a8a;
+  --app-skeleton-base: #{$app-surface-2};
+  --app-skeleton-highlight: #{$app-surface-3};
+
+  // Elevation
+  --app-shadow-1: 0 4px 12px rgb(0 0 0 / 50%);
+  --app-shadow-2: 0 10px 30px rgb(0 0 0 / 50%);
+  --app-shadow-3: 0 16px 40px rgb(124 77 255 / 35%);
+
+  // Bootstrap's close icon is black; invert it on dark surfaces.
+  --bs-btn-close-filter: invert(1) grayscale(100%) brightness(200%);
+
+  @include app-bootstrap-bridge(
+    $app-bg,
+    $app-text,
+    $app-text-muted,
+    $app-primary-text,
+    $app-success,
+    $app-danger
+  );
+}

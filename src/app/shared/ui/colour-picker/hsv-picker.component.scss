@@ -1,0 +1,82 @@
+@use 'abstracts/mixins' as *;
+
+// Markers are full-size layers moved with transform: a translate of N% of a layer that is as
+// big as its parent equals N% of the parent, so no layout properties change while dragging.
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-3);
+}
+
+.hsv-picker__area,
+.hsv-picker__hue {
+  position: relative;
+  border-radius: var(--app-radius-sm);
+  cursor: pointer;
+  touch-action: none;
+  user-select: none;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.hsv-picker__area {
+  block-size: 9rem;
+  background:
+    linear-gradient(to top, #000, transparent),
+    linear-gradient(to right, #fff, hsl(var(--hsv-hue) 100% 50%));
+}
+
+// 48px tall hit area with a 12px visual strip in the middle.
+.hsv-picker__hue {
+  block-size: var(--app-touch-min);
+  background: linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00) center / 100%
+    0.75rem no-repeat;
+}
+
+.hsv-picker__marker {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+
+  &::after {
+    position: absolute;
+    inset-block-start: calc(var(--app-slider-thumb) / -2);
+    inset-inline-start: calc(var(--app-slider-thumb) / -2);
+    box-sizing: border-box;
+    inline-size: var(--app-slider-thumb);
+    block-size: var(--app-slider-thumb);
+    border: 3px solid #fff;
+    border-radius: 50%;
+    background: var(--hsv-colour);
+    box-shadow: var(--app-shadow-1);
+    content: '';
+  }
+}
+
+// Physical axes on purpose: the colour space is not mirrored in RTL.
+.hsv-picker__marker--area {
+  transform: translate(calc(var(--hsv-x) * 100%), calc(var(--hsv-y) * 100%));
+
+  &:dir(rtl) {
+    transform: translate(calc((1 - var(--hsv-x)) * -100%), calc(var(--hsv-y) * 100%));
+  }
+}
+
+.hsv-picker__marker--hue {
+  transform: translateX(calc(var(--hsv-hue-x) * 100%));
+
+  &::after {
+    inset-block-start: calc(50% - var(--app-slider-thumb) / 2);
+    background: hsl(var(--hsv-hue) 100% 50%);
+  }
+
+  &:dir(rtl) {
+    transform: translateX(calc((1 - var(--hsv-hue-x)) * -100%));
+  }
+}
+
+.hsv-picker__hex {
+  margin-block-end: 0;
+}

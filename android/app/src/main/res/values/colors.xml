@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Matches the dark app surface and SplashScreen.backgroundColor in capacitor.config.ts,
+         so there is no white flash between launch, splash and the first WebView paint. -->
+    <color name="glow_launch_background">#121212</color>
+</resources>

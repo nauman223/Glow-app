@@ -1,0 +1,268 @@
+// Glow brand tokens (Sass) and Bootstrap variable overrides.
+// Loaded after bootstrap/functions and before bootstrap/variables so every `!default`
+// in Bootstrap picks these up. Source of truth: the Glow design `code/_tokens.scss`.
+// Runtime theming uses the `--app-*` custom properties in themes/, not these Sass values.
+
+// ---------- Brand palette (dark, default) ----------
+$app-bg: #121212;
+$app-bg-deep: #0c0c0c;
+$app-surface: #1e1e1e;
+$app-surface-2: #2a2a2a;
+$app-surface-3: #3a3a3a;
+$app-divider: #2c2c2c;
+$app-primary: #7c4dff;
+$app-primary-soft: #3b2391;
+$app-primary-text: #b39dff;
+$app-accent: #00e5ff;
+$app-on-accent: #0a0a0a;
+$app-text: #fff;
+$app-text-muted: #b3b3b3;
+$app-text-disabled: #5a5a5a;
+$app-pro: #ffd166;
+$app-ad-badge: #f2c94c;
+$app-success: #2ee59d;
+$app-danger: #ff8a80;
+$app-danger-strong: #ff3b6b;
+
+// ---------- Light theme palette (derived; checked for WCAG AA) ----------
+$app-light-bg: #f7f7fa;
+$app-light-surface: #fff;
+$app-light-surface-2: #efeff4;
+$app-light-surface-3: #dcdce3;
+$app-light-divider: #e2e2e8;
+$app-light-text: #121212;
+$app-light-text-muted: #5c5c66;
+$app-light-text-disabled: #a0a0aa;
+$app-light-primary-text: #5b2ee0;
+$app-light-accent-text: #00747f; // #00838f failed 4.5:1 on bg and surface-2
+$app-light-success: #0b7a50; // #2ee59d is 1.6:1 on white
+$app-light-danger: #c62828;
+
+// ---------- Typography ----------
+$app-font-family:
+  roboto,
+  system-ui,
+  -apple-system,
+  'Segoe UI',
+  'Helvetica Neue',
+  arial,
+  sans-serif;
+
+// Role: (size in rem, weight, line-height). Sizes are px / 16 so OS font scaling applies.
+$app-type-scale: (
+  display: (
+    2.25rem,
+    900,
+    1.15,
+  ),
+  headline: (
+    1.5rem,
+    900,
+    1.2,
+  ),
+  title: (
+    1.25rem,
+    700,
+    1.3,
+  ),
+  title-sm: (
+    1.125rem,
+    700,
+    1.3,
+  ),
+  body: (
+    0.875rem,
+    400,
+    1.5,
+  ),
+  label: (
+    0.8125rem,
+    500,
+    1.3,
+  ),
+  caption: (
+    0.75rem,
+    400,
+    1.35,
+  ),
+  overline: (
+    0.6875rem,
+    700,
+    1.2,
+  ),
+  micro: (
+    0.5625rem,
+    900,
+    1,
+  ),
+);
+
+// ---------- Spacing (4-pt grid, rem) ----------
+$app-spacers: (
+  0: 0,
+  1: 0.25rem,
+  2: 0.5rem,
+  3: 0.75rem,
+  4: 1rem,
+  5: 1.25rem,
+  6: 1.5rem,
+  7: 1.75rem,
+  8: 2rem,
+  9: 2.25rem,
+  10: 2.5rem,
+);
+
+// ---------- Bootstrap: theme colours ----------
+$primary: $app-primary;
+$secondary: $app-accent;
+$success: $app-success;
+$info: $app-accent;
+$warning: $app-pro;
+$danger: $app-danger;
+$light: $app-light-surface-2;
+$dark: $app-bg;
+
+// Only the variants the UI uses: keeps .btn-* / .btn-outline-* output small.
+$theme-colors: (
+  'primary': $primary,
+  'secondary': $secondary,
+  'danger': $danger,
+);
+
+// White on #7c4dff is 4.81:1, so Bootstrap's contrast picker keeps white text on primary.
+$min-contrast-ratio: 4.5;
+$color-contrast-dark: $app-on-accent;
+$color-contrast-light: #fff;
+
+// ---------- Bootstrap: feature flags ----------
+$enable-dark-mode: true;
+$color-mode-type: data;
+$enable-shadows: false;
+$enable-gradients: false;
+$enable-reduced-motion: true;
+$enable-smooth-scroll: false;
+$enable-negative-margins: false;
+$enable-deprecation-messages: false;
+
+// ---------- Bootstrap: body / links ----------
+// Bootstrap's default (light) mode values are the Glow dark palette because dark is the
+// default theme; themes/_light.scss re-points the --bs-* variables for the light theme.
+$body-bg: $app-bg;
+$body-color: $app-text;
+$body-secondary-color: $app-text-muted;
+$body-secondary-bg: $app-surface-2;
+$body-tertiary-color: $app-text-disabled;
+$body-tertiary-bg: $app-surface;
+$body-emphasis-color: $app-text;
+$border-color: $app-divider;
+$link-color: $app-primary-text;
+$link-hover-color: $app-primary-text;
+$link-decoration: none;
+$body-bg-dark: $app-bg;
+$body-color-dark: $app-text;
+$body-secondary-color-dark: $app-text-muted;
+$body-secondary-bg-dark: $app-surface-2;
+$body-tertiary-color-dark: $app-text-disabled;
+$body-tertiary-bg-dark: $app-surface;
+$border-color-dark: $app-divider;
+$link-color-dark: $app-primary-text;
+$link-hover-color-dark: $app-primary-text;
+$form-valid-color-dark: $app-success;
+$form-valid-border-color-dark: $app-success;
+$form-invalid-color-dark: $app-danger;
+$form-invalid-border-color-dark: $app-danger;
+
+// ---------- Bootstrap: typography (rem-based) ----------
+$font-family-sans-serif: $app-font-family;
+$font-size-base: 0.875rem; // design body: 14px
+$line-height-base: 1.5;
+$headings-font-weight: 700;
+$headings-margin-bottom: 0.5rem;
+$h1-font-size: 2.25rem;
+$h2-font-size: 1.5rem;
+$h3-font-size: 1.25rem;
+$h4-font-size: 1.125rem;
+$h5-font-size: 1rem;
+$h6-font-size: 0.875rem;
+
+// ---------- Bootstrap: spacing ----------
+$spacer: 1rem;
+$spacers: $app-spacers;
+
+// ---------- Bootstrap: shape ----------
+$border-radius-sm: 0.375rem; // xs 6: badges
+$border-radius: 0.75rem; // sm 12: tool buttons, inputs, toasts
+$border-radius-lg: 1rem; // md 16: cards
+$border-radius-xl: 1.5rem; // lg 24: bottom sheets
+$border-radius-xxl: 1.75rem; // xl 28: dialogs
+$border-radius-pill: 50rem;
+
+// ---------- Bootstrap: buttons (pill, 48px tall at the default root size) ----------
+// 1.5rem line box (0.9375rem x 1.6) + 2 x 0.6875rem padding + 2 x 1px border = 48px.
+$btn-font-size: 0.9375rem;
+$btn-font-weight: 700;
+$btn-line-height: 1.6;
+$btn-padding-y: 0.6875rem;
+$btn-padding-x: 1.75rem;
+$btn-font-size-sm: 0.875rem; // 40px tall
+$btn-padding-y-sm: 0.5rem;
+$btn-padding-x-sm: 1.25rem;
+$btn-font-size-lg: 1rem; // 56px hero
+$btn-padding-y-lg: 0.875rem;
+$btn-padding-x-lg: 1.75rem;
+$btn-border-radius: $border-radius-pill;
+$btn-border-radius-sm: $border-radius-pill;
+$btn-border-radius-lg: $border-radius-pill;
+$btn-disabled-opacity: 0.4;
+
+// ---------- Bootstrap: focus ----------
+// One visible ring everywhere, coloured per theme through --app-focus.
+$focus-ring-width: 0.1875rem;
+$focus-ring-box-shadow: 0 0 0 $focus-ring-width var(--app-focus);
+$input-btn-focus-box-shadow: $focus-ring-box-shadow;
+
+// ---------- Bootstrap: forms ----------
+// 16px input text stops iOS zooming on focus; 1.5rem line + 2 x 0.6875rem + 2px = 48px.
+$input-font-size: 1rem;
+$input-padding-y: 0.6875rem;
+$input-padding-x: 1rem;
+$input-bg: var(--app-surface-2);
+$input-disabled-bg: var(--app-surface);
+$input-color: var(--app-text);
+$input-border-color: var(--app-control-border); // >= 3:1 boundary (WCAG 1.4.11)
+$input-border-radius: $border-radius;
+$input-focus-border-color: $app-primary;
+$input-focus-box-shadow: $focus-ring-box-shadow;
+$input-placeholder-color: var(--app-text-muted);
+$form-label-font-weight: 500;
+$form-check-input-width: 1.25em;
+$form-check-input-bg: transparent;
+$form-check-input-border: 2px solid var(--app-control-border);
+$form-check-input-focus-box-shadow: $focus-ring-box-shadow;
+$form-check-input-checked-bg-color: $app-primary;
+$form-check-input-checked-border-color: $app-primary;
+$form-feedback-valid-color: $app-success;
+$form-feedback-invalid-color: $app-danger;
+
+// ---------- Bootstrap: cards, modal, toasts ----------
+$card-bg: var(--app-surface);
+$card-color: var(--app-text);
+$card-border-width: 0;
+$card-border-radius: $border-radius-lg;
+$card-spacer-y: 0.75rem;
+$card-spacer-x: 1rem;
+$modal-inner-padding: 1.5rem;
+$modal-dialog-margin: 1rem;
+$modal-content-bg: var(--app-surface);
+$modal-content-color: var(--app-text);
+$modal-content-border-width: 0;
+$modal-content-border-radius: $border-radius-xxl;
+$modal-backdrop-bg: #000;
+$modal-backdrop-opacity: 0.6; // design scrim
+$toast-max-width: 100%;
+$toast-font-size: 0.875rem;
+$toast-color: var(--app-text);
+$toast-background-color: var(--app-surface-2);
+$toast-border-color: var(--app-divider);
+$toast-border-radius: $border-radius;
+$toast-box-shadow: var(--app-shadow-1);

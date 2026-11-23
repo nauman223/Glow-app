@@ -1,0 +1,60 @@
+// The whole stage is a checkerboard (board 36); the frame is the photo's box.
+:host {
+  position: relative;
+  display: block;
+  flex: 1 1 auto;
+  align-self: stretch;
+  min-block-size: 0;
+  border-radius: var(--app-radius-xs);
+  background: repeating-conic-gradient(var(--app-checker-1) 0% 25%, var(--app-checker-2) 0% 50%);
+  background-size: 20px 20px;
+}
+
+// Size container on an absolute layer (definite height): on the flex-item host, `100cqb`
+// resolved to 0 in Android WebView and the sticker preview vanished.
+.sticker-stage__fit {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  container-type: size;
+}
+
+.sticker-stage__frame {
+  position: relative;
+  inline-size: min(100cqi, 100cqb * var(--sticker-aspect));
+  aspect-ratio: var(--sticker-aspect);
+}
+
+.sticker-stage__frame--pickable {
+  cursor: crosshair;
+}
+
+.sticker-stage__layer {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain;
+}
+
+.sticker-stage__ghost--faint {
+  opacity: 0.3;
+}
+
+.sticker-stage__pill {
+  position: absolute;
+  inset-block-end: var(--app-space-3);
+  inset-inline-start: 50%;
+  margin: 0;
+  padding: var(--app-space-1) var(--app-space-3);
+  border-radius: var(--app-radius-pill);
+  background-color: var(--app-scrim);
+  color: var(--app-text);
+  font-size: var(--app-font-caption-size);
+  translate: -50% 0;
+
+  &:dir(rtl) {
+    translate: 50% 0;
+  }
+}

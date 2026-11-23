@@ -1,0 +1,64 @@
+<app-ai-screen
+  [eyebrow]="strings.eyebrow"
+  [heading]="strings.title"
+  [status]="status()"
+  [error]="error()"
+  [canApply]="canApply()"
+  [optionsLabel]="strings.optionsLabel"
+  (backRequested)="cancel()"
+  (cancelRequested)="cancel()"
+  (applyRequested)="apply()"
+  (retryRequested)="retry()"
+>
+  @if (detected()) {
+    <app-ai-status-pill aiStatus variant="info" [text]="strings.detected" />
+  }
+
+  <app-ai-result-stage
+    aiStage
+    [beforeSrc]="beforeUrl()"
+    [afterSrc]="afterUrl()"
+    [width]="width()"
+    [height]="height()"
+    [busy]="working()"
+    [busyLabel]="progressLabel()"
+  />
+
+  <app-sky-gallery
+    aiOptions
+    [skies]="skies"
+    [value]="skyId()"
+    [label]="strings.galleryLabel"
+    [disabled]="optionsDisabled()"
+    [proLocked]="!proAccess()"
+    (selected)="selectSky($event)"
+  />
+
+  <app-ai-option-row aiOptions [label]="strings.blend">
+    <app-slider
+      class="replace-sky__slider"
+      readout="end"
+      [label]="strings.blend"
+      [labelVisible]="false"
+      [defaultValue]="defaultBlend"
+      [disabled]="optionsDisabled()"
+      [value]="blend()"
+      (valueChange)="previewBlend($event)"
+      (committed)="commitBlend($event)"
+    />
+  </app-ai-option-row>
+
+  <app-ai-option-row aiOptions [label]="strings.relight">
+    <app-slider
+      class="replace-sky__slider"
+      readout="end"
+      [label]="strings.relight"
+      [labelVisible]="false"
+      [defaultValue]="defaultRelight"
+      [disabled]="optionsDisabled()"
+      [value]="relight()"
+      (valueChange)="previewRelight($event)"
+      (committed)="commitRelight($event)"
+    />
+  </app-ai-option-row>
+</app-ai-screen>

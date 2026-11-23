@@ -1,0 +1,10 @@
+<nav class="toolbar" appScrollFade [attr.aria-label]="strings.toolsLabel">
+  @for (tool of tools(); track tool.id) {
+    <app-tool-button
+      [icon]="tool.icon"
+      [label]="tool.label"
+      [disabled]="disabled()"
+      (pressed)="toolSelected.emit(tool.id)"
+    />
+  }
+</nav>

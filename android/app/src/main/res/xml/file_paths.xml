@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Paths the app's FileProvider (${applicationId}.fileprovider) may hand out as content:// URIs.
+     Keep this to the folders that are actually shared; any other file fails getUriForFile.
+     - glow-share/ (cache): export Share (core/export, SHARE_FOLDER) via @capacitor/share.
+     - Pictures/ (app-specific external files): @capacitor/camera's legacy getPhoto flow
+       (CameraUtils.createImageFile). Glow uses takePhoto/chooseFromGallery, which go through
+       ioncamera's own provider (${applicationId}.camera.provider), so this entry only keeps
+       getPhoto from crashing if it is ever called.
+     Not listed on purpose: GlowMedia saves through MediaStore (no FileProvider); WhatsApp
+     stickers are served by StickerContentProvider; glow-save/ and whatsapp-stickers/ are only
+     read in-process. -->
+<paths>
+    <cache-path name="glow_share" path="glow-share/" />
+    <external-files-path name="camera_pictures" path="Pictures/" />
+</paths>

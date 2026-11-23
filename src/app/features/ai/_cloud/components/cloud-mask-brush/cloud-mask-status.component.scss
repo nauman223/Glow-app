@@ -1,0 +1,68 @@
+@use 'abstracts/mixins' as *;
+
+// Laid over the top of the stage (its nearest positioned box), 12 px down, centred. The pill
+// keeps clear of the two 48 px tool slots on each side.
+:host {
+  position: absolute;
+  inset-block-start: var(--app-space-3);
+  inset-inline: 0;
+  display: flex;
+  justify-content: center;
+  padding-inline: 6.75rem;
+  pointer-events: none;
+}
+
+// Board 26: 12 px text, 5 × 12 padding, 14 px radius, accent at 12 % fill / 45 % border.
+.cloud-mask-status__pill {
+  margin: 0;
+  padding-block: 0.3125rem;
+  padding-inline: var(--app-space-3);
+  border: 1px solid color-mix(in srgb, var(--app-accent) 45%, transparent);
+  border-radius: 0.875rem;
+  background-color: color-mix(in srgb, var(--app-accent) 12%, transparent);
+  color: color-mix(in srgb, var(--app-accent) 50%, var(--app-text));
+  font-size: 0.75rem;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.cloud-mask-status__end {
+  position: absolute;
+  inset-block-start: calc(-1 * var(--app-space-2));
+  inset-inline-end: var(--app-space-2);
+  display: flex;
+  gap: var(--app-space-1);
+}
+
+.cloud-mask-status__tool {
+  @include touch-target;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  background-color: var(--app-scrim);
+  color: var(--app-text);
+  pointer-events: auto;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &:disabled {
+    color: var(--app-text-disabled);
+  }
+}
+
+.cloud-mask-status__tool--start {
+  position: absolute;
+  inset-block-start: calc(-1 * var(--app-space-2));
+  inset-inline-start: var(--app-space-2);
+}
+
+.cloud-mask-status__tool--pressed {
+  border-color: var(--app-primary);
+  background-color: var(--app-primary-soft);
+}

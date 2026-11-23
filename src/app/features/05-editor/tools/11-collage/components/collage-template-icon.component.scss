@@ -1,0 +1,34 @@
+// Fills from the boards: grey glyphs in the Collage panel (white when selected), and the
+// violet / cyan / muted violet / teal cells of the Home Templates cards.
+:host {
+  display: block;
+  line-height: 0;
+}
+
+.collage-icon__cell {
+  fill: #8a8a8a;
+}
+
+:host(.collage-icon--freestyle) .collage-icon__cell:nth-child(2) {
+  fill: #b3b3b3;
+}
+
+:host(.collage-icon--selected) .collage-icon__cell {
+  fill: var(--app-text);
+}
+
+:host(.collage-icon--card) .collage-icon__cell {
+  fill: var(--app-primary);
+
+  &:nth-child(2) {
+    fill: #00b8cc;
+  }
+
+  &:nth-child(3) {
+    fill: #5a4a9e;
+  }
+
+  &:nth-child(4) {
+    fill: #2c7f8c;
+  }
+}

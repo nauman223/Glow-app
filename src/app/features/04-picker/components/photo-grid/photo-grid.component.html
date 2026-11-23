@@ -1,0 +1,65 @@
+<cdk-virtual-scroll-viewport
+  class="app-grid ion-content-scroll-host"
+  role="region"
+  [attr.aria-label]="strings.photosLabel"
+  [attr.aria-busy]="loadingMore()"
+  [itemSize]="rowSize()"
+  [minBufferPx]="minBuffer()"
+  [maxBufferPx]="maxBuffer()"
+>
+  <div
+    *cdkVirtualFor="let row of rows(); trackBy: trackRow; templateCacheSize: 0"
+    class="app-grid__row"
+  >
+    @for (cell of row.cells; track cell.key) {
+      @switch (cell.kind) {
+        @case ('camera') {
+          <button
+            type="button"
+            class="app-grid__tile app-grid__camera"
+            [attr.aria-label]="strings.openCamera"
+            [attr.aria-disabled]="busy()"
+            (click)="pickCamera()"
+          >
+            <app-icon class="app-grid__camera-icon" name="camera" [size]="30" />
+            <span>{{ strings.camera }}</span>
+          </button>
+        }
+        @case ('asset') {
+          <button
+            type="button"
+            class="app-grid__tile app-grid__photo"
+            [class.app-grid__photo--selected]="cell.selected"
+            [attr.aria-label]="cell.label"
+            [attr.aria-pressed]="cell.ariaPressed"
+            [attr.aria-busy]="cell.pending"
+            [attr.aria-disabled]="busy()"
+            (click)="pick(cell.asset)"
+          >
+            <img
+              class="app-grid__image"
+              alt=""
+              loading="lazy"
+              decoding="async"
+              [src]="cell.asset.thumbnailUrl"
+            />
+            @if (cell.order !== null) {
+              <span class="app-grid__badge app-grid__badge--on" aria-hidden="true">{{
+                cell.order
+              }}</span>
+            } @else if (cell.showCircle) {
+              <span class="app-grid__badge" aria-hidden="true"></span>
+            }
+            @if (cell.pending) {
+              <span class="skeleton app-grid__pending" aria-hidden="true"></span>
+            }
+          </button>
+        }
+        @default {
+          <span class="skeleton app-grid__tile app-grid__placeholder" aria-hidden="true"></span>
+        }
+      }
+    }
+  </div>
+</cdk-virtual-scroll-viewport>
+<span class="visually-hidden" role="status">{{ statusText() }}</span>

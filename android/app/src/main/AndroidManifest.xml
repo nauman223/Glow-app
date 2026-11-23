@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Backup: only the user's Recent projects (files/projects/) are backed up and moved to a new
+         phone; preferences (installation id, signed credits/unlocks), caches and sticker packs are
+         not. Rules and reasons: res/xml/data_extraction_rules.xml (Android 12+) and
+         res/xml/backup_rules.xml (Android 8-11).
+         largeHeap: Glow decodes full-resolution photos (up to 48 MP, ~190 MB as RGBA) into canvas and
+         WebGL textures, plus undo snapshots and AI masks. On 3-4 GB RAM devices the default per-app
+         heap limit causes OOM kills mid-edit; largeHeap raises that ceiling. Memory is still managed in
+         TS (downscaled working copies, disposed textures, revoked object URLs).
+         hardwareAccelerated: required for GPU-composited WebView canvas/WebGL at 60 fps. -->
+    <application
+        android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_rules"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:usesCleartextTraffic="false"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:hardwareAccelerated="true"
+        android:largeHeap="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <activity
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode|navigation|density"
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBarLaunch"
+            android:launchMode="singleTask"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"></meta-data>
+        </provider>
+
+        <!-- WhatsApp sticker packs (in-repo GlowStickers plugin). Contract and attributes follow the
+             official sample (github.com/WhatsApp/stickers): exported and enabled so WhatsApp can
+             read it, gated by WhatsApp's own com.whatsapp.sticker.READ permission. Read-only; the
+             provider also checks the caller's UID and serves only files listed in a pack manifest
+             from files/sticker-packs/. No URI grants are needed or allowed. -->
+        <provider
+            android:name=".stickers.StickerContentProvider"
+            android:authorities="${applicationId}.stickercontentprovider"
+            android:enabled="true"
+            android:exported="true"
+            android:grantUriPermissions="false"
+            android:readPermission="com.whatsapp.sticker.READ" />
+
+        <!-- AdMob app ID, injected from GLOW_ADMOB_APP_ID by app/build.gradle (test ID in debug only;
+             release builds fail without a real ID). -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="${admobAppId}" />
+
+        <!-- @capacitor/camera README: lets Google Play services install the backported Photo Picker on
+             older devices (min API 26) instead of falling back to ACTION_OPEN_DOCUMENT. -->
+        <service
+            android:name="com.google.android.gms.metadata.ModuleDependencies"
+            android:enabled="false"
+            android:exported="false"
+            tools:ignore="MissingClass">
+            <intent-filter>
+                <action android:name="com.google.android.gms.metadata.MODULE_DEPENDENCIES" />
+            </intent-filter>
+            <meta-data android:name="photopicker_activity:0:required" android:value="" />
+        </service>
+    </application>
+
+    <!-- Permissions. Runtime permissions are requested only when the feature is used. -->
+
+    <!-- Cloud AI proxy, catalogs, AdMob, Play Billing. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Take a photo to edit (@capacitor/camera). Camera hardware is optional so the app still
+         installs on devices without one (gallery editing only). -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+
+    <!-- Browse the photo library in the custom picker (in-repo GlowMedia plugin, requested when the
+         picker opens): READ_MEDIA_IMAGES on Android 13+, READ_EXTERNAL_STORAGE on 12 and below. -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+
+    <!-- Android 14+ partial access ("Select photos"). Requested together with READ_MEDIA_IMAGES;
+         when only this one is granted the picker shows just the photos the user selected. Without
+         it, the system grants the selection only until the app leaves the foreground. -->
+    <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" />
+
+    <!-- Save edited photos to the shared Pictures/Glow album (GlowMedia saveImage). Android 10+
+         writes through MediaStore without any permission; Android 8-9 (API 26-28) write a real file
+         to the public Pictures folder, which needs this permission. Requested at save time only. -->
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+
+    <!-- Google Play Billing for the Pro unlock (@capgo/native-purchases README). -->
+    <uses-permission android:name="com.android.vending.BILLING" />
+
+    <!-- Android 11+ package visibility: lets GlowStickers see whether WhatsApp / WhatsApp Business
+         is installed, query their sticker whitelist providers and target ENABLE_STICKER_PACK. -->
+    <queries>
+        <package android:name="com.whatsapp" />
+        <package android:name="com.whatsapp.w4b" />
+    </queries>
+</manifest>

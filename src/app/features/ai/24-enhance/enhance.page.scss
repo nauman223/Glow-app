@@ -1,0 +1,41 @@
+// Board 24 size readout: muted source size, cyan arrow, bold result size, cyan badge.
+.enhance__readout {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--app-space-2);
+  margin: 0;
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.enhance__from {
+  color: var(--app-text-muted);
+}
+
+.enhance__arrow {
+  color: var(--app-accent);
+}
+
+.enhance__arrow:dir(rtl) {
+  scale: -1 1;
+}
+
+.enhance__to {
+  font-weight: 700;
+}
+
+.enhance__badge {
+  padding-block: 0.125rem;
+  padding-inline: 0.375rem;
+  border-radius: 0.375rem;
+  background-color: var(--app-accent);
+  color: var(--app-on-accent);
+  font-size: 0.625rem;
+  font-weight: 900;
+}
+
+.enhance__toggles {
+  display: flex;
+  flex-direction: column;
+}

@@ -1,0 +1,56 @@
+<app-ai-screen
+  [eyebrow]="strings.eyebrow"
+  [heading]="strings.title"
+  [status]="status()"
+  [error]="error()"
+  [canApply]="canPrimary()"
+  [applyLabel]="primaryLabel()"
+  [optionsLabel]="strings.optionsLabel"
+  (backRequested)="leave()"
+  (cancelRequested)="leave()"
+  (applyRequested)="primary()"
+  (retryRequested)="retry()"
+>
+  <app-cloud-credits-pill aiHeaderAction />
+
+  <app-expand-stage
+    aiStage
+    [sourceSrc]="session.beforeUrl()"
+    [resultSrc]="resultUrl()"
+    [frame]="frame()"
+    [label]="stageLabel()"
+    [originalLabel]="strings.original"
+    [aiLabel]="strings.aiGenerated"
+    [busy]="preparing()"
+    [busyLabel]="preparingLabel"
+  />
+
+  @if (sameShape()) {
+    <p aiStage class="expand__note" role="status">{{ strings.sameShape }}</p>
+  }
+
+  <app-expand-aspect-picker
+    aiOptions
+    [aspects]="aspects"
+    [value]="aspect()"
+    [label]="strings.aspectsLabel"
+    [disabled]="locked()"
+    (selected)="select($event)"
+  />
+
+  <app-text-field
+    aiOptions
+    class="expand__prompt"
+    [formField]="prompt"
+    [label]="strings.prompt"
+    [placeholder]="strings.promptPlaceholder"
+  />
+</app-ai-screen>
+
+<app-cloud-progress-sheet
+  [open]="running()"
+  [phase]="phase()"
+  [startedAt]="startedAt()"
+  (cancelled)="session.cancelJob()"
+/>
+<app-cloud-upload-notice />

@@ -1,0 +1,11 @@
+:host {
+  display: block;
+  overflow: hidden;
+  border-radius: inherit;
+  line-height: 0;
+}
+
+svg {
+  inline-size: 100%;
+  block-size: 100%;
+}

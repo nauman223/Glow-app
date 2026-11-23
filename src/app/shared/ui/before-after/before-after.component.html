@@ -1,0 +1,43 @@
+<img
+  class="before-after__image"
+  decoding="async"
+  draggable="false"
+  [src]="afterSrc()"
+  [alt]="afterAlt()"
+/>
+<img
+  class="before-after__image before-after__image--before"
+  decoding="async"
+  draggable="false"
+  [src]="beforeSrc()"
+  [alt]="beforeAlt()"
+/>
+
+<div class="before-after__divider">
+  <div
+    class="before-after__handle"
+    role="slider"
+    tabindex="0"
+    aria-valuemin="0"
+    aria-valuemax="100"
+    [attr.aria-label]="strings.sliderLabel"
+    [attr.aria-valuenow]="positionPercent()"
+    [attr.aria-valuetext]="valueText()"
+    (keydown)="onHandleKeydown($event)"
+  >
+    <app-icon name="compare" [size]="18" />
+  </div>
+</div>
+
+@if (showLabels()) {
+  <span class="before-after__tag before-after__tag--before" aria-hidden="true">
+    {{ beforeLabel() }}
+  </span>
+  <span class="before-after__tag before-after__tag--after" aria-hidden="true">
+    {{ afterLabel() }}
+  </span>
+}
+
+@if (aiGenerated()) {
+  <span class="before-after__ai">{{ aiLabel() }}</span>
+}

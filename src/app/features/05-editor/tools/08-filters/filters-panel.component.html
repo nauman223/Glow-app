@@ -1,0 +1,60 @@
+@if (badge(); as text) {
+  <span class="filters-panel__badge" aria-hidden="true">{{ text }}</span>
+}
+
+<app-bottom-sheet [(open)]="sheetOpen" [label]="strings.panelLabel" (closed)="cancel()">
+  <div class="filters-panel">
+    <div
+      class="filters-panel__tiles"
+      appScrollFade
+      role="group"
+      [attr.aria-label]="strings.presetsLabel"
+    >
+      @for (tile of tiles(); track tile.id) {
+        <button
+          type="button"
+          class="filters-panel__tile"
+          [class.filters-panel__tile--selected]="tile.selected"
+          [attr.aria-pressed]="tile.selected"
+          [disabled]="busy()"
+          (click)="select(tile.id)"
+        >
+          <span class="filters-panel__frame">
+            @if (tile.url; as url) {
+              <img class="filters-panel__thumb" alt="" decoding="async" [src]="url" />
+            } @else {
+              <span class="filters-panel__thumb skeleton" aria-hidden="true"></span>
+            }
+          </span>
+          {{ tile.name }}
+          @if (tile.locked) {
+            <app-pro-badge class="filters-panel__pro" locked />
+          }
+        </button>
+      }
+    </div>
+
+    <app-slider
+      class="filters-panel__intensity"
+      [label]="strings.intensity"
+      [min]="0"
+      [max]="100"
+      [disabled]="!hasLook() || busy()"
+      [value]="intensity()"
+      (valueChange)="previewIntensity($event)"
+      (committed)="commitIntensity($event)"
+    />
+
+    @if (editingLayer()) {
+      <p class="visually-hidden">{{ strings.editingLayer }}</p>
+    }
+    <p class="visually-hidden" aria-live="polite">{{ status() }}</p>
+  </div>
+
+  <div class="filters-panel__footer" sheetFooter>
+    <app-button variant="ghost" [disabled]="busy()" (pressed)="cancel()">
+      {{ strings.cancel }}
+    </app-button>
+    <app-button size="sm" [disabled]="busy()" (pressed)="apply()">{{ strings.apply }}</app-button>
+  </div>
+</app-bottom-sheet>

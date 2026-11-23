@@ -1,0 +1,92 @@
+@use 'abstracts/mixins' as *;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-2);
+}
+
+.bg-swatches__label {
+  color: var(--app-text-muted);
+  font-size: 0.8125rem;
+}
+
+.bg-swatches__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--app-space-2);
+}
+
+.bg-swatch {
+  @include touch-target-expand;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--app-radius-sm);
+  color: var(--app-text);
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
+// A ring drawn over the swatch content (::before is the touch-target pad).
+.bg-swatch--selected::after {
+  position: absolute;
+  inset: 0;
+  border: 3px solid var(--app-primary);
+  border-radius: inherit;
+  content: '';
+}
+
+.bg-swatch--transparent {
+  background: repeating-conic-gradient(var(--app-checker-1) 0% 25%, var(--app-checker-2) 0% 50%);
+  background-size: 10px 10px;
+}
+
+.bg-swatch--white {
+  background-color: #fff;
+}
+
+.bg-swatch--violet {
+  background-color: var(--app-primary);
+}
+
+.bg-swatch--gradient {
+  background: linear-gradient(135deg, var(--app-primary), var(--app-accent));
+}
+
+.bg-swatch--blur {
+  background-color: var(--app-surface-2);
+}
+
+.bg-swatch--photo {
+  border: 1.5px dashed var(--app-control-border);
+  background: none;
+}
+
+.bg-swatch__photo {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  filter: blur(3px);
+}
+
+.bg-swatch__tag {
+  position: relative;
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-shadow: 0 1px 3px rgb(0 0 0 / 80%);
+}

@@ -1,0 +1,49 @@
+<app-cloud-ai-screen
+  [eyebrow]="strings.eyebrow"
+  [heading]="strings.title"
+  [actionLabel]="strings.action"
+  [historyLabel]="strings.historyLabel"
+  [optionsLabel]="strings.optionsLabel"
+  [optionsKey]="optionsKey()"
+  (actionRequested)="run()"
+>
+  <div cloudOptions class="restore__toggles">
+    <app-cloud-switch-row
+      icon="eraser"
+      disabled
+      [label]="strings.toggles.repair"
+      [checked]="true"
+    />
+    <app-cloud-switch-row
+      icon="drop"
+      [label]="strings.toggles.colorize"
+      [checked]="colorize()"
+      [disabled]="locked()"
+      (checkedChange)="setColorize($event)"
+    />
+    <app-cloud-switch-row
+      icon="face"
+      [label]="strings.toggles.sharpenFaces"
+      [checked]="sharpenFaces()"
+      [disabled]="locked()"
+      (checkedChange)="setSharpenFaces($event)"
+    />
+    <app-cloud-switch-row
+      icon="light"
+      [label]="strings.toggles.removeFading"
+      [checked]="removeFading()"
+      [disabled]="locked()"
+      (checkedChange)="setRemoveFading($event)"
+    />
+  </div>
+
+  @if (showUnlockBanner()) {
+    <app-cloud-unlock-banner
+      cloudOptions
+      [text]="strings.freeRestore"
+      [actionLabel]="strings.watchAd"
+      [disabled]="locked()"
+      (action)="unlock()"
+    />
+  }
+</app-cloud-ai-screen>

@@ -1,0 +1,5 @@
+// Sliders fill their option row (the row's label has a fixed width).
+.replace-sky__slider {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}

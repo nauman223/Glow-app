@@ -1,0 +1,47 @@
+<section class="templates" [attr.aria-labelledby]="section().id">
+  <div class="templates__header">
+    <h2 class="templates__heading" [id]="section().id">{{ section().heading }}</h2>
+    <button
+      type="button"
+      class="templates__see-all"
+      [attr.aria-label]="strings.seeAllLabel"
+      (click)="showAll()"
+    >
+      {{ strings.seeAll }}
+    </button>
+  </div>
+
+  <ul class="templates__grid" role="list">
+    @for (card of cards(); track card.template.id) {
+      <li>
+        <button
+          type="button"
+          class="templates__card"
+          [attr.aria-label]="card.label"
+          (click)="open(card.template.id)"
+        >
+          <app-collage-template-icon variant="card" [template]="card.template" />
+          <span class="templates__caption" aria-hidden="true">{{ card.caption }}</span>
+        </button>
+      </li>
+    }
+  </ul>
+</section>
+
+<app-bottom-sheet [(open)]="allOpen" modal showClose [heading]="strings.allHeading">
+  <ul class="templates__grid templates__grid--all" role="list">
+    @for (card of allCards; track card.template.id) {
+      <li>
+        <button
+          type="button"
+          class="templates__card"
+          [attr.aria-label]="card.label"
+          (click)="open(card.template.id)"
+        >
+          <app-collage-template-icon variant="card" [template]="card.template" />
+          <span class="templates__caption" aria-hidden="true">{{ card.caption }}</span>
+        </button>
+      </li>
+    }
+  </ul>
+</app-bottom-sheet>

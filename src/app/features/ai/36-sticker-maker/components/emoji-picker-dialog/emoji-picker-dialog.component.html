@@ -1,0 +1,24 @@
+<app-dialog [(open)]="open" [heading]="strings.emojiTitle">
+  <p>{{ strings.emojiHint }}</p>
+  <div class="emoji-picker__grid" role="group" [attr.aria-label]="strings.emojiGroup">
+    @for (item of items(); track item.char) {
+      <button
+        type="button"
+        class="emoji-picker__item"
+        [class.emoji-picker__item--on]="item.selected"
+        [attr.aria-label]="item.label"
+        [attr.aria-pressed]="item.selected"
+        [disabled]="item.disabled"
+        (click)="toggle(item.char)"
+      >
+        <span aria-hidden="true">{{ item.char }}</span>
+      </button>
+    }
+  </div>
+  <div class="emoji-picker__actions" dialogActions>
+    <app-button block [disabled]="!canConfirm()" (pressed)="confirm()">
+      {{ strings.emojiConfirm }}
+    </app-button>
+    <app-button variant="secondary" block (pressed)="close()">{{ strings.cancel }}</app-button>
+  </div>
+</app-dialog>

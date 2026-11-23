@@ -1,0 +1,120 @@
+<ion-header>
+  <ion-toolbar>
+    <div class="export__bar">
+      <button type="button" class="export__back" [attr.aria-label]="strings.back" (click)="back()">
+        <app-icon name="arrow-back" />
+      </button>
+      <h1 class="export__title">{{ strings.title }}</h1>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <main class="export">
+    <app-export-preview [src]="previewUrl()" [sizeLabel]="pixelSize()" [clamped]="clamped()" />
+
+    <div class="export__cards">
+      <section class="export__card export__card--row">
+        <h2 class="export__label">{{ strings.format }}</h2>
+        <app-choice-group
+          [label]="strings.format"
+          [options]="formatOptions"
+          [value]="format()"
+          [disabled]="busy()"
+          (valueChange)="setFormat($event)"
+        />
+      </section>
+
+      @if (isJpeg()) {
+        <section class="export__card export__card--quality">
+          <div class="export__quality-head">
+            <h2 class="export__label">{{ strings.quality }}</h2>
+            <span>
+              <span class="export__quality-value">{{ qualityText() }}</span>
+              <span class="export__estimate">{{ estimateText() }}</span>
+            </span>
+          </div>
+          <app-slider
+            readout="none"
+            unit="percent"
+            [label]="strings.quality"
+            [labelVisible]="false"
+            [min]="qualityRange.min"
+            [max]="qualityRange.max"
+            [value]="quality()"
+            [disabled]="busy()"
+            (valueChange)="previewQuality($event)"
+            (committed)="commitQuality($event)"
+          />
+        </section>
+      }
+
+      <section class="export__card">
+        <h2 class="export__label">{{ strings.size }}</h2>
+        <app-choice-group
+          variant="chips"
+          [label]="strings.size"
+          [options]="sizeOptions"
+          [value]="size()"
+          [disabled]="busy()"
+          (valueChange)="setSize($event)"
+        />
+      </section>
+
+      @if (!isPro()) {
+        <button
+          type="button"
+          class="export__card export__watermark"
+          [attr.aria-label]="strings.removeWatermarkAction"
+          (click)="goPro()"
+        >
+          <span class="export__watermark-text">
+            <span class="export__label">
+              {{ strings.removeWatermark }}
+              <app-pro-badge />
+            </span>
+            <span class="export__notice">{{ strings.watermarkNotice }}</span>
+          </span>
+          <span class="export__switch" aria-hidden="true"></span>
+        </button>
+      }
+    </div>
+
+    <div class="export__actions">
+      <app-button
+        size="lg"
+        icon="download"
+        block
+        [loading]="saving()"
+        [loadingLabel]="strings.saving"
+        [disabled]="busy()"
+        (pressed)="save()"
+      >
+        {{ strings.save }}
+      </app-button>
+      <app-button
+        variant="outline"
+        icon="share"
+        block
+        [loading]="sharing()"
+        [loadingLabel]="strings.sharing"
+        [disabled]="busy()"
+        (pressed)="share()"
+      >
+        {{ strings.share }}
+      </app-button>
+    </div>
+  </main>
+
+  <app-export-success-sheet
+    [(open)]="successOpen"
+    [saved]="saved()"
+    [sharing]="sharing()"
+    (share)="shareSaved()"
+    (editAnother)="editAnother()"
+    (backToEditor)="backToEditor()"
+  />
+</ion-content>
+
+<!-- In flow under the content; the native banner hides while the success sheet is up. -->
+<app-ad-banner-slot [suspended]="successOpen()" />

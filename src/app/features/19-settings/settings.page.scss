@@ -1,0 +1,56 @@
+@use 'abstracts/mixins' as *;
+
+// Toolbar layout lives here until the design-system toolbar component replaces it.
+.app-settings__bar {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-2);
+  padding-inline: var(--app-space-2);
+}
+
+.app-settings__back {
+  @include touch-target;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+}
+
+.app-settings__links {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li + li {
+    border-block-start: 1px solid var(--app-divider);
+  }
+}
+
+.app-settings__link {
+  @include touch-target;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--app-space-2);
+  padding-block: var(--app-space-2);
+  color: var(--app-text);
+  text-decoration: none;
+}
+
+.app-settings__link--divided {
+  margin-block-start: var(--app-space-2);
+  border-block-start: 1px solid var(--app-divider);
+}
+
+.app-settings__about {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+
+  dd {
+    margin: 0;
+    color: var(--app-text-muted);
+  }
+}

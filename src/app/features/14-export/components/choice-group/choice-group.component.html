@@ -1,0 +1,21 @@
+<div class="choice-group" role="radiogroup" [attr.aria-label]="label()">
+  @for (option of views(); track option.value; let index = $index) {
+    <button
+      #choice
+      type="button"
+      role="radio"
+      class="choice-group__option"
+      [class.choice-group__option--selected]="option.selected"
+      [attr.aria-checked]="option.selected"
+      [tabIndex]="option.tabIndex"
+      [disabled]="disabled()"
+      (click)="select(option)"
+      (keydown)="onKeydown($event, index)"
+    >
+      @if (option.selected && !chips()) {
+        <app-icon name="check" [size]="14" />
+      }
+      {{ option.label }}
+    </button>
+  }
+</div>

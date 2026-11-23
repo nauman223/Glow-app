@@ -1,0 +1,118 @@
+@use 'abstracts/mixins' as *;
+
+:host {
+  display: flex;
+  flex-direction: column;
+}
+
+.font-tab__fonts {
+  display: flex;
+  gap: var(--app-space-2);
+  padding: var(--app-space-3) var(--app-space-4) var(--app-space-2);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+// 40px visual chip (design); the hit area grows to 48px vertically.
+.font-tab__chip {
+  @include touch-target-expand;
+
+  flex: 0 0 auto;
+  block-size: 2.5rem;
+  padding-inline: 0.875rem;
+  border: 1px solid var(--app-surface-3);
+  border-radius: var(--app-radius-pill);
+  background-color: var(--app-surface-2);
+  color: var(--app-text);
+  font-family: var(--chip-font, inherit);
+  font-size: 1rem;
+  white-space: nowrap;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.font-tab__chip--selected {
+  border-color: var(--app-primary);
+  background-color: var(--app-primary);
+  color: var(--app-on-primary);
+}
+
+.font-tab__tools {
+  display: flex;
+  align-items: center;
+  padding: 0 var(--app-space-2) var(--app-space-2);
+}
+
+// 48px target around a 40px face, so neighbouring hit areas never overlap.
+.font-tab__tool {
+  @include touch-target;
+
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--app-text);
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &:disabled {
+    opacity: 0.7;
+  }
+}
+
+.font-tab__face {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 2.5rem;
+  block-size: 2.5rem;
+  border-radius: 0.625rem;
+  background-color: var(--app-surface-2);
+  font-size: 1rem;
+}
+
+.font-tab__face--bold {
+  font-weight: 900;
+}
+
+.font-tab__face--italic {
+  font-family: Georgia, serif;
+  font-style: italic;
+}
+
+.font-tab__tool--on .font-tab__face {
+  background-color: var(--app-primary);
+  color: var(--app-on-primary);
+}
+
+.font-tab__tool--soft .font-tab__face {
+  background-color: var(--app-primary-soft);
+}
+
+.font-tab__spacing {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: var(--app-space-2);
+  min-inline-size: 0;
+  padding-inline: var(--app-space-2);
+}
+
+.font-tab__spacing-glyph {
+  color: var(--app-text-muted);
+  font-size: var(--app-font-caption-size);
+  font-weight: 700;
+  letter-spacing: 0.125rem;
+}
+
+.font-tab__slider {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}

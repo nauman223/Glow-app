@@ -1,0 +1,12 @@
+<app-text-slider-list [items]="sliders" [style]="style()" (changed)="changed.emit($event)" />
+
+<button
+  type="button"
+  role="switch"
+  class="style-tab__switch"
+  [attr.aria-checked]="style().background"
+  (click)="toggleBackground()"
+>
+  <span class="style-tab__label">{{ strings.background }}</span>
+  <span class="style-tab__track" aria-hidden="true"><span class="style-tab__thumb"></span></span>
+</button>

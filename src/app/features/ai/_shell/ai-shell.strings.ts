@@ -1,0 +1,58 @@
+import { type AiLocalErrorCode, type AiProgressStage } from '@core/ai-local/ai-local.models';
+import { type AiFeatureId } from '@core/catalog/catalog.models';
+
+export const AI_SHELL_STRINGS = {
+  back: 'Back',
+  cancel: 'Cancel',
+  apply: 'Apply',
+  applying: 'Applying',
+  retry: 'Try again',
+  optionsLabel: 'Options',
+  stageLabel: 'Result preview',
+  processing: 'Processing on your device…',
+  updating: 'Updating preview…',
+  beforeAlt: 'Your photo before the change',
+  afterAlt: 'Your photo after the change',
+  onDevice: 'on-device AI',
+  /** Home and editor "AI tools" sheets. */
+  toolsTitle: 'AI tools',
+  toolsLabel: 'AI tools',
+  /** Entry-point labels (editor toolbar, AI tools sheet). */
+  features: {
+    'remove-background': 'Remove BG',
+    'colour-boost': 'Colour boost',
+    'natural-beauty': 'Natural beauty',
+    'replace-sky': 'Replace sky',
+    'portrait-blur': 'Portrait blur',
+    'passport-photo': 'Passport photo',
+    relight: 'Relight',
+    'sticker-maker': 'Sticker maker',
+    'one-tap-themes': 'One-tap themes',
+    enhance: 'Enhance',
+    'remove-people': 'Remove people',
+    'remove-text': 'Remove text',
+    expand: 'Expand',
+    restore: 'Restore old photo',
+    cartoon: 'Cartoon',
+    hairstyle: 'Hairstyle',
+    headshot: 'Headshot',
+  } satisfies Readonly<Record<AiFeatureId, string>>,
+  progress: {
+    starting: 'Preparing your photo…',
+    'loading-model': 'Loading the AI model…',
+    inferring: 'Processing on your device…',
+    refining: 'Refining the edges…',
+  } satisfies Readonly<Record<AiProgressStage, string>>,
+  sourceErrorTitle: 'Your photo could not be prepared',
+  sourceErrorMessage: 'Go back to the editor and try again.',
+  applyErrorMessage: 'The result could not be added to your photo. Please try again.',
+  errorTitle: 'Something went wrong',
+  errors: {
+    unsupported: 'On-device AI is not supported on this device.',
+    'model-load-failed': 'The AI model could not be loaded. Restart Glow and try again.',
+    'inference-failed': 'The AI could not process this photo. Please try again.',
+    'invalid-input': 'This photo cannot be processed.',
+    cancelled: 'Cancelled.',
+    'worker-failed': 'Your device ran low on memory. Close other apps and try again.',
+  } satisfies Readonly<Record<AiLocalErrorCode, string>>,
+} as const;

@@ -1,0 +1,14 @@
+<nav class="home-chips" appScrollFade [attr.aria-label]="label()">
+  @for (action of actions(); track action.id) {
+    <button
+      type="button"
+      class="home-chips__chip"
+      aria-haspopup="dialog"
+      [disabled]="disabled()"
+      (click)="actionSelected.emit(action)"
+    >
+      <app-icon class="home-chips__icon" [name]="action.icon" [size]="18" />
+      {{ action.label }}
+    </button>
+  }
+</nav>

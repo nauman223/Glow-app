@@ -1,0 +1,46 @@
+// rem-based typography from the design type scale. All sizes are rem, so Android's font
+// scale (WebView text zoom) and iOS Dynamic Type resize the whole UI.
+
+// iOS: map the root font to the user's Dynamic Type setting, then restore the family.
+@supports (font: -apple-system-body) {
+  html {
+    // -apple-system-body is a system font keyword (size + family), not a family name.
+    /* stylelint-disable-next-line font-family-no-missing-generic-family-keyword */
+    font: -apple-system-body;
+  }
+}
+
+body {
+  font-family: var(--app-font-family);
+  font-size: var(--app-font-body-size);
+  font-weight: var(--app-font-body-weight);
+  line-height: var(--app-font-body-line-height);
+  -webkit-font-smoothing: antialiased;
+}
+
+// Type-scale roles as opt-in classes, e.g. `.type-title-sm` (no Bootstrap equivalent;
+// `type-` avoids clashing with Bootstrap's `.text-*` colour utilities).
+@each $role, $spec in $app-type-scale {
+  .type-#{$role} {
+    font-size: var(--app-font-#{$role}-size);
+    font-weight: var(--app-font-#{$role}-weight);
+    line-height: var(--app-font-#{$role}-line-height);
+  }
+}
+
+.type-overline {
+  letter-spacing: var(--app-font-overline-letter-spacing);
+  text-transform: uppercase;
+}
+
+.text-muted-token {
+  color: var(--app-text-muted);
+}
+
+.text-primary-token {
+  color: var(--app-primary-text);
+}
+
+.text-accent-token {
+  color: var(--app-accent-text);
+}

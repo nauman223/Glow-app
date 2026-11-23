@@ -1,0 +1,20 @@
+<svg
+  class="collage-icon__svg"
+  aria-hidden="true"
+  focusable="false"
+  [attr.viewBox]="viewBox()"
+  [attr.width]="metrics().width"
+  [attr.height]="metrics().height"
+>
+  @for (shape of shapes(); track shape.key) {
+    <rect
+      class="collage-icon__cell"
+      [attr.x]="shape.x"
+      [attr.y]="shape.y"
+      [attr.width]="shape.width"
+      [attr.height]="shape.height"
+      [attr.rx]="metrics().radius"
+      [attr.transform]="shape.transform"
+    />
+  }
+</svg>

@@ -1,0 +1,41 @@
+<app-dialog
+  [open]="open()"
+  [heading]="heading()"
+  icon="gift"
+  [dismissible]="!busy()"
+  (closed)="dismiss()"
+>
+  <p>{{ body() }}</p>
+  @if (creditsNote(); as note) {
+    <p class="rewarded-unlock__note">{{ note }}</p>
+  }
+  <p
+    class="rewarded-unlock__status"
+    [class.rewarded-unlock__status--error]="isError()"
+    role="status"
+    aria-live="polite"
+  >
+    @if (statusMessage(); as message) {
+      {{ message }}
+    }
+  </p>
+  <div dialogActions class="rewarded-unlock__actions">
+    @if (canWatch()) {
+      <app-button
+        icon="play-ad"
+        block
+        [loading]="busy()"
+        [loadingLabel]="strings.status.watching"
+        (pressed)="watchAd()"
+      >
+        {{ watchLabel() }}
+      </app-button>
+    }
+    <app-button variant="outline" icon="crown" block [disabled]="busy()" (pressed)="goPro()">
+      {{ strings.goPro }}
+    </app-button>
+    <app-button variant="link" block [disabled]="busy()" (pressed)="dismiss()">
+      {{ strings.notNow }}
+    </app-button>
+  </div>
+</app-dialog>

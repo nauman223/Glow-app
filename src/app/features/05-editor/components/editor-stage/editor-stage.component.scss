@@ -1,0 +1,28 @@
+:host {
+  position: relative;
+  display: block;
+  flex: 1 1 auto;
+  min-block-size: 0;
+  overflow: hidden;
+  background: repeating-conic-gradient(var(--app-checker-1) 0% 25%, var(--app-checker-2) 0% 50%);
+  background-size: 20px 20px;
+
+  // Pan/zoom gestures belong to the canvas, never to the WebView.
+  touch-action: none;
+}
+
+// Tool boards show a flat, darker stage instead of the checkerboard.
+:host(.stage--tool) {
+  background: var(--app-bg-deep);
+}
+
+.stage__surface {
+  position: absolute;
+  inset: 0;
+}
+
+.stage__skeleton {
+  position: absolute;
+  inset: 20% var(--app-space-4);
+  border-radius: 0;
+}

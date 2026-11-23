@@ -1,0 +1,46 @@
+<app-ai-screen
+  [eyebrow]="eyebrow()"
+  [heading]="heading()"
+  [status]="session.screenStatus()"
+  [error]="session.error()"
+  [canApply]="canPrimary()"
+  [applyLabel]="primaryLabel()"
+  [optionsLabel]="optionsLabel()"
+  (backRequested)="session.leave()"
+  (cancelRequested)="session.leave()"
+  (applyRequested)="primary()"
+  (retryRequested)="session.retry()"
+>
+  <app-cloud-credits-pill aiHeaderAction />
+
+  <app-ai-result-stage
+    aiStage
+    [beforeSrc]="session.beforeUrl()"
+    [afterSrc]="session.afterUrl()"
+    [width]="width()"
+    [height]="height()"
+    [busy]="preparing()"
+    [busyLabel]="strings.progress.phases.encoding"
+    [aiGenerated]="aiGenerated()"
+  >
+    <ng-container ngProjectAs="[aiStageOverlay]">
+      <ng-content select="[cloudStageOverlay]" />
+    </ng-container>
+  </app-ai-result-stage>
+
+  <ng-container ngProjectAs="[aiStage]">
+    <ng-content select="[cloudStageFooter]" />
+  </ng-container>
+
+  <ng-container ngProjectAs="[aiOptions]">
+    <ng-content select="[cloudOptions]" />
+  </ng-container>
+</app-ai-screen>
+
+<app-cloud-progress-sheet
+  [open]="running()"
+  [phase]="phase()"
+  [startedAt]="startedAt()"
+  (cancelled)="session.cancelJob()"
+/>
+<app-cloud-upload-notice />

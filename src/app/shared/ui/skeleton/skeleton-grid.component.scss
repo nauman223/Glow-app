@@ -1,0 +1,14 @@
+:host {
+  display: block;
+}
+
+.app-skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--app-skeleton-columns, 3), minmax(0, 1fr));
+  gap: 2px;
+}
+
+.app-skeleton-grid__cell {
+  aspect-ratio: 1;
+  border-radius: 0;
+}

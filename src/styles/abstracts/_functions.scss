@@ -1,0 +1,9 @@
+// Small module-safe helpers. Components can `@use 'abstracts/functions' as fn;`.
+
+@use 'sass:math';
+
+// Converts a px design value to rem (16px root) so OS font scaling applies.
+// Example: `fn.to-rem(68px)` -> 4.25rem.
+@function to-rem($px) {
+  @return math.div($px, 16px) * 1rem;
+}

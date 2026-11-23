@@ -1,0 +1,131 @@
+@use 'abstracts/mixins' as *;
+
+// Board row: 8px 4px padding, 14px radius, transparent 1px border (primary when selected).
+:host {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-2);
+  padding: var(--app-space-2) var(--app-space-1);
+  border: 1px solid transparent;
+  border-radius: 0.875rem;
+  background-color: var(--app-surface);
+}
+
+:host(.layer-row--selected) {
+  border-color: var(--app-primary);
+  background-color: var(--app-primary-tint);
+}
+
+.layer-row__handle {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--app-control-border);
+  touch-action: none;
+  cursor: grab;
+}
+
+.layer-row__handle--off {
+  visibility: hidden;
+}
+
+.layer-row__main {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: var(--app-space-2);
+  min-inline-size: 0;
+  min-block-size: var(--app-touch-min);
+  padding: 0;
+  border: 0;
+  border-radius: 0.625rem;
+  background: none;
+  color: var(--app-text);
+  text-align: start;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.layer-row__thumb {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  inline-size: 3rem;
+  block-size: 3rem;
+  overflow: hidden;
+  border-radius: 0.625rem;
+  background-color: var(--app-surface-2);
+}
+
+.layer-row__thumb--hidden {
+  opacity: 0.4;
+}
+
+.layer-row__image {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain;
+}
+
+.layer-row__glyph {
+  font-size: 1.25rem;
+  font-weight: 900;
+}
+
+.layer-row__name {
+  min-inline-size: 0;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.0625rem;
+  overflow-wrap: anywhere;
+}
+
+.layer-row__toggle,
+.layer-row__move {
+  @include touch-target;
+
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.layer-row__toggle {
+  margin-inline-start: calc(var(--app-space-2) * -1);
+  color: var(--app-control-border);
+}
+
+.layer-row__toggle--eye {
+  color: var(--app-text-muted);
+}
+
+.layer-row__toggle--off {
+  color: var(--app-control-border);
+  opacity: 0.6;
+}
+
+.layer-row__toggle--on {
+  color: var(--app-accent);
+}
+
+.layer-row__move {
+  color: var(--app-text);
+
+  &:disabled {
+    color: var(--app-text-disabled);
+  }
+}
+
+.layer-row__up {
+  transform: rotate(180deg);
+}

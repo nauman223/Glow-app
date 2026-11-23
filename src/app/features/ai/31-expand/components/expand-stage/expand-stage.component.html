@@ -1,0 +1,36 @@
+<div class="expand-stage__fit">
+  <div class="expand-stage__frame" role="img" [attr.aria-label]="label()">
+    @if (sourceSrc(); as source) {
+      @if (resultSrc(); as result) {
+        <img class="expand-stage__fill" alt="" decoding="async" [src]="result" />
+      } @else {
+        <img
+          class="expand-stage__fill expand-stage__backdrop"
+          alt=""
+          decoding="async"
+          [src]="source"
+        />
+        <span class="expand-stage__fill expand-stage__hatch"></span>
+        <img class="expand-stage__original" alt="" decoding="async" [src]="source" />
+      }
+
+      @if (expanded()) {
+        <span class="expand-stage__area expand-stage__area--start" aria-hidden="true">
+          <span class="expand-stage__ai">{{ aiLabel() }}</span>
+        </span>
+        <span class="expand-stage__area expand-stage__area--end" aria-hidden="true">
+          <span class="expand-stage__ai">{{ aiLabel() }}</span>
+        </span>
+        <span class="expand-stage__original expand-stage__outline" aria-hidden="true">
+          <span class="expand-stage__tag">{{ originalLabel() }}</span>
+        </span>
+      }
+    } @else {
+      <app-skeleton class="expand-stage__fill" width="100%" height="100%" />
+    }
+  </div>
+
+  @if (busy()) {
+    <p class="expand-stage__pill" role="status">{{ busyLabel() }}</p>
+  }
+</div>

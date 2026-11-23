@@ -1,0 +1,41 @@
+export const HOME_STRINGS = {
+  settingsLabel: 'Settings',
+  startEditing: {
+    heading: 'Start editing',
+    subheading: 'Merge, layer and draw on any photo.',
+  },
+  actions: {
+    choosePhoto: 'Choose photo',
+    takePhoto: 'Take photo',
+    takePhotoLoading: 'Opening camera…',
+    aiTools: 'AI tools',
+  },
+  chipsLabel: 'Tools',
+  recent: {
+    heading: 'Recent projects',
+    seeAll: 'See all',
+    seeAllLabel: 'See all recent projects',
+    loading: 'Loading recent projects',
+    untitled: 'Untitled',
+    today: 'Today',
+    yesterday: 'Yesterday',
+    openLabel: (title: string, edited: string): string => `Open ${title}, edited ${edited}`,
+    optionsLabel: (title: string): string => `Options for ${title}`,
+    open: 'Open',
+    delete: 'Delete',
+    deleteTitle: 'Delete project?',
+    deleteMessage:
+      'This draft is removed from this device. Photos you already exported stay in your gallery.',
+    deleteConfirm: 'Delete',
+    deleteCancel: 'Cancel',
+    deleted: 'Project deleted',
+    deleteFailed: 'The project could not be deleted. Try again.',
+  },
+  templates: {
+    heading: 'Templates',
+    seeAll: 'See all',
+    seeAllLabel: 'See all collage templates',
+    allHeading: 'Collage templates',
+    openLabel: (name: string): string => `Start a ${name} collage`,
+  },
+} as const;

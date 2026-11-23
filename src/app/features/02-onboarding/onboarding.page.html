@@ -1,0 +1,71 @@
+<ion-content>
+  <main class="onboarding">
+    <div class="onboarding__top">
+      @if (!isLastStep()) {
+        <button
+          #skipButton
+          type="button"
+          class="onboarding__skip"
+          [attr.aria-label]="strings.skipLabel"
+          [disabled]="leaving()"
+          (click)="finish()"
+        >
+          {{ strings.skip }}
+        </button>
+      }
+    </div>
+
+    <div
+      class="onboarding__viewport"
+      appSwipe
+      [canSwipeLeft]="canSwipeLeft()"
+      [canSwipeRight]="canSwipeRight()"
+      (swiped)="onSwiped($event)"
+    >
+      <div class="onboarding__track">
+        @for (slide of slides(); track slide.step.id) {
+          <div class="onboarding__slide onboarding__stage" [inert]="!slide.active">
+            @switch (slide.step.id) {
+              @case ('merge') {
+                <app-merge-illustration />
+              }
+              @case ('layer') {
+                @defer (on idle) {
+                  <app-layer-illustration />
+                }
+              }
+              @case ('draw') {
+                @defer (on idle) {
+                  <app-draw-illustration />
+                }
+              }
+            }
+          </div>
+        }
+      </div>
+
+      <div class="onboarding__dots" aria-hidden="true">
+        @for (slide of slides(); track slide.step.id) {
+          <span class="onboarding__dot" [class.onboarding__dot--active]="slide.active"></span>
+        }
+      </div>
+
+      <div class="onboarding__track">
+        @for (slide of slides(); track slide.step.id) {
+          <section class="onboarding__slide onboarding__copy" [inert]="!slide.active">
+            <h1 class="onboarding__title">{{ slide.step.title }}</h1>
+            <p class="onboarding__body">{{ slide.step.body }}</p>
+          </section>
+        }
+      </div>
+    </div>
+
+    <div #footer class="onboarding__footer">
+      <app-button size="lg" block [disabled]="leaving()" (pressed)="next()">
+        {{ primaryLabel() }}
+      </app-button>
+    </div>
+
+    <p class="visually-hidden" aria-live="polite">{{ announcement() }}</p>
+  </main>
+</ion-content>

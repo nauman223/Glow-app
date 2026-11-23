@@ -1,0 +1,16 @@
+@use 'abstracts/mixins' as *;
+
+:host {
+  display: block;
+  margin-block-end: var(--app-space-4);
+}
+
+// Fill, border and 48px height come from the Bootstrap form variables.
+.form-control {
+  @include touch-target;
+}
+
+.app-text-field__required {
+  margin-inline-start: var(--app-space-1);
+  color: var(--app-danger);
+}

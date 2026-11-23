@@ -1,0 +1,37 @@
+@use 'abstracts/mixins' as *;
+
+// Sliders fill their option row (the row's label has a fixed width).
+.sticker__slider {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+
+// "Shadow" toggle chip, styled like the shell's option chips (board 36 "Add" row).
+.sticker__chip {
+  @include touch-target-expand;
+
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2.25rem;
+  padding-inline: var(--app-space-4);
+  border: 1px solid var(--app-control-border);
+  border-radius: var(--app-radius-pill);
+  background-color: var(--app-surface-2);
+  color: var(--app-text);
+  font-size: var(--app-font-body-size);
+  font-weight: 500;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &:disabled {
+    color: var(--app-text-disabled);
+  }
+}
+
+.sticker__chip--on {
+  border-color: var(--app-primary);
+  background-color: var(--app-primary);
+  color: var(--app-on-primary);
+}

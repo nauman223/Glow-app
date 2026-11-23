@@ -1,0 +1,20 @@
+export const DRAW_STRINGS = {
+  panelLabel: 'Brush options',
+  brushTypes: 'Brush type',
+  brush: 'Brush',
+  marker: 'Marker',
+  neon: 'Neon',
+  eraser: 'Eraser',
+  size: 'Size',
+  opacity: 'Opacity',
+  colour: 'Brush colour',
+  clearAll: 'Clear all strokes',
+  cancel: 'Cancel',
+  apply: 'Apply',
+  pickHint: 'Tap the photo to pick a colour',
+  cleared: 'All strokes cleared',
+  commandLabels: {
+    erase: 'Erase',
+    clear: 'Clear drawing',
+  },
+} as const;

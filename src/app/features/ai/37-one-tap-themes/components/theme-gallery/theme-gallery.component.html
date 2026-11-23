@@ -1,0 +1,73 @@
+<ion-header>
+  <ion-toolbar>
+    <div class="themes-bar">
+      <button
+        type="button"
+        class="themes-bar__back"
+        [attr.aria-label]="shell.back"
+        (click)="backRequested.emit()"
+      >
+        <app-icon name="arrow-back" />
+      </button>
+      <div class="themes-bar__titles">
+        <p class="themes-bar__eyebrow">{{ strings.eyebrow }}</p>
+        <h1 class="themes-bar__title">{{ strings.title }}</h1>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="themes">
+    @if (dropIn(); as dropIn) {
+      <p class="themes__drop">
+        <app-icon class="themes__drop-icon" name="clock" [size]="18" />
+        <span>
+          {{ strings.dropPrefix }} <strong>{{ dropIn }}</strong>
+        </span>
+      </p>
+    }
+
+    @if (error(); as error) {
+      <app-state-message
+        variant="error"
+        [heading]="error.title"
+        [message]="error.message"
+        [retryLabel]="retryLabel()"
+        (retry)="retryRequested.emit()"
+      />
+    } @else if (loading()) {
+      <section class="themes__grid" aria-busy="true" [attr.aria-label]="strings.galleryLabel">
+        <span class="visually-hidden" role="status">{{ strings.loading }}</span>
+        @for (card of skeletonCards; track card) {
+          <app-skeleton class="themes__skeleton" width="100%" height="100%" />
+        }
+      </section>
+    } @else {
+      <app-ai-chips
+        class="themes__chips"
+        [options]="categories()"
+        [value]="category()"
+        [label]="strings.categoriesLabel"
+        (valueChange)="categoryChange.emit($event)"
+      />
+
+      @if (cards().length === 0) {
+        <app-state-message [heading]="strings.emptyTitle" [message]="strings.emptyMessage" />
+      } @else {
+        <ul class="themes__grid" [attr.aria-label]="strings.galleryLabel">
+          @for (card of cards(); track card.theme.id) {
+            <li>
+              <app-theme-card
+                [theme]="card.theme"
+                [liveUrl]="card.liveUrl"
+                [proLocked]="proLocked()"
+                (selected)="themeSelected.emit(card.theme)"
+              />
+            </li>
+          }
+        </ul>
+      }
+    }
+  </div>
+</ion-content>

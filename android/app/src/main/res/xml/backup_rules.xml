@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android 8-11 Auto Backup (android:fullBackupContent). Same policy as data_extraction_rules.xml
+     (Android 12+), which explains it: back up Recent projects only; never preferences (installation
+     id, signed credits and pack unlocks), caches, catalogs, sticker packs or WebView data. -->
+<full-backup-content>
+    <include domain="file" path="projects/" />
+</full-backup-content>

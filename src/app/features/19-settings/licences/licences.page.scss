@@ -1,0 +1,40 @@
+@use 'abstracts/mixins' as *;
+
+// Same toolbar as Settings (settings.page.scss) so the two screens read as one flow.
+.licences__bar {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-2);
+  padding-inline: var(--app-space-2);
+}
+
+.licences__back {
+  @include touch-target;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+}
+
+// No ad banner here, so the bottom padding clears the gesture bar itself.
+.licences {
+  @include safe-area-block-end(var(--app-space-3));
+
+  padding-block-start: var(--app-space-3);
+}
+
+.licences__intro {
+  margin: 0;
+  color: var(--app-text-muted);
+}
+
+.licences__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li + li {
+    border-block-start: 1px solid var(--app-divider);
+  }
+}

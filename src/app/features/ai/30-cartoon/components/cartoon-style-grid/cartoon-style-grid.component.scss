@@ -1,0 +1,73 @@
+@use 'abstracts/mixins' as *;
+
+// Board 30: 3 × 84px tiles, 10px gap, 16px radius, white 2px ring on the selected one.
+:host {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.625rem;
+}
+
+.cartoon-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  block-size: 5.25rem;
+  padding-block: 0 0.5rem;
+  padding-inline: var(--app-space-1);
+  border: 2px solid transparent;
+  border-radius: var(--app-radius-md);
+  color: #fff;
+  font-size: 0.8125rem;
+  font-weight: 700;
+
+  // The light swatches (Sketch, Watercolour) need it for the white name to stay readable.
+  text-shadow: 0 1px 3px rgb(0 0 0 / 70%);
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+  }
+}
+
+.cartoon-tile--selected {
+  border-color: var(--app-text);
+}
+
+.cartoon-tile__pro {
+  position: absolute;
+  inset-block-start: 0.375rem;
+  inset-inline-end: 0.375rem;
+  text-shadow: none;
+}
+
+// Style swatches, as drawn on the board.
+.cartoon-tile[data-style='cartoon'] {
+  background: linear-gradient(160deg, #ffb86b, #ff6fa8);
+}
+
+.cartoon-tile[data-style='sketch'] {
+  background: repeating-linear-gradient(135deg, #e8e8e8 0 6px, #cfcfcf 6px 8px);
+}
+
+.cartoon-tile[data-style='toon-3d'] {
+  background: linear-gradient(160deg, var(--app-primary), var(--app-accent));
+}
+
+.cartoon-tile[data-style='comic'] {
+  background:
+    radial-gradient(circle, #ffd43b 0 25%, transparent 26%) 0 0 / 12px 12px,
+    #ff5252;
+}
+
+.cartoon-tile[data-style='watercolour'] {
+  background: linear-gradient(160deg, #a8e6cf, #dcedc1 40%, #ffd3b6);
+}
+
+.cartoon-tile[data-style='pixel'] {
+  background: repeating-conic-gradient(#3d8bff 0% 25%, #2ee59d 0% 50%) 0 0 / 16px 16px;
+}

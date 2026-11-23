@@ -1,0 +1,72 @@
+@use 'abstracts/mixins' as *;
+
+.app-albums {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.app-albums__row {
+  @include touch-target;
+
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-3);
+  inline-size: 100%;
+  padding: var(--app-space-2) var(--app-space-4);
+  border: 0;
+  background: none;
+  color: var(--app-text);
+  text-align: start;
+
+  &[aria-current='true'] {
+    background-color: var(--app-surface-2);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+
+    outline-offset: -0.1875rem;
+  }
+}
+
+.app-albums__cover {
+  flex-shrink: 0;
+  inline-size: 3rem;
+  block-size: 3rem;
+  border-radius: var(--app-radius-xs);
+  background-color: var(--app-surface-2);
+  object-fit: cover;
+}
+
+.app-albums__cover--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--app-text-muted);
+}
+
+.app-albums__text {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-inline-size: 0;
+}
+
+.app-albums__name {
+  overflow: hidden;
+  font-size: var(--app-font-body-size);
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.app-albums__count {
+  color: var(--app-text-muted);
+  font-size: var(--app-font-caption-size);
+}
+
+.app-albums__check {
+  flex-shrink: 0;
+  color: var(--app-primary-text);
+}

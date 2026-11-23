@@ -1,0 +1,51 @@
+<app-ai-screen
+  [eyebrow]="strings.eyebrow"
+  [heading]="strings.title"
+  [status]="status()"
+  [error]="error()"
+  [canApply]="canApply()"
+  (backRequested)="cancel()"
+  (cancelRequested)="cancel()"
+  (applyRequested)="apply()"
+  (retryRequested)="retry()"
+>
+  <app-ai-result-stage
+    aiStage
+    [beforeSrc]="beforeUrl()"
+    [afterSrc]="afterUrl()"
+    [width]="width()"
+    [height]="height()"
+    [busy]="working()"
+    [busyLabel]="progressLabel()"
+  />
+
+  <app-ai-option-row aiOptions [label]="strings.strength">
+    <app-slider
+      class="portrait-blur__slider"
+      readout="end"
+      [label]="strings.strength"
+      [labelVisible]="false"
+      [format]="apertureFormat"
+      [defaultValue]="defaultStrength"
+      [disabled]="applying()"
+      [value]="strength()"
+      (valueChange)="previewStrength($event)"
+      (committed)="commitStrength($event)"
+    />
+  </app-ai-option-row>
+
+  <app-ai-option-row aiOptions [label]="strings.softness">
+    <app-slider
+      class="portrait-blur__slider"
+      readout="end"
+      unit="percent"
+      [label]="strings.softness"
+      [labelVisible]="false"
+      [defaultValue]="defaultSoftness"
+      [disabled]="applying()"
+      [value]="softness()"
+      (valueChange)="previewSoftness($event)"
+      (committed)="commitSoftness($event)"
+    />
+  </app-ai-option-row>
+</app-ai-screen>

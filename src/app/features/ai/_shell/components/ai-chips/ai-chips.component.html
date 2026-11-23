@@ -1,0 +1,19 @@
+@for (option of options(); track option.id) {
+  <button
+    type="button"
+    class="ai-chip"
+    [class.ai-chip--tile]="variant() === 'tile'"
+    [class.ai-chip--selected]="option.id === value()"
+    [attr.aria-pressed]="option.id === value()"
+    [disabled]="disabled()"
+    (click)="select(option.id)"
+  >
+    @if (option.icon; as icon) {
+      <app-icon [name]="icon" [size]="20" />
+    }
+    <span [class.visually-hidden]="variant() === 'tile'">{{ option.label }}</span>
+    @if (option.pro) {
+      <app-pro-badge />
+    }
+  </button>
+}

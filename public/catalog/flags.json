@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "aiFeatures": {
+    "remove-background": true,
+    "colour-boost": true,
+    "natural-beauty": true,
+    "replace-sky": true,
+    "portrait-blur": true,
+    "passport-photo": true,
+    "relight": true,
+    "sticker-maker": true,
+    "one-tap-themes": true,
+    "enhance": true,
+    "remove-people": true,
+    "remove-text": true,
+    "expand": true,
+    "restore": true,
+    "cartoon": true,
+    "hairstyle": true,
+    "headshot": true
+  },
+  "ads": {
+    "enabled": true,
+    "interstitialEverySaves": 3,
+    "interstitialMinIntervalSec": 120,
+    "rewardedUnlockHours": 24
+  },
+  "credits": {
+    "dailyEarnCap": 5,
+    "proFairUseDailyCap": 30
+  }
+}

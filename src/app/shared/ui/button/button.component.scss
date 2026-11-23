@@ -1,0 +1,146 @@
+@use 'abstracts/mixins' as *;
+
+:host {
+  display: inline-block;
+}
+
+:host(.app-button-host--block) {
+  display: block;
+
+  // Full width in centring flex/grid parents too (align-items: center shrinks a block host).
+  align-self: stretch;
+  inline-size: 100%;
+
+  // A block button's width comes from its container, so side padding only steals room from the
+  // label (it made "Choose photo" wrap at 360 dp). The label stays centred either way.
+  .app-button {
+    --bs-btn-padding-x: var(--app-space-3);
+
+    inline-size: 100%;
+  }
+}
+
+// Heights come from min-block-size so the label can wrap at large font scales.
+.app-button {
+  --bs-btn-padding-y: 0;
+  --bs-btn-border-width: 0;
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--app-space-2);
+  overflow: hidden;
+  transition:
+    transform var(--app-dur-short) var(--app-ease),
+    opacity var(--app-dur-short) var(--app-ease);
+
+  &:active:not(:disabled) {
+    transform: scale(0.98);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.app-button--md {
+  min-block-size: var(--app-button-height);
+}
+
+// 44px visual, 48px hit area.
+.app-button--sm {
+  @include touch-target-expand;
+
+  --bs-btn-padding-x: var(--app-space-8);
+
+  min-block-size: 44px;
+  overflow: visible;
+}
+
+.app-button--lg {
+  --bs-btn-font-size: 1rem;
+
+  min-block-size: 56px;
+}
+
+.btn-outline-primary {
+  --bs-btn-border-width: 1.5px;
+}
+
+.app-button--secondary {
+  --bs-btn-color: var(--app-text);
+  --bs-btn-bg: var(--app-surface-2);
+  --bs-btn-hover-color: var(--app-text);
+  --bs-btn-hover-bg: var(--app-surface-3);
+  --bs-btn-active-color: var(--app-text);
+  --bs-btn-active-bg: var(--app-surface-3);
+  --bs-btn-disabled-color: var(--app-text);
+  --bs-btn-disabled-bg: var(--app-surface-2);
+}
+
+.app-button--ghost,
+.app-button--link {
+  --bs-btn-bg: transparent;
+  --bs-btn-hover-bg: transparent;
+  --bs-btn-active-bg: transparent;
+  --bs-btn-disabled-bg: transparent;
+  --bs-btn-padding-x: var(--app-space-4);
+}
+
+.app-button--ghost {
+  --bs-btn-color: var(--app-text);
+  --bs-btn-hover-color: var(--app-text);
+  --bs-btn-active-color: var(--app-text);
+  --bs-btn-disabled-color: var(--app-text);
+  --bs-btn-font-weight: 500;
+}
+
+.app-button--link {
+  --bs-btn-color: var(--app-primary-text);
+  --bs-btn-hover-color: var(--app-primary-text);
+  --bs-btn-active-color: var(--app-primary-text);
+  --bs-btn-disabled-color: var(--app-primary-text);
+}
+
+// Text is the page background so contrast holds in both themes (dark: on #ff8a80,
+// light: on #c62828).
+.app-button--danger {
+  --bs-btn-color: var(--app-bg);
+  --bs-btn-bg: var(--app-danger);
+  --bs-btn-hover-color: var(--app-bg);
+  --bs-btn-hover-bg: var(--app-danger);
+  --bs-btn-active-color: var(--app-bg);
+  --bs-btn-active-bg: var(--app-danger);
+  --bs-btn-disabled-color: var(--app-bg);
+  --bs-btn-disabled-bg: var(--app-danger);
+}
+
+// Loading: a light sweep moved with transform only; static for reduced-motion users.
+.app-button--loading {
+  &:disabled {
+    opacity: 0.8;
+  }
+
+  &::after {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 22%), transparent);
+    content: '';
+    transform: translateX(-100%);
+    animation: button-shimmer 1.2s var(--app-ease) infinite;
+
+    @include reduced-motion {
+      animation: none;
+      transform: none;
+      opacity: 0.25;
+    }
+  }
+}
+
+@keyframes button-shimmer {
+  to {
+    transform: translateX(100%);
+  }
+}

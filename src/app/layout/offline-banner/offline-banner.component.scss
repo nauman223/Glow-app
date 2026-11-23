@@ -1,0 +1,40 @@
+@use 'abstracts/mixins' as *;
+
+.app-offline {
+  position: fixed;
+  z-index: var(--app-z-banner);
+  inset-block-start: 0;
+  inset-inline: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--app-space-2);
+  padding: calc(env(safe-area-inset-top, 0px) + var(--app-space-2)) var(--app-space-4)
+    var(--app-space-2);
+  border-block-end: 1px solid var(--app-divider);
+  background-color: var(--app-surface-2);
+  box-shadow: var(--app-shadow-1);
+  color: var(--app-text);
+
+  @include text-style(label);
+}
+
+.app-offline--enter {
+  animation: offline-in var(--app-dur-medium) var(--app-ease-emph);
+}
+
+.app-offline--leave {
+  animation: offline-out var(--app-dur-short) var(--app-ease) forwards;
+}
+
+@keyframes offline-in {
+  from {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes offline-out {
+  to {
+    transform: translateY(-100%);
+  }
+}

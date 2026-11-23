@@ -1,0 +1,40 @@
+// Board 25 look pill: centred 12px below the top of the stage, over a scrim.
+.hairstyle__look {
+  position: absolute;
+  inset-block-start: var(--app-space-3);
+  inset-inline-start: 50%;
+  margin: 0;
+  padding-block: 0.3125rem;
+  padding-inline: var(--app-space-3);
+  border-radius: var(--app-radius-pill);
+  background-color: var(--app-scrim);
+  color: var(--app-text);
+  font-size: 0.75rem;
+  white-space: nowrap;
+  translate: -50% 0;
+
+  &:dir(rtl) {
+    translate: 50% 0;
+  }
+}
+
+// "Colour" label (50px, muted) then the swatches; the picker pads its 48px buttons itself.
+.hairstyle__colours {
+  display: flex;
+  align-items: center;
+}
+
+.hairstyle__label {
+  flex: 0 0 3.125rem;
+  color: var(--app-text-muted);
+  font-size: 0.8125rem;
+}
+
+.hairstyle__swatches {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+
+.hairstyle__length {
+  padding-inline: var(--app-space-1);
+}

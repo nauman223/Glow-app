@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android 12+ backup and device-to-device transfer (android:dataExtractionRules). Android 8-11
+     read backup_rules.xml instead; keep both files in step.
+
+     Only the user's own content is backed up: Recent projects (Capacitor Directory.Data =
+     files/projects/<id>/: project.json, thumb.jpg, images/, all relative paths, so a project
+     opens on the new device). Because <include> is used, everything else is excluded, on purpose:
+     - shared_prefs (Capacitor Preferences, AdMob/UMP): the installation id would be cloned onto
+       another device, and the credits ledger and rewarded pack unlocks are HMAC-signed with that
+       id, so restoring them would let a user replay unlocks/credits on a second install. Pro is
+       restored from Google Play, not from backup. Consent (UMP) is asked again per device.
+     - files/catalog/ (re-downloadable cache), files/sticker-packs/ (WhatsApp packs must be
+       re-added from the app anyway), cache/, app_webview/ and databases.
+     Cloud backup is capped by Android at 25 MB per app: large projects may not fit, in which
+     case Android keeps the previous backup. Backups are end-to-end encrypted with the device
+     lock screen credential on Android 9+ when one is set. -->
+<data-extraction-rules>
+    <cloud-backup>
+        <include domain="file" path="projects/" />
+    </cloud-backup>
+    <device-transfer>
+        <include domain="file" path="projects/" />
+    </device-transfer>
+</data-extraction-rules>

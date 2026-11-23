@@ -1,0 +1,9 @@
+:host {
+  display: block;
+}
+
+.app-card {
+  border-color: var(--app-divider);
+  background-color: var(--app-surface);
+  box-shadow: var(--app-shadow-1);
+}

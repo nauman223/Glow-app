@@ -1,0 +1,30 @@
+@use 'abstracts/mixins' as *;
+
+// Same row as the Pro section (pro-settings) so the Settings cards read as one list.
+.ad-privacy__row {
+  @include touch-target;
+
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-4);
+  inline-size: 100%;
+  padding-block: var(--app-space-2);
+  padding-inline: 0;
+  border: 0;
+  background: none;
+  color: var(--app-text);
+  font: inherit;
+  text-align: start;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &:disabled {
+    color: var(--app-text-muted);
+  }
+}
+
+.ad-privacy__label {
+  flex-grow: 1;
+}

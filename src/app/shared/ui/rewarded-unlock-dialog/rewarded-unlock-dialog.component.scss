@@ -1,0 +1,23 @@
+.rewarded-unlock__note {
+  margin-block-start: var(--app-space-2);
+  color: var(--app-text-muted);
+  font-size: var(--app-font-caption-size);
+}
+
+.rewarded-unlock__status {
+  margin-block-start: var(--app-space-2);
+  color: var(--app-text-muted);
+  font-size: var(--app-font-caption-size);
+
+  &:empty {
+    display: none;
+  }
+}
+
+.rewarded-unlock__status--error {
+  color: var(--app-danger);
+}
+
+.rewarded-unlock__actions {
+  display: contents;
+}

@@ -1,0 +1,47 @@
+@use 'abstracts/mixins' as *;
+
+// 52 px chips in one scrolling row, bleeding to the sheet's edges (board 33).
+:host {
+  display: flex;
+  gap: var(--app-space-2);
+  margin-inline: calc(-1 * var(--app-space-4));
+  padding-inline: var(--app-space-4);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.passport-size {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.125rem;
+  min-block-size: 3.25rem;
+  padding-inline: 0.875rem;
+  border: 1px solid var(--app-surface-2);
+  border-radius: var(--app-radius-md);
+  background-color: var(--app-surface-2);
+  color: var(--app-text);
+  font-size: 0.8125rem;
+  font-weight: 700;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &:disabled {
+    color: var(--app-text-disabled);
+  }
+}
+
+.passport-size__detail {
+  color: var(--app-text-muted);
+  font-size: 0.6875rem;
+  font-weight: 400;
+}
+
+.passport-size--selected {
+  border-color: var(--app-primary);
+  background-color: var(--app-primary-tint);
+}

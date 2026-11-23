@@ -1,0 +1,35 @@
+<div class="draw__photo">
+  <app-photo-scene class="draw__scene" scene="beach" />
+  <!-- Brush strokes and stickers: picture content, so their colours live in the artwork. -->
+  <svg class="draw__doodles" viewBox="0 0 280 360" focusable="false">
+    <path
+      class="draw__neon"
+      d="M30 250c30-40 60 20 90-20s50-30 80 10 40 10 50-10"
+      stroke-width="7"
+      stroke-linecap="round"
+      fill="none"
+    />
+    <path
+      d="M40 290c40-14 120-14 200 0"
+      stroke="#FF4FD8"
+      stroke-width="18"
+      stroke-linecap="round"
+      stroke-opacity="0.45"
+      fill="none"
+    />
+    <g transform="translate(206 40)">
+      <circle cx="24" cy="24" r="22" fill="#FFD43B" />
+      <circle cx="16" cy="20" r="3" fill="#1A1A1A" />
+      <circle cx="32" cy="20" r="3" fill="#1A1A1A" />
+      <path
+        d="M14 30c5 6 15 6 20 0"
+        stroke="#1A1A1A"
+        stroke-width="3"
+        stroke-linecap="round"
+        fill="none"
+      />
+    </g>
+    <path d="M44 52l6 12 13 2-10 9 3 13-12-7-12 7 3-13-10-9 13-2z" fill="#FFFFFF" />
+  </svg>
+  <span class="draw__caption">{{ caption }}</span>
+</div>

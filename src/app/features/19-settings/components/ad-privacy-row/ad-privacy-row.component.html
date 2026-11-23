@@ -1,0 +1,15 @@
+@if (required()) {
+  <app-card [heading]="strings.heading">
+    <button
+      type="button"
+      class="ad-privacy__row"
+      [disabled]="opening()"
+      [attr.aria-busy]="opening()"
+      (click)="open()"
+    >
+      <app-icon name="shield" />
+      <span class="ad-privacy__label">{{ strings.label }}</span>
+      <app-icon name="chevron-right" [size]="18" />
+    </button>
+  </app-card>
+}

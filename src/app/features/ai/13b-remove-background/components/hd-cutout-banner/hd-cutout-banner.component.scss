@@ -1,0 +1,107 @@
+@use 'abstracts/mixins' as *;
+
+:host {
+  display: block;
+}
+
+// Board 13b: violet-tinted card, cyan play icon, cyan "Watch ad" pill.
+.hd-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  inline-size: 100%;
+  min-block-size: var(--app-touch-min);
+  padding-block: 0.625rem;
+  padding-inline: 0.75rem;
+  border: 0;
+  border-radius: 0.875rem;
+  background-color: var(--app-primary-tint);
+  color: var(--app-text);
+  text-align: start;
+}
+
+.hd-banner__icon {
+  flex-shrink: 0;
+  color: var(--app-accent);
+}
+
+.hd-banner__text {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+.hd-banner__watch {
+  @include touch-target-expand;
+
+  flex-shrink: 0;
+  block-size: 2rem;
+  padding-block: 0;
+  padding-inline: 0.75rem;
+  border: 0;
+  border-radius: var(--app-radius-pill);
+  background-color: var(--app-accent);
+  color: var(--app-on-accent);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.hd-banner__watch,
+.hd-banner--switch {
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
+.hd-banner__track {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  inline-size: 3.25rem;
+  block-size: 2rem;
+  padding: 0.25rem;
+  border-radius: var(--app-radius-pill);
+  background-color: var(--app-surface-3);
+  transition: background-color var(--app-dur-short) var(--app-ease);
+}
+
+.hd-banner__thumb {
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+  border-radius: 50%;
+  background-color: var(--app-text);
+  transition: transform var(--app-dur-short) var(--app-ease);
+}
+
+.hd-banner--switch[aria-checked='true'] {
+  .hd-banner__track {
+    background-color: var(--app-primary);
+  }
+
+  .hd-banner__thumb {
+    transform: translateX(1.25rem);
+
+    &:dir(rtl) {
+      transform: translateX(-1.25rem);
+    }
+  }
+}
+
+.hd-banner__status {
+  margin: 0;
+  padding-inline: 0.75rem;
+  color: var(--app-text-muted);
+  font-size: 0.75rem;
+}
+
+@include reduced-motion {
+  .hd-banner__track,
+  .hd-banner__thumb {
+    transition: none;
+  }
+}

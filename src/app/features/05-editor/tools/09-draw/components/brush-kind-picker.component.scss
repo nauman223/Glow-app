@@ -1,0 +1,37 @@
+@use 'abstracts/mixins' as *;
+
+.brush-kinds {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--app-space-2);
+  padding-inline: var(--app-space-4);
+}
+
+.brush-kinds__button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--app-space-1);
+  min-block-size: 3.5rem;
+  border: 0;
+  border-radius: 0.875rem;
+  background-color: var(--app-surface-2);
+  color: var(--app-text-muted);
+  font-size: var(--app-font-caption-size);
+  font-weight: 500;
+  transition: transform var(--app-dur-short) var(--app-ease);
+
+  &:active {
+    transform: scale(0.97);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.brush-kinds__button--selected {
+  background-color: var(--app-primary);
+  color: var(--app-on-primary);
+}

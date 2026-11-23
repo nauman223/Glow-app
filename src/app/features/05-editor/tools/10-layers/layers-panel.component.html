@@ -1,0 +1,83 @@
+<div
+  class="layers__scrim"
+  tabindex="-1"
+  aria-hidden="true"
+  animate.enter="layers__scrim--enter"
+  (click)="close()"
+  (keydown.escape)="close()"
+></div>
+
+<aside
+  class="layers"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="layers-drawer-title"
+  cdkTrapFocus
+  [cdkTrapFocusAutoCapture]="true"
+  animate.enter="layers--enter"
+  (keydown.escape)="close()"
+>
+  <div class="layers__header">
+    <h2 id="layers-drawer-title" class="layers__title">{{ strings.title }}</h2>
+    <button
+      type="button"
+      class="visually-hidden-focusable layers__close"
+      [attr.aria-label]="strings.close"
+      (click)="close()"
+    >
+      <app-icon name="close" />
+    </button>
+    <button
+      type="button"
+      class="layers__add"
+      [disabled]="adding()"
+      [attr.aria-busy]="adding()"
+      [attr.aria-label]="strings.add"
+      (click)="addPhoto()"
+    >
+      <app-icon name="plus" [size]="22" />
+    </button>
+  </div>
+
+  @if (rows().length === 0) {
+    <p class="layers__empty">{{ strings.empty }}</p>
+  }
+  <ul
+    class="layers__list"
+    cdkDropList
+    cdkDropListLockAxis="y"
+    [cdkDropListData]="layers()"
+    [cdkDropListSortPredicate]="canDropAt"
+    [attr.aria-label]="strings.title"
+    (cdkDropListDropped)="drop($event)"
+  >
+    @for (row of rows(); track row.layer.id) {
+      <li class="layers__item" cdkDrag [cdkDragDisabled]="!row.draggable">
+        <app-layer-row
+          [layer]="row.layer"
+          [name]="row.name"
+          [thumbnail]="row.thumbnail"
+          [selected]="row.layer.id === focusedId()"
+          [canMoveUp]="row.canMoveUp"
+          [canMoveDown]="row.canMoveDown"
+          (selectRequested)="select(row.layer)"
+          (visibilityToggled)="toggleVisible(row.layer, row.name)"
+          (lockToggled)="toggleLock(row.layer, row.name)"
+          (moveRequested)="step(row.layer, row.name, $event)"
+        />
+      </li>
+    }
+  </ul>
+
+  <app-layer-properties
+    [layer]="selected()?.layer ?? null"
+    (opacityPreviewed)="previewOpacity($event)"
+    (opacityCommitted)="commitOpacity($event)"
+    (blendModeChanged)="setBlendMode($event)"
+    (duplicateRequested)="duplicate()"
+    (flipRequested)="flip()"
+    (deleteRequested)="remove()"
+  />
+
+  <p class="visually-hidden" aria-live="polite">{{ announcement() }}</p>
+</aside>

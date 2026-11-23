@@ -1,0 +1,21 @@
+@use 'abstracts/mixins' as *;
+
+:host {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.app-brand-logo__mark {
+  flex-shrink: 0;
+}
+
+.app-brand-logo__tile {
+  fill: var(--app-surface);
+}
+
+.app-brand-logo__wordmark {
+  @include text-style(title);
+
+  color: var(--app-text);
+}

@@ -1,0 +1,78 @@
+<app-ai-screen
+  [eyebrow]="strings.eyebrow"
+  [heading]="strings.title"
+  [status]="status()"
+  [error]="error()"
+  [canApply]="canSave()"
+  [applyLabel]="strings.savePhoto"
+  [applyLoading]="savingPhoto()"
+  [secondaryLabel]="strings.printSheet"
+  [canSecondary]="canSave()"
+  [secondaryLoading]="savingSheet()"
+  [loadingLabel]="strings.saving"
+  (backRequested)="cancel()"
+  (cancelRequested)="cancel()"
+  (applyRequested)="save('photo')"
+  (secondaryRequested)="save('sheet')"
+  (retryRequested)="retry()"
+>
+  <app-passport-preview
+    aiStage
+    [src]="photoUrl()"
+    [widthMm]="spec().widthMm"
+    [heightMm]="spec().heightMm"
+    [guides]="guides()"
+    [checks]="checks()"
+    [busy]="working()"
+  />
+
+  <app-passport-sizes
+    aiOptions
+    [value]="preset()"
+    [disabled]="locked()"
+    (selected)="selectPreset($event)"
+  />
+
+  @if (preset() === 'custom') {
+    <app-ai-option-row aiOptions [label]="strings.customWidth">
+      <app-slider
+        class="passport-photo__slider"
+        readout="end"
+        [label]="strings.customWidth"
+        [labelVisible]="false"
+        [min]="customRange.min"
+        [max]="customRange.max"
+        [format]="millimetres"
+        [disabled]="locked()"
+        [value]="custom().widthMm"
+        (valueChange)="previewWidth($event)"
+        (committed)="commitWidth($event)"
+      />
+    </app-ai-option-row>
+  }
+  @if (preset() === 'custom') {
+    <app-ai-option-row aiOptions [label]="strings.customHeight">
+      <app-slider
+        class="passport-photo__slider"
+        readout="end"
+        [label]="strings.customHeight"
+        [labelVisible]="false"
+        [min]="customRange.min"
+        [max]="customRange.max"
+        [format]="millimetres"
+        [disabled]="locked()"
+        [value]="custom().heightMm"
+        (valueChange)="previewHeight($event)"
+        (committed)="commitHeight($event)"
+      />
+    </app-ai-option-row>
+  }
+
+  <app-ai-option-row aiOptions [label]="strings.background">
+    <app-passport-backgrounds
+      [value]="background()"
+      [disabled]="locked()"
+      (selected)="selectBackground($event)"
+    />
+  </app-ai-option-row>
+</app-ai-screen>

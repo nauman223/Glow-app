@@ -1,0 +1,44 @@
+@use 'abstracts/mixins' as *;
+
+// Boards 26 and 32: three 60 px tiles, 8 px apart, 14 px corners.
+:host {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--app-space-2);
+}
+
+.cloud-mask-mode {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--app-space-1);
+  min-block-size: 3.75rem;
+  padding-inline: var(--app-space-1);
+  border: 1px solid var(--app-surface-2);
+  border-radius: 0.875rem;
+  background-color: var(--app-surface-2);
+  color: var(--app-text);
+  font-size: 0.75rem;
+  font-weight: 500;
+  transition:
+    background-color var(--app-dur-short) var(--app-ease),
+    border-color var(--app-dur-short) var(--app-ease);
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &:disabled {
+    color: var(--app-text-disabled);
+  }
+}
+
+.cloud-mask-mode__icon {
+  color: var(--app-accent);
+}
+
+.cloud-mask-mode--selected {
+  border-color: var(--app-primary);
+  background-color: var(--app-primary-tint);
+}

@@ -1,0 +1,78 @@
+@if (visible()) {
+  <section class="recent" [attr.aria-labelledby]="section().id" [attr.aria-busy]="loading()">
+    <div class="recent__header">
+      <h2 class="recent__heading" [id]="section().id">{{ section().heading }}</h2>
+      @if (!loading()) {
+        <button
+          type="button"
+          class="recent__see-all"
+          [attr.aria-label]="strings.seeAllLabel"
+          (click)="showAll()"
+        >
+          {{ strings.seeAll }}
+        </button>
+      }
+    </div>
+
+    @if (loading()) {
+      <span class="visually-hidden" role="status">{{ strings.loading }}</span>
+      <div class="recent__row" appScrollFade>
+        @for (card of skeletonCards; track card) {
+          <app-skeleton class="recent__skeleton" width="140px" height="144px" />
+        }
+      </div>
+    } @else {
+      <ul class="recent__row" appScrollFade role="list">
+        @for (card of rowCards(); track card.id) {
+          <li>
+            <app-project-card
+              [project]="card"
+              [disabled]="opening()"
+              (opened)="open($event)"
+              (optionsRequested)="showOptions($event)"
+            />
+          </li>
+        }
+      </ul>
+    }
+  </section>
+}
+
+<app-bottom-sheet [(open)]="allOpen" modal showClose [heading]="section().heading">
+  <ul class="recent__grid" role="list">
+    @for (card of cards(); track card.id) {
+      <li>
+        <app-project-card
+          fluid
+          [project]="card"
+          [disabled]="opening()"
+          (opened)="open($event)"
+          (optionsRequested)="showOptions($event)"
+        />
+      </li>
+    }
+  </ul>
+</app-bottom-sheet>
+
+<app-bottom-sheet [(open)]="optionsOpen" modal [heading]="selectedTitle()">
+  <div class="recent__options">
+    <app-button variant="secondary" block [disabled]="opening()" (pressed)="openSelected()">
+      {{ strings.open }}
+    </app-button>
+    <app-button variant="danger" block icon="trash" (pressed)="requestDelete()">
+      {{ strings.delete }}
+    </app-button>
+  </div>
+</app-bottom-sheet>
+
+<app-dialog [(open)]="deleteOpen" icon="trash" [heading]="strings.deleteTitle">
+  <p>{{ strings.deleteMessage }}</p>
+  <div class="recent__dialog-actions" dialogActions>
+    <app-button variant="danger" block (pressed)="confirmDelete()">
+      {{ strings.deleteConfirm }}
+    </app-button>
+    <app-button variant="secondary" block (pressed)="cancelDelete()">
+      {{ strings.deleteCancel }}
+    </app-button>
+  </div>
+</app-dialog>

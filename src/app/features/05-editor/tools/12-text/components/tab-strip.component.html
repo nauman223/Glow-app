@@ -1,0 +1,32 @@
+<div
+  class="tab-strip"
+  appScrollFade
+  role="tablist"
+  [class.tab-strip--scroll]="scrollable()"
+  [attr.aria-label]="label()"
+>
+  @for (tab of views(); track tab.id; let index = $index) {
+    <button
+      #tabButton
+      type="button"
+      role="tab"
+      class="tab-strip__tab"
+      [class.tab-strip__tab--selected]="tab.selected"
+      [class.tab-strip__tab--pro]="tab.pro"
+      [id]="tab.domId"
+      [attr.aria-selected]="tab.selected"
+      [attr.aria-controls]="panelId()"
+      [tabIndex]="tab.selected ? 0 : -1"
+      (click)="select(tab.id)"
+      (keydown)="onKeydown($event, index)"
+    >
+      @if (tab.icon; as icon) {
+        <app-icon [name]="icon" [size]="14" />
+      }
+      {{ tab.label }}
+      @if (tab.srSuffix; as suffix) {
+        <span class="visually-hidden">{{ suffix }}</span>
+      }
+    </button>
+  }
+</div>

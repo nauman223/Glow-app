@@ -1,0 +1,36 @@
+<div class="ai-stage__fit">
+  <div class="ai-stage__frame">
+    @if (afterSrc(); as after) {
+      @if (beforeSrc(); as before) {
+        <app-before-after
+          class="ai-stage__fill"
+          [beforeSrc]="before"
+          [afterSrc]="after"
+          [beforeAlt]="beforeAlt()"
+          [afterAlt]="afterAlt()"
+          [aiGenerated]="aiGenerated()"
+          [(position)]="position"
+        />
+      }
+    } @else if (beforeSrc(); as before) {
+      <img
+        class="ai-stage__fill ai-stage__image"
+        decoding="async"
+        [src]="before"
+        [alt]="beforeAlt()"
+      />
+    }
+
+    <div class="ai-stage__overlay">
+      <ng-content select="[aiStageOverlay]" />
+    </div>
+
+    @if (shimmer()) {
+      <app-skeleton class="ai-stage__fill ai-stage__shimmer" width="100%" height="100%" />
+    }
+  </div>
+</div>
+
+@if (busy()) {
+  <p class="ai-stage__pill" role="status">{{ busyLabel() }}</p>
+}

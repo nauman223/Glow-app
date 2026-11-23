@@ -1,0 +1,52 @@
+@use 'abstracts/mixins' as *;
+
+// Board 26: chips share the row (8 px apart); more than two scroll sideways.
+:host {
+  display: flex;
+  gap: var(--app-space-2);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+// 52 px tall, 14 px corners, 32 px thumbnail 10 px in, 13 px medium label.
+.people-chip {
+  display: flex;
+  flex: 1 0 9rem;
+  align-items: center;
+  gap: 0.625rem;
+  min-block-size: 3.25rem;
+  padding-inline: 0.625rem;
+  border: 1px solid var(--app-surface-3);
+  border-radius: 0.875rem;
+  background-color: var(--app-surface-2);
+  color: var(--app-text-muted);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-align: start;
+  transition: border-color var(--app-dur-short) var(--app-ease);
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &:disabled {
+    color: var(--app-text-disabled);
+  }
+}
+
+// Selected = will be removed: 2 px danger-strong border, full-strength label.
+.people-chip--selected {
+  border-color: var(--app-danger-strong);
+  box-shadow: inset 0 0 0 1px var(--app-danger-strong);
+  color: var(--app-text);
+}
+
+.people-chip__label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.people-chip__skeleton {
+  flex: 1 0 9rem;
+}

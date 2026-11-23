@@ -1,0 +1,40 @@
+<app-bottom-sheet [(open)]="sheetOpen" [label]="strings.panelLabel" (closed)="done()">
+  <app-tab-strip
+    layout="scroll"
+    [tabs]="tabs()"
+    [(selected)]="category"
+    [prefix]="tabPrefix"
+    [label]="strings.tabsLabel"
+  />
+
+  <div
+    class="stickers__grid"
+    role="tabpanel"
+    [id]="tabPanelId"
+    [attr.aria-labelledby]="activeTabId()"
+  >
+    @for (item of stickers(); track item.sticker.id) {
+      <button
+        type="button"
+        class="stickers__item"
+        [attr.aria-label]="item.label"
+        (click)="add(item.sticker)"
+      >
+        <img
+          class="stickers__image"
+          alt=""
+          width="48"
+          height="48"
+          loading="lazy"
+          decoding="async"
+          [src]="item.sticker.path"
+        />
+      </button>
+    }
+  </div>
+  <p class="visually-hidden" aria-live="polite">{{ status() }}</p>
+
+  <div class="stickers__footer" sheetFooter>
+    <app-button (pressed)="done()">{{ strings.done }}</app-button>
+  </div>
+</app-bottom-sheet>

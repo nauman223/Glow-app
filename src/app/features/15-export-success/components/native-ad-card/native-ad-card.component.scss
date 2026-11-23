@@ -1,0 +1,12 @@
+// Reserved box the plugin's native "small" template is drawn over (board 15's ad card). It
+// stays transparent: the SDK view paints the card, its "Ad" attribution, headline and CTA.
+// The plugin needs at least 120px; the extra room fits large font scales.
+:host {
+  display: block;
+  inline-size: 100%;
+}
+
+.native-ad {
+  block-size: 8.5rem;
+  margin-block-start: var(--app-space-5);
+}

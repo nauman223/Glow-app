@@ -1,0 +1,38 @@
+<app-cloud-ai-screen
+  [eyebrow]="strings.eyebrow"
+  [heading]="strings.title"
+  [actionLabel]="strings.action"
+  [historyLabel]="strings.historyLabel"
+  [optionsLabel]="strings.optionsLabel"
+  [optionsKey]="optionsKey()"
+  (actionRequested)="run()"
+>
+  @if (selfieUrl(); as selfie) {
+    <figure cloudStageFooter class="headshot__selfie">
+      <img class="headshot__selfie-image" alt="" decoding="async" [src]="selfie" />
+      <figcaption class="headshot__selfie-caption">{{ strings.selfie }}</figcaption>
+    </figure>
+  }
+
+  <app-headshot-backgrounds
+    cloudOptions
+    [backgrounds]="backgrounds"
+    [value]="background()"
+    [label]="strings.backgroundsLabel"
+    [disabled]="locked()"
+    (selected)="selectBackground($event)"
+  />
+
+  <div cloudOptions class="headshot__outfit">
+    <span class="headshot__label" aria-hidden="true">{{ strings.outfit }}</span>
+    <app-ai-chips
+      class="headshot__outfits"
+      appScrollFade
+      [label]="strings.outfit"
+      [options]="outfits"
+      [value]="outfit()"
+      [disabled]="locked()"
+      (valueChange)="selectOutfit($event)"
+    />
+  </div>
+</app-cloud-ai-screen>

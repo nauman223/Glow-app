@@ -1,0 +1,59 @@
+<app-ai-screen
+  [eyebrow]="strings.eyebrow"
+  [heading]="strings.title"
+  [status]="status()"
+  [error]="error()"
+  [canApply]="canApply()"
+  (backRequested)="cancel()"
+  (cancelRequested)="cancel()"
+  (applyRequested)="apply()"
+  (retryRequested)="retry()"
+>
+  <app-ai-result-stage
+    aiStage
+    [beforeSrc]="beforeUrl()"
+    [afterSrc]="afterUrl()"
+    [width]="width()"
+    [height]="height()"
+    [busy]="working()"
+    [busyLabel]="progressLabel()"
+  />
+
+  <app-preset-tiles
+    aiOptions
+    [value]="preset()"
+    [thumbnails]="thumbnails()"
+    [disabled]="applying()"
+    (selected)="selectPreset($event)"
+  />
+
+  <app-ai-option-row aiOptions [label]="strings.strength">
+    <app-slider
+      class="colour-boost__slider"
+      readout="end"
+      gradient
+      [label]="strings.strength"
+      [labelVisible]="false"
+      [defaultValue]="defaultStrength"
+      [disabled]="applying()"
+      [value]="strength()"
+      (valueChange)="previewStrength($event)"
+      (committed)="commitStrength($event)"
+    />
+  </app-ai-option-row>
+
+  <button
+    aiOptions
+    type="button"
+    role="switch"
+    class="colour-boost__switch"
+    [attr.aria-checked]="protectSkin()"
+    [disabled]="applying()"
+    (click)="toggleProtectSkin()"
+  >
+    <span>{{ strings.protectSkin }}</span>
+    <span class="colour-boost__track" aria-hidden="true">
+      <span class="colour-boost__thumb"></span>
+    </span>
+  </button>
+</app-ai-screen>

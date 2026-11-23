@@ -1,0 +1,11 @@
+// Board 32: the fair-use note, 12 px muted text on a darker card (10 × 12 padding, 12 px corners).
+.remove-text__notice {
+  margin: 0;
+  padding-block: 0.625rem;
+  padding-inline: var(--app-space-3);
+  border-radius: var(--app-radius-sm);
+  background-color: var(--app-surface-2);
+  color: var(--app-text-muted);
+  font-size: 0.75rem;
+  line-height: 1.0625rem;
+}

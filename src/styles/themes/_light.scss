@@ -1,0 +1,65 @@
+// Light theme (Settings option). Derived from the dark design; every text/background
+// pair is WCAG AA (4.5:1 text, 3:1 UI). Imported after _dark.scss so it wins on <html>.
+// Fills keep the brand colours (#7c4dff, #00e5ff, #ffd166); text uses darker variants.
+
+[data-bs-theme='light'] {
+  color-scheme: light;
+
+  // Surfaces
+  --app-bg: #{$app-light-bg};
+  --app-bg-deep: #e9e9ee;
+  --app-surface: #{$app-light-surface};
+  --app-surface-2: #{$app-light-surface-2};
+  --app-surface-3: #{$app-light-surface-3};
+  --app-divider: #{$app-light-divider};
+  --app-scrim: rgb(0 0 0 / 50%);
+  --app-checker-1: #fff;
+  --app-checker-2: #e6e6eb;
+
+  // Brand
+  --app-primary: #{$app-primary};
+  --app-on-primary: #fff;
+  --app-primary-soft: #e2d8ff;
+  --app-primary-tint: rgb(124 77 255 / 22%);
+  --app-primary-text: #{$app-light-primary-text};
+  --app-primary-outline: #{$app-primary};
+  --app-accent: #{$app-accent}; // fills/icons on dark surfaces only
+  --app-on-accent: #{$app-on-accent};
+  --app-accent-text: #{$app-light-accent-text};
+
+  // Text
+  --app-text: #{$app-light-text};
+  --app-text-muted: #{$app-light-text-muted};
+  --app-text-disabled: #{$app-light-text-disabled};
+
+  // Status and badges (badges are fills with --app-on-pro text)
+  --app-pro: #{$app-pro};
+  --app-on-pro: #1a1a1a;
+  --app-ad-badge: #{$app-ad-badge};
+  --app-success: #{$app-light-success};
+  --app-danger: #{$app-light-danger};
+  --app-danger-strong: #{$app-danger-strong};
+
+  // Controls
+  --app-focus: #{$app-light-primary-text};
+  --app-control-border: #767680;
+  --app-skeleton-base: #e6e6ec;
+  --app-skeleton-highlight: #f3f3f7;
+
+  // Elevation
+  --app-shadow-1: 0 4px 12px rgb(18 18 18 / 12%);
+  --app-shadow-2: 0 10px 30px rgb(18 18 18 / 16%);
+  --app-shadow-3: 0 16px 40px rgb(124 77 255 / 30%);
+
+  // Bootstrap close icon stays black on light surfaces.
+  --bs-btn-close-filter: none;
+
+  @include app-bootstrap-bridge(
+    $app-light-bg,
+    $app-light-text,
+    $app-light-text-muted,
+    $app-light-primary-text,
+    $app-light-success,
+    $app-light-danger
+  );
+}

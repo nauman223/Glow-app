@@ -1,0 +1,16 @@
+<button
+  [type]="type()"
+  [class]="classes()"
+  [disabled]="isDisabled()"
+  [attr.aria-busy]="loading()"
+  [attr.aria-label]="ariaLabel()"
+  (click)="handleClick($event)"
+>
+  @if (icon(); as icon) {
+    <app-icon [name]="icon" [size]="iconSize()" />
+  }
+  <span class="app-button__label" [hidden]="showLoadingLabel()"><ng-content /></span>
+  @if (showLoadingLabel()) {
+    <span class="app-button__label">{{ loadingLabel() }}</span>
+  }
+</button>

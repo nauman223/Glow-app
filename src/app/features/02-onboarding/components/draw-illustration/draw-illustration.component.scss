@@ -1,0 +1,60 @@
+:host {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  isolation: isolate;
+
+  // Violet halo behind the photo.
+  &::before {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    inline-size: 340px;
+    block-size: 340px;
+    margin: auto;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      color-mix(in srgb, var(--app-primary) 22%, transparent),
+      transparent 70%
+    );
+    content: '';
+  }
+}
+
+.draw__photo {
+  position: relative;
+  inline-size: 280px;
+  block-size: 360px;
+  overflow: hidden;
+  border-radius: 22px;
+  box-shadow: var(--app-shadow-2);
+}
+
+.draw__scene,
+.draw__doodles {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+.draw__neon {
+  stroke: var(--app-accent);
+}
+
+// The design's script face is not bundled; a heavy italic Roboto keeps the look without a
+// font download. White on the photo, with a shadow for legibility in both themes.
+.draw__caption {
+  position: absolute;
+  inset-block-start: 150px;
+  inset-inline: 0;
+  color: var(--app-on-primary);
+  font-size: 2.375rem;
+  font-style: italic;
+  font-weight: 900;
+  line-height: 1.2;
+  text-align: center;
+  text-shadow: 0 3px 10px var(--app-scrim);
+}

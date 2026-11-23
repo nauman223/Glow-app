@@ -1,0 +1,35 @@
+// Edge fade for horizontal scrollers with more content beyond an edge (ScrollFadeDirective).
+// The mask follows the inline direction, so it fades the correct edge in RTL too.
+
+.app-scroll-fade {
+  // Wide enough to visibly fade the last whole item when the next one starts just off screen.
+  --app-scroll-fade-size: 48px;
+  --app-scroll-fade-start: 0px;
+  --app-scroll-fade-end: 0px;
+
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 var(--app-scroll-fade-start),
+    #000 calc(100% - var(--app-scroll-fade-end)),
+    transparent 100%
+  );
+}
+
+.app-scroll-fade--start {
+  --app-scroll-fade-start: var(--app-scroll-fade-size);
+}
+
+.app-scroll-fade--end {
+  --app-scroll-fade-end: var(--app-scroll-fade-size);
+}
+
+[dir='rtl'] .app-scroll-fade {
+  mask-image: linear-gradient(
+    to left,
+    transparent 0,
+    #000 var(--app-scroll-fade-start),
+    #000 calc(100% - var(--app-scroll-fade-end)),
+    transparent 100%
+  );
+}

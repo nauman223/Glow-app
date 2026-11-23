@@ -1,0 +1,57 @@
+// Conflicts between Ionic core.css / structure.css and Bootstrap reboot, resolved here.
+// Ionic CSS loads before main.scss (angular.json), so equal-specificity rules here win.
+
+// 1. structure.css sets `body { text-size-adjust: none }`, which blocks the OS font-size
+//    setting; reboot only restores the -webkit- prefixed form. Re-enable both.
+html,
+body {
+  text-size-adjust: 100%;
+}
+
+// 2. Reboot paints body with --bs-body-bg and core.css paints it with
+//    --ion-background-color. Pin both to the same token so route transitions never flash.
+//    overscroll-behavior: structure.css only disables the vertical axis; disable both so
+//    canvas gestures never trigger browser navigation or bounce.
+body {
+  background-color: var(--app-bg);
+  color: var(--app-text);
+  overscroll-behavior: none;
+}
+
+// 3. Reboot's heading/paragraph bottom margins push toolbar titles off-centre inside
+//    ion-toolbar, which centres its slot content itself.
+ion-toolbar :is(h1, h2, h3, p) {
+  margin-block: 0;
+}
+
+// 4. structure.css sets `-webkit-touch-callout: none` on every element (good for the
+//    canvas), but form fields must keep the native copy/paste callout.
+input,
+textarea {
+  -webkit-touch-callout: default;
+}
+
+// 5. Reboot removes the outline on :focus without :focus-visible and relies on the
+//    browser default otherwise; core.css hides focus on programmatically focused
+//    headings. Give keyboard users one consistent, theme-aware ring.
+:focus-visible {
+  outline: var(--app-focus-width) solid var(--app-focus);
+  outline-offset: 0.125rem;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+// 6. Bootstrap's $enable-reduced-motion only covers its own transitions. Cap every
+//    animation/transition (including Ionic page transitions) for reduced-motion users.
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+    transition-duration: 0.01ms;
+    scroll-behavior: auto;
+  }
+}

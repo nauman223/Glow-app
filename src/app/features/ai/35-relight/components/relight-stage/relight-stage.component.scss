@@ -1,0 +1,142 @@
+@use 'abstracts/mixins' as *;
+
+// Fills the stage; the frame is the largest box of the source's aspect ratio that fits.
+:host {
+  position: relative;
+  display: block;
+  flex: 1 1 auto;
+  inline-size: 100%;
+  min-block-size: 0;
+}
+
+// Size container on an absolute layer (definite height): see AiResultStageComponent.
+.relight-stage__fit {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  container-type: size;
+}
+
+// Its own size container: the light is placed with cqi/cqb (physical x/y of the photo).
+.relight-stage__frame {
+  position: relative;
+  inline-size: min(100cqi, 100cqb * var(--relight-aspect));
+  aspect-ratio: var(--relight-aspect);
+  overflow: hidden;
+  border-radius: var(--app-radius-xs);
+  background-color: var(--app-surface);
+  container-type: size;
+}
+
+.relight-stage__frame--interactive {
+  touch-action: none;
+}
+
+.relight-stage__image,
+.relight-stage__shimmer,
+.relight-stage__glow,
+.relight-stage__guide {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+.relight-stage__image {
+  object-fit: contain;
+}
+
+.relight-stage__shimmer {
+  opacity: 0.7;
+}
+
+// Live light while dragging (the real render follows on release).
+.relight-stage__glow {
+  background: radial-gradient(
+    circle at calc(var(--light-x) * 100%) calc(var(--light-y) * 100%),
+    var(--relight-glow),
+    transparent 55%
+  );
+  mix-blend-mode: screen;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--app-dur-short) var(--app-ease);
+
+  .relight-stage__frame--dragging & {
+    opacity: 1;
+  }
+}
+
+.relight-stage__guide {
+  pointer-events: none;
+
+  line {
+    stroke: var(--app-text);
+    stroke-dasharray: 4 4;
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+  }
+}
+
+// 48 px hit area around the 40 px light.
+.relight-stage__handle {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  inline-size: var(--app-touch-min);
+  block-size: var(--app-touch-min);
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  translate: calc(var(--light-x) * 100cqi - 50%) calc(var(--light-y) * 100cqb - 50%);
+
+  &::after {
+    position: absolute;
+    inset: 0.25rem;
+    border: 3px solid var(--app-on-primary);
+    border-radius: 50%;
+    background-color: var(--app-pro);
+    box-shadow: 0 0 24px 8px var(--relight-glow);
+    content: '';
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  // The photo's x is physical: in RTL the handle starts at the right edge.
+  &:dir(rtl) {
+    translate: calc(var(--light-x) * 100cqi - 100cqi + 50%) calc(var(--light-y) * 100cqb - 50%);
+  }
+}
+
+.relight-stage__hint,
+.relight-stage__pill {
+  position: absolute;
+  margin: 0;
+  border-radius: var(--app-radius-pill);
+  background-color: var(--app-scrim);
+  color: var(--app-text);
+  pointer-events: none;
+}
+
+.relight-stage__hint {
+  inset-block-end: 0.625rem;
+  inset-inline-start: 0.625rem;
+  padding: 0.1875rem 0.5625rem;
+  font-size: 0.6875rem;
+}
+
+.relight-stage__pill {
+  inset-block-end: var(--app-space-3);
+  inset-inline-start: 50%;
+  padding: var(--app-space-1) var(--app-space-3);
+  font-size: var(--app-font-caption-size);
+  translate: -50% 0;
+
+  &:dir(rtl) {
+    translate: 50% 0;
+  }
+}

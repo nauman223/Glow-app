@@ -1,0 +1,158 @@
+@use 'abstracts/mixins' as *;
+
+.export__bar {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-2);
+}
+
+.export__back {
+  @include touch-target;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--app-text);
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.export__title {
+  margin: 0;
+  font-size: var(--app-font-title-size);
+  font-weight: 700;
+}
+
+.export {
+  @include safe-area-block-end(var(--app-space-4));
+
+  display: flex;
+  flex-direction: column;
+}
+
+.export__cards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-2);
+  padding-inline: var(--app-space-4);
+}
+
+.export__card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  padding: var(--app-space-3) var(--app-space-4);
+  border-radius: var(--app-radius-md);
+  background-color: var(--app-surface);
+}
+
+.export__card--row {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.export__watermark {
+  @include touch-target;
+
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--app-space-3);
+  border: 0;
+  color: var(--app-text);
+  text-align: start;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.export__watermark-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-1);
+
+  .export__label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--app-space-2);
+  }
+}
+
+// Board 14: an "off" switch; tapping the row opens Go Pro instead of toggling.
+.export__switch {
+  position: relative;
+  flex-shrink: 0;
+  inline-size: 3.25rem;
+  block-size: 2rem;
+  border: 2px solid var(--app-control-border);
+  border-radius: var(--app-radius-pill);
+  background-color: var(--app-surface-3);
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: 0.3125rem;
+    inline-size: 1.125rem;
+    block-size: 1.125rem;
+    border-radius: 50%;
+    background-color: var(--app-control-border);
+    transform: translateY(-50%);
+  }
+}
+
+.export__label {
+  margin: 0;
+  font-size: var(--app-font-body-size);
+  font-weight: 500;
+}
+
+.export__quality-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--app-font-body-size);
+  font-variant-numeric: tabular-nums;
+}
+
+.export__quality-value {
+  color: var(--app-accent-text);
+  font-weight: 700;
+}
+
+.export__estimate,
+.export__notice {
+  color: var(--app-text-muted);
+}
+
+.export__notice {
+  margin: 0;
+  font-size: var(--app-font-caption-size);
+}
+
+// The 48 dp slider centres a 4 dp track, so ~22 dp of touch area sits above it; overlapping it
+// with the (non-interactive) heading keeps the card as compact as the board.
+.export__card--quality app-slider {
+  margin-block: -0.75rem -0.5rem;
+}
+
+// Sticky so Save and Share stay on screen on short phones (360 × 640 dp); where the page fits,
+// sticky has no effect and the layout matches the board.
+.export__actions {
+  position: sticky;
+  z-index: 1;
+  inset-block-end: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-2);
+  padding: 0.875rem var(--app-space-4) var(--app-space-3);
+  background-color: var(--app-bg);
+}

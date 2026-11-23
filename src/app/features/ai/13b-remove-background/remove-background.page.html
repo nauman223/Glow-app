@@ -1,0 +1,121 @@
+<app-ai-screen
+  [heading]="strings.title"
+  [status]="status()"
+  [error]="error()"
+  [canApply]="canApply()"
+  (backRequested)="cancel()"
+  (cancelRequested)="cancel()"
+  (applyRequested)="apply()"
+  (retryRequested)="retry()"
+>
+  <button
+    aiHeaderAction
+    type="button"
+    class="remove-bg__compare"
+    [attr.aria-label]="strings.compare"
+    [attr.aria-pressed]="comparing()"
+    [disabled]="beforeUrl() === null"
+    (pointerdown)="setComparing(true)"
+    (pointerup)="setComparing(false)"
+    (pointercancel)="setComparing(false)"
+    (pointerleave)="setComparing(false)"
+    (contextmenu)="setComparing(true, $event)"
+    (keydown.enter)="setComparing(true, $event)"
+    (keydown.space)="setComparing(true, $event)"
+    (keyup.enter)="setComparing(false)"
+    (keyup.space)="setComparing(false)"
+    (blur)="setComparing(false)"
+  >
+    <app-icon name="eye" />
+  </button>
+
+  <div aiStatus class="remove-bg__status">
+    @if (statusLine(); as line) {
+      <app-ai-status-pill [text]="line.text" [variant]="line.variant" />
+    }
+    @if (brushMode() !== null) {
+      <button
+        type="button"
+        class="remove-bg__undo"
+        [attr.aria-label]="strings.undoStroke"
+        [disabled]="!cutout.canUndo() || applying()"
+        (click)="undo()"
+      >
+        <app-icon name="undo" [size]="20" />
+      </button>
+    }
+  </div>
+
+  @if (interactive()) {
+    <app-cutout-stage
+      aiStage
+      [painter]="cutout"
+      [tool]="stageTool()"
+      [width]="previewWidth()"
+      [height]="previewHeight()"
+      [revision]="cutout.revision()"
+      [beforeSrc]="comparing() ? beforeUrl() : null"
+      [label]="strings.stageLabel"
+      [busy]="working() && brushMode() === null"
+      [busyLabel]="progressLabel()"
+      (picked)="pick($event)"
+    />
+  } @else {
+    <app-ai-result-stage
+      aiStage
+      [beforeSrc]="beforeUrl()"
+      [afterSrc]="comparing() ? null : afterUrl()"
+      [width]="width()"
+      [height]="height()"
+      [busy]="working()"
+      [busyLabel]="progressLabel()"
+    />
+  }
+
+  <app-ai-option-row aiOptions [label]="strings.detect">
+    <app-ai-chips
+      [options]="modeOptions"
+      [label]="strings.detect"
+      [value]="cutout.mode()"
+      [disabled]="applying()"
+      (valueChange)="selectMode($event)"
+    />
+  </app-ai-option-row>
+
+  <app-ai-option-row aiOptions wrap [label]="strings.refine">
+    <div class="remove-bg__brushes" role="group" [attr.aria-label]="strings.refineBrush">
+      @for (option of brushOptions; track option.id) {
+        <button
+          type="button"
+          class="remove-bg__brush"
+          [class.remove-bg__brush--on]="brushMode() === option.id"
+          [attr.aria-pressed]="brushMode() === option.id"
+          [disabled]="applying()"
+          (click)="toggleBrush(option.id)"
+        >
+          <app-icon [name]="option.icon" [size]="16" />{{ strings.brushes[option.id] }}
+        </button>
+      }
+    </div>
+    <app-slider
+      class="remove-bg__size"
+      readout="none"
+      [label]="strings.brushSize"
+      [labelVisible]="false"
+      [defaultValue]="defaultBrushSize"
+      [disabled]="applying()"
+      [value]="brushSize()"
+      (valueChange)="setBrushSize($event)"
+    />
+  </app-ai-option-row>
+
+  <app-background-swatches
+    aiOptions
+    [value]="cutout.background()"
+    [photoSrc]="beforeUrl()"
+    [disabled]="applying()"
+    (selected)="selectBackground($event)"
+  />
+
+  <app-hd-cutout-banner aiOptions [disabled]="applying()" />
+</app-ai-screen>

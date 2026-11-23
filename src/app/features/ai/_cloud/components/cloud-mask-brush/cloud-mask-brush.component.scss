@@ -1,0 +1,55 @@
+// Over the fitted photo (the stage overlay lets touches through; the brush takes them).
+:host {
+  position: absolute;
+  inset: 0;
+  display: block;
+  pointer-events: auto;
+}
+
+// Shows the area only: taps reach what is under it (the people overlay, the compare).
+:host(.cloud-mask-brush--passive) {
+  pointer-events: none;
+}
+
+.cloud-mask-brush__canvas {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+
+  // Boards 26 and 32: the remove-area at 45 % over the photo. Opacity on the canvas, not per
+  // shape, so overlapping strokes keep one even tint.
+  opacity: 0.45;
+
+  // Strokes belong to the canvas, never to WebView scrolling or zoom.
+  touch-action: none;
+  cursor: crosshair;
+}
+
+// Board 26: a 28 px white ring with a light fill under the finger.
+.cloud-mask-brush__ring {
+  position: absolute;
+  inset-block-start: var(--ring-y, 0);
+  inset-inline-start: var(--ring-x, 0);
+  inline-size: var(--ring-size, 0);
+  block-size: var(--ring-size, 0);
+  border: 2px solid var(--app-text);
+  border-radius: 50%;
+  background-color: color-mix(in srgb, var(--app-text) 15%, transparent);
+  opacity: 0;
+  pointer-events: none;
+  translate: -50% -50%;
+
+  &:dir(rtl) {
+    translate: 50% -50%;
+  }
+}
+
+.cloud-mask-brush__ring--on {
+  opacity: 1;
+}
+
+// The eraser: a dashed ring, so the two brushes read differently under the finger.
+.cloud-mask-brush__ring--erase {
+  border-style: dashed;
+  background-color: transparent;
+}

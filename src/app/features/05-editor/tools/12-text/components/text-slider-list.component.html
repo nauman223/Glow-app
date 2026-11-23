@@ -1,0 +1,12 @@
+@for (item of views(); track item.key) {
+  <app-slider
+    [label]="item.label"
+    [unit]="item.unit"
+    [min]="item.range.min"
+    [max]="item.range.max"
+    [step]="item.range.step"
+    [value]="item.value"
+    (valueChange)="set(item.key, $event, 'preview')"
+    (committed)="set(item.key, $event, 'commit')"
+  />
+}

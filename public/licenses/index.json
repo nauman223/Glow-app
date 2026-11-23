@@ -1,0 +1,367 @@
+{
+  "components": [
+    {
+      "id": "font-roboto",
+      "name": "Roboto",
+      "group": "font",
+      "licence": "OFL-1.1",
+      "url": "https://github.com/googlefonts/roboto-classic",
+      "text": "texts/84044c090588.txt"
+    },
+    {
+      "id": "font-bebas-neue",
+      "name": "Bebas Neue",
+      "group": "font",
+      "licence": "OFL-1.1",
+      "url": "https://github.com/dharmatype/Bebas-Neue",
+      "text": "texts/66c436339f74.txt"
+    },
+    {
+      "id": "font-lobster",
+      "name": "Lobster",
+      "group": "font",
+      "licence": "OFL-1.1",
+      "url": "https://github.com/impallari/The-Lobster-Font",
+      "text": "texts/73e006e6fc23.txt"
+    },
+    {
+      "id": "font-montserrat",
+      "name": "Montserrat",
+      "group": "font",
+      "licence": "OFL-1.1",
+      "url": "https://github.com/JulietaUla/Montserrat",
+      "text": "texts/f429f7393512.txt"
+    },
+    {
+      "id": "font-pacifico",
+      "name": "Pacifico",
+      "group": "font",
+      "licence": "OFL-1.1",
+      "url": "https://github.com/googlefonts/Pacifico",
+      "text": "texts/e1b964e3f566.txt"
+    },
+    {
+      "id": "font-playfair-display",
+      "name": "Playfair Display",
+      "group": "font",
+      "licence": "OFL-1.1",
+      "url": "https://github.com/clauseggers/Playfair-Display",
+      "text": "texts/c052aafd2a71.txt"
+    },
+    {
+      "id": "model-selfie-segmenter",
+      "name": "MediaPipe Selfie Segmenter (selfie_segmenter.tflite)",
+      "group": "model",
+      "licence": "Apache-2.0",
+      "notice": "Copyright Google LLC.",
+      "url": "https://storage.googleapis.com/mediapipe-models/image_segmenter/selfie_segmenter/float16/1/selfie_segmenter.tflite",
+      "text": "texts/49a26cc72260.txt"
+    },
+    {
+      "id": "model-selfie-multiclass-256x256",
+      "name": "MediaPipe Multiclass Selfie Segmenter (selfie_multiclass_256x256.tflite)",
+      "group": "model",
+      "licence": "Apache-2.0",
+      "notice": "Copyright Google LLC.",
+      "url": "https://storage.googleapis.com/mediapipe-models/image_segmenter/selfie_multiclass_256x256/float32/1/selfie_multiclass_256x256.tflite",
+      "text": "texts/49a26cc72260.txt"
+    },
+    {
+      "id": "model-deeplab-v3",
+      "name": "DeepLab v3 (MediaPipe image segmenter) (deeplab_v3.tflite)",
+      "group": "model",
+      "licence": "Apache-2.0",
+      "notice": "Copyright The TensorFlow Authors. Trained on PASCAL VOC 2012.",
+      "url": "https://storage.googleapis.com/mediapipe-models/image_segmenter/deeplab_v3/float32/1/deeplab_v3.tflite",
+      "text": "texts/49a26cc72260.txt"
+    },
+    {
+      "id": "model-magic-touch",
+      "name": "MediaPipe MagicTouch (magic_touch.tflite)",
+      "group": "model",
+      "licence": "Apache-2.0",
+      "notice": "Copyright Google LLC.",
+      "url": "https://storage.googleapis.com/mediapipe-models/interactive_segmenter/magic_touch/float32/1/magic_touch.tflite",
+      "text": "texts/49a26cc72260.txt"
+    },
+    {
+      "id": "model-face-landmarker",
+      "name": "MediaPipe Face Landmarker (face_landmarker.task)",
+      "group": "model",
+      "licence": "Apache-2.0",
+      "notice": "Copyright Google LLC.",
+      "url": "https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task",
+      "text": "texts/49a26cc72260.txt"
+    },
+    {
+      "id": "pkg-angular-cdk",
+      "name": "@angular/cdk",
+      "version": "22.2.4",
+      "group": "library",
+      "licence": "MIT",
+      "url": "https://github.com/angular/components",
+      "text": "texts/adb40d7d256e.txt"
+    },
+    {
+      "id": "pkg-angular-common",
+      "name": "@angular/common",
+      "version": "22.2.3",
+      "group": "library",
+      "licence": "MIT",
+      "url": "https://github.com/angular/angular",
+      "text": "texts/15e77c469211.txt"
+    },
+    {
+      "id": "pkg-angular-core",
+      "name": "@angular/core",
+      "version": "22.2.3",
+      "group": "library",
+      "licence": "MIT",
+      "url": "https://github.com/angular/angular",
+      "text": "texts/15e77c469211.txt"
+    },
+    {
+      "id": "pkg-angular-forms",
+      "name": "@angular/forms",
+      "version": "22.2.3",
+      "group": "library",
+      "licence": "MIT",
+      "url": "https://github.com/angular/angular",
+      "text": "texts/15e77c469211.txt"
+    },
+    {
+      "id": "pkg-angular-platform-browser",
+      "name": "@angular/platform-browser",
+      "version": "22.2.3",
+      "group": "library",
+      "licence": "MIT",
+      "url": "https://github.com/angular/angular",
+      "text": "texts/15e77c469211.txt"
+    },
+    {
+      "id": "pkg-angular-router",
+      "name": "@angular/router",
+      "version": "22.2.3",
+      "group": "library",
+      "licence": "MIT",
+      "url": "https://github.com/angular/angular",
+      "text": "texts/15e77c469211.txt"
+    },
+    {
+      "id": "pkg-capacitor-community-admob",
+      "name": "@capacitor-community/admob",
+      "version": "8.2.1",
+      "group": "library",
+      "licence": "MIT",
+      "url": "https://github.com/capacitor-community/admob",
+      "text": "texts/c4bb784d6ed7.txt"
+    },
+    {
+      "id": "pkg-capacitor-community-media",
+      "name": "@capacitor-community/media",
+      "version": "9.1.0",
+      "group": "library",
+      "licence": "MIT",
+      "url": "https://github.com/capacitor-community/media",
+      "text": "texts/d95663d894c1.txt"
+    },
+    {
+      "id": "pkg-capacitor-android",
+      "name": "@capacitor/android",
+      "version": "8.6.2",
+      "group": "library",
+      "licence": "MIT",
+      "url": "https://github.com/ionic-team/capacitor",
+      "text": "texts/9c6ebf3e5ab8.txt"
+    },
+    {
+      "id": "pkg-capacitor-app",
+      "name": "@capacitor/app",
+      "version": "8.1.2",
+      "group": "library",
+      "licence": "MIT",
+      "url": "https://github.com/ionic-team/capacitor-plugins",
+      "text": "texts/e8f989836e88.txt"
+    },
+    {
+      "id": "pkg-capacitor-camera",
+      "name": "@capacitor/camera",
+      "version": "8.2.6",
+      "group": "library",
+      "licence": "MIT",
+      "url": "https://github.com/ionic-team/capacitor-camera",
+      "text": "texts/e8f989836e88.txt"
+    },
+    {
+      "id": "pkg-capacitor-core",
+      "name": "@capacitor/core",
+      "version": "8.6.2",
+      "group": "library",
+      "licence": "MIT",
+      "url": "https://github.com/ionic-team/capacitor",
+      "text": "texts/9c6ebf3e5ab8.txt"
+    },
+    {
+      "id": "pkg-capacitor-filesystem",
+      "name": "@capacitor/filesystem",
+      "version": "8.1.5",
+      "group": "library",
+      "licence": "MIT",
+      "url": "https://github.com/ionic-team/capacitor-filesystem",
+      "text": "texts/de884404585e.txt"
+    },
+    {
+      "id": "pkg-capacitor-haptics",
+      "name": "@capacitor/haptics",
+      "version": "8.0.2",
+      "group": "library",
+      "licence": "MIT",
+      "url": "https://github.com/ionic-team/capacitor-haptics",
+      "text": "texts/e8f989836e88.txt"
+    },
+    {
+      "id": "pkg-capacitor-ios",
+      "name": "@capacitor/ios",
+      "version": "8.6.2",
+      "group": "library",
+      "licence": "MIT",
+      "url": "https://github.com/ionic-team/capacitor",
+      "text": "texts/9c6ebf3e5ab8.txt"
+    },
+    {
+      "id": "pkg-capacitor-keyboard",
+      "name": "@capacitor/keyboard",
+      "version": "8.0.6",
+      "group": "library",
+      "licence": "MIT",
+      "url": "https://github.com/ionic-team/capacitor-keyboard",
+      "text": "texts/e8f989836e88.txt"
+    },
+    {
+      "id": "pkg-capacitor-network",
+      "name": "@capacitor/network",
+      "version": "8.0.1",
+      "group": "library",
+      "licence": "MIT",
+      "url": "https://github.com/ionic-team/capacitor-plugins",
+      "text": "texts/e8f989836e88.txt"
+    },
+    {
+      "id": "pkg-capacitor-preferences",
+      "name": "@capacitor/preferences",
+      "version": "8.0.1",
+      "group": "library",
+      "licence": "MIT",
+      "url": "https://github.com/ionic-team/capacitor-plugins",
+      "text": "texts/e8f989836e88.txt"
+    },
+    {
+      "id": "pkg-capacitor-share",
+      "name": "@capacitor/share",
+      "version": "8.0.3",
+      "group": "library",
+      "licence": "MIT",
+      "url": "https://github.com/ionic-team/capacitor-plugins",
+      "text": "texts/e8f989836e88.txt"
+    },
+    {
+      "id": "pkg-capacitor-splash-screen",
+      "name": "@capacitor/splash-screen",
+      "version": "8.0.2",
+      "group": "library",
+      "licence": "MIT",
+      "url": "https://github.com/ionic-team/capacitor-plugins",
+      "text": "texts/e8f989836e88.txt"
+    },
+    {
+      "id": "pkg-capacitor-status-bar",
+      "name": "@capacitor/status-bar",
+      "version": "8.0.4",
+      "group": "library",
+      "licence": "MIT",
+      "url": "https://github.com/ionic-team/capacitor-plugins",
+      "text": "texts/e8f989836e88.txt"
+    },
+    {
+      "id": "pkg-capacitor-synapse",
+      "name": "@capacitor/synapse",
+      "version": "1.0.4",
+      "group": "library",
+      "licence": "MIT",
+      "text": "texts/de884404585e.txt"
+    },
+    {
+      "id": "pkg-capgo-native-purchases",
+      "name": "@capgo/native-purchases",
+      "version": "8.9.16",
+      "group": "library",
+      "licence": "MPL-2.0",
+      "url": "https://github.com/Cap-go/capacitor-native-purchases",
+      "text": "texts/3f3d9e0024b1.txt"
+    },
+    {
+      "id": "pkg-ionic-angular",
+      "name": "@ionic/angular",
+      "version": "9.0.9",
+      "group": "library",
+      "licence": "MIT",
+      "url": "https://github.com/ionic-team/ionic-framework",
+      "text": "texts/fa8725a0baf2.txt"
+    },
+    {
+      "id": "pkg-ionic-core",
+      "name": "@ionic/core",
+      "version": "9.0.9",
+      "group": "library",
+      "licence": "MIT",
+      "url": "https://github.com/ionic-team/ionic-framework",
+      "text": "texts/fa8725a0baf2.txt"
+    },
+    {
+      "id": "pkg-mediapipe-tasks-vision",
+      "name": "@mediapipe/tasks-vision",
+      "version": "1.2.3",
+      "group": "library",
+      "licence": "Apache-2.0",
+      "notice": "Includes the MediaPipe vision WebAssembly runtime (vision_wasm_module_internal). Copyright The MediaPipe Authors.",
+      "url": "https://mediapipe.dev",
+      "text": "texts/49a26cc72260.txt"
+    },
+    {
+      "id": "pkg-bootstrap",
+      "name": "bootstrap",
+      "version": "5.3.9",
+      "group": "library",
+      "licence": "MIT",
+      "url": "https://github.com/twbs/bootstrap",
+      "text": "texts/bc0cd18d94c0.txt"
+    },
+    {
+      "id": "pkg-fabric",
+      "name": "fabric",
+      "version": "7.4.0",
+      "group": "library",
+      "licence": "MIT",
+      "url": "https://github.com/fabricjs/fabric.js",
+      "text": "texts/eda412692b73.txt"
+    },
+    {
+      "id": "pkg-rxjs",
+      "name": "rxjs",
+      "version": "7.8.2",
+      "group": "library",
+      "licence": "Apache-2.0",
+      "url": "https://github.com/reactivex/rxjs",
+      "text": "texts/cf84cb86b627.txt"
+    },
+    {
+      "id": "pkg-tslib",
+      "name": "tslib",
+      "version": "2.8.1",
+      "group": "library",
+      "licence": "0BSD",
+      "url": "https://github.com/Microsoft/tslib",
+      "text": "texts/598935964591.txt"
+    }
+  ]
+}

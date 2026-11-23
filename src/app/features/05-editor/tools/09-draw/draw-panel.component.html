@@ -1,0 +1,59 @@
+<button
+  type="button"
+  class="draw-panel__clear"
+  [attr.aria-label]="strings.clearAll"
+  (click)="clearAll()"
+>
+  <app-icon name="trash" [size]="20" />
+</button>
+
+<app-bottom-sheet [(open)]="sheetOpen" [label]="strings.panelLabel" (closed)="cancel()">
+  <div class="draw-panel">
+    <app-brush-kind-picker [kind]="settings().kind" (kindChange)="setKind($event)" />
+
+    <div class="draw-panel__settings">
+      <span class="draw-panel__preview" aria-hidden="true">
+        <span class="draw-panel__dot" [class.draw-panel__dot--eraser]="isEraser()"></span>
+      </span>
+      <div class="draw-panel__sliders">
+        <app-slider
+          [label]="strings.size"
+          [min]="sizeRange.min"
+          [max]="sizeRange.max"
+          [value]="settings().size"
+          (valueChange)="setSize($event)"
+          (committed)="setSize($event)"
+        />
+        <app-slider
+          [label]="strings.opacity"
+          [min]="opacityRange.min"
+          [max]="opacityRange.max"
+          [disabled]="isEraser()"
+          [value]="settings().opacity"
+          (valueChange)="setOpacity($event)"
+          (committed)="setOpacity($event)"
+        />
+      </div>
+    </div>
+
+    <app-colour-picker
+      eyedropper
+      [label]="strings.colour"
+      [value]="settings().colour"
+      (valueChange)="setColour($event)"
+      (eyedropperRequested)="startSampling()"
+    />
+
+    @if (sampling()) {
+      <p class="draw-panel__hint" aria-hidden="true">{{ strings.pickHint }}</p>
+    }
+    <p class="visually-hidden" aria-live="polite">{{ status() }}</p>
+  </div>
+
+  <div class="draw-panel__footer" sheetFooter>
+    <app-button variant="ghost" [disabled]="busy()" (pressed)="cancel()">
+      {{ strings.cancel }}
+    </app-button>
+    <app-button size="sm" [disabled]="busy()" (pressed)="apply()">{{ strings.apply }}</app-button>
+  </div>
+</app-bottom-sheet>

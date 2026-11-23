@@ -1,0 +1,63 @@
+<article class="licence-item" [attr.aria-labelledby]="headingId()">
+  <h3 class="licence-item__name" [id]="headingId()">{{ component().name }}</h3>
+  <p class="licence-item__meta">
+    <span>{{ entry().licenceName }}</span>
+    @if (component().version; as version) {
+      <span>{{ strings.versionPrefix }}{{ version }}</span>
+    }
+  </p>
+  @if (component().notice; as notice) {
+    <p class="licence-item__notice">{{ notice }}</p>
+  }
+  <div class="licence-item__actions">
+    <button
+      type="button"
+      class="licence-item__action"
+      [attr.aria-expanded]="entry().expanded"
+      [attr.aria-controls]="panelId()"
+      [attr.aria-describedby]="headingId()"
+      (click)="toggled.emit()"
+    >
+      <span>{{ toggleLabel() }}</span>
+      <app-icon
+        class="licence-item__chevron"
+        name="chevron-down"
+        [size]="18"
+        [class.licence-item__chevron--open]="entry().expanded"
+      />
+    </button>
+    @if (component().url; as url) {
+      <a
+        class="licence-item__action"
+        [href]="url"
+        target="_blank"
+        rel="noopener noreferrer"
+        [attr.aria-describedby]="headingId()"
+      >
+        <span>{{ strings.source }}</span>
+        <span class="visually-hidden">{{ strings.opensInBrowser }}</span>
+      </a>
+    }
+  </div>
+  <div class="licence-item__panel" [id]="panelId()" [hidden]="!entry().expanded">
+    @if (entry().expanded) {
+      @switch (status()) {
+        @case ('ready') {
+          <pre class="licence-item__text">{{ text() }}</pre>
+        }
+        @case ('error') {
+          <p class="licence-item__error" role="alert">{{ strings.textError }}</p>
+          <app-button variant="outline" (pressed)="retried.emit()">
+            {{ strings.retry }}
+          </app-button>
+        }
+        @default {
+          <div aria-busy="true">
+            <span class="visually-hidden" role="status">{{ strings.loadingText }}</span>
+            <app-skeleton shape="text" [lines]="6" />
+          </div>
+        }
+      }
+    }
+  </div>
+</article>

@@ -1,0 +1,127 @@
+@use 'abstracts/mixins' as *;
+
+.app-dialog__backdrop {
+  position: fixed;
+  z-index: var(--app-z-modal);
+  inset: 0;
+  background-color: var(--app-scrim);
+}
+
+.app-dialog__layer {
+  position: fixed;
+  z-index: calc(var(--app-z-modal) + 1);
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-block: calc(env(safe-area-inset-top, 0px) + var(--app-space-4))
+    calc(env(safe-area-inset-bottom, 0px) + var(--app-space-4));
+  padding-inline: var(--app-space-8);
+  overflow-y: auto;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.app-dialog {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--app-space-4);
+  inline-size: 100%;
+  max-inline-size: 22rem;
+  margin-block: auto;
+  padding: var(--app-space-6);
+  border-radius: var(--app-radius-xl);
+  background-color: var(--app-surface-2);
+  box-shadow: var(--app-shadow-2);
+  color: var(--app-text);
+  text-align: center;
+}
+
+.app-dialog__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 4rem;
+  block-size: 4rem;
+  border-radius: 50%;
+  background-color: var(--app-primary-tint);
+  color: var(--app-primary-text);
+}
+
+.app-dialog__title {
+  margin: 0;
+  font-size: var(--app-font-headline-size);
+  font-weight: 700;
+  line-height: var(--app-font-headline-line-height);
+}
+
+.app-dialog__body {
+  color: var(--app-text-muted);
+  font-size: var(--app-font-body-size);
+  line-height: var(--app-font-body-line-height);
+
+  &:empty {
+    display: none;
+  }
+
+  :where(p) {
+    margin: 0;
+  }
+}
+
+.app-dialog__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-2);
+  inline-size: 100%;
+  margin-block-start: var(--app-space-2);
+
+  &:empty {
+    display: none;
+  }
+}
+
+.app-dialog__backdrop--enter {
+  animation: backdrop-in var(--app-dur-medium) var(--app-ease);
+}
+
+.app-dialog__backdrop--leave {
+  animation: backdrop-out var(--app-dur-short) var(--app-ease) forwards;
+}
+
+.app-dialog--enter {
+  animation: dialog-in var(--app-dur-medium) var(--app-ease-emph);
+}
+
+.app-dialog--leave {
+  animation: dialog-out var(--app-dur-short) var(--app-ease) forwards;
+}
+
+@keyframes backdrop-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes backdrop-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+}
+
+@keyframes dialog-out {
+  to {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}

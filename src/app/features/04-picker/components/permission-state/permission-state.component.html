@@ -1,0 +1,13 @@
+<section class="app-access" [attr.role]="role()">
+  <span class="app-access__icon">
+    <app-icon name="gallery" [size]="32" />
+  </span>
+  <h2 class="app-access__title">{{ copy().heading }}</h2>
+  <p class="app-access__message">{{ copy().message }}</p>
+  <div class="app-access__actions">
+    <app-button block [loading]="busy()" (pressed)="action.emit()">{{ copy().action }}</app-button>
+    <app-button block variant="secondary" icon="camera" (pressed)="camera.emit()">{{
+      strings.takePhoto
+    }}</app-button>
+  </div>
+</section>

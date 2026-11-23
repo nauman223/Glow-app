@@ -1,0 +1,106 @@
+<app-ai-screen
+  [eyebrow]="strings.eyebrow"
+  [heading]="strings.title"
+  [status]="status()"
+  [error]="error()"
+  [canApply]="canAct()"
+  [applyLabel]="primaryLabel"
+  [secondaryLabel]="secondaryLabel"
+  [canSecondary]="canAct()"
+  (backRequested)="cancel()"
+  (cancelRequested)="cancel()"
+  (secondaryRequested)="requestPack('pack')"
+  (applyRequested)="onPrimary()"
+  (retryRequested)="retry()"
+>
+  @if (statusText(); as text) {
+    <app-ai-status-pill aiStatus [text]="text" [variant]="statusVariant()" />
+  }
+
+  <app-sticker-stage
+    aiStage
+    [stickerSrc]="afterUrl()"
+    [photoSrc]="beforeUrl()"
+    [width]="width()"
+    [height]="height()"
+    [pickable]="pickable()"
+    [label]="strings.stageLabel"
+    [busy]="working()"
+    [busyLabel]="progressLabel()"
+    (picked)="pick($event)"
+  />
+
+  <app-ai-option-row aiOptions [label]="strings.detect">
+    <app-ai-chips
+      [options]="subjectOptions"
+      [label]="strings.detect"
+      [value]="sticker.subject()"
+      [disabled]="locked()"
+      (valueChange)="selectSubject($event)"
+    />
+  </app-ai-option-row>
+
+  <app-ai-option-row aiOptions [label]="strings.outline">
+    <app-slider
+      class="sticker__slider"
+      readout="end"
+      [label]="strings.outline"
+      [labelVisible]="false"
+      [max]="maxOutline"
+      [defaultValue]="defaultOutline"
+      [disabled]="locked()"
+      [value]="sticker.outline()"
+      (valueChange)="sticker.previewOutline($event)"
+      (committed)="sticker.commitOutline($event)"
+    />
+  </app-ai-option-row>
+
+  <app-ai-option-row aiOptions [label]="strings.add">
+    <button
+      type="button"
+      class="sticker__chip"
+      [class.sticker__chip--on]="sticker.shadow()"
+      [attr.aria-pressed]="sticker.shadow()"
+      [disabled]="locked()"
+      (click)="sticker.toggleShadow()"
+    >
+      {{ strings.shadow }}
+    </button>
+  </app-ai-option-row>
+
+  @if (whatsApp) {
+    <app-sticker-pack-strip
+      aiOptions
+      [stickers]="pack.stickers()"
+      [summary]="pack.summary()"
+      [disabled]="!canAct()"
+      (addRequested)="requestPack('pack')"
+      (removeRequested)="removeSticker($event)"
+    />
+  }
+
+  <app-ai-option-row aiOptions [label]="strings.use">
+    @if (whatsApp) {
+      <app-button variant="secondary" size="sm" [disabled]="!canAct()" (pressed)="addToPhoto()">
+        {{ strings.addToPhoto }}
+      </app-button>
+    }
+    <app-button
+      variant="secondary"
+      size="sm"
+      icon="download"
+      [disabled]="!canAct()"
+      [loading]="actions.exporting()"
+      (pressed)="savePng()"
+    >
+      {{ strings.savePng }}
+    </app-button>
+  </app-ai-option-row>
+</app-ai-screen>
+
+<app-emoji-picker-dialog
+  [open]="actions.emojiOpen()"
+  [initial]="actions.lastEmojis()"
+  (openChange)="actions.setEmojiOpen($event)"
+  (confirmed)="saveWithEmojis($event)"
+/>

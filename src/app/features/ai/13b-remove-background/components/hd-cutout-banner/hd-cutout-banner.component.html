@@ -1,0 +1,35 @@
+@if (hd.state() === 'locked') {
+  <div class="hd-banner">
+    <app-icon class="hd-banner__icon" name="play-ad" [size]="22" />
+    <span class="hd-banner__text" [id]="titleId">{{ strings.title }}</span>
+    <button
+      type="button"
+      class="hd-banner__watch"
+      [attr.aria-describedby]="titleId"
+      [disabled]="disabled()"
+      (click)="toggle()"
+    >
+      {{ strings.watchAd }}
+    </button>
+  </div>
+} @else {
+  <button
+    type="button"
+    role="switch"
+    class="hd-banner hd-banner--switch"
+    [attr.aria-checked]="hd.state() === 'on'"
+    [disabled]="disabled()"
+    (click)="toggle()"
+  >
+    <app-icon class="hd-banner__icon" name="ai-sparkle" [size]="22" />
+    <span class="hd-banner__text">{{ strings.title }}</span>
+    <span class="hd-banner__track" aria-hidden="true">
+      <span class="hd-banner__thumb"></span>
+    </span>
+  </button>
+}
+<p class="hd-banner__status" role="status" aria-live="polite">
+  @if (hd.working()) {
+    {{ strings.refining }}
+  }
+</p>

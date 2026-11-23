@@ -1,0 +1,25 @@
+export const COLOUR_PICKER_STRINGS = {
+  groupLabel: 'Colour',
+  customColour: 'Custom colour',
+  customColourWithValue: (hex: string): string => `Custom colour, ${hex}`,
+  eyedropper: 'Pick a colour from the photo',
+  editorLabel: 'Custom colour editor',
+  saturationBrightness: 'Saturation and brightness',
+  saturationBrightnessValue: (saturation: string, brightness: string): string =>
+    `Saturation ${saturation}, brightness ${brightness}`,
+  hue: 'Hue',
+  hueValue: (degrees: string): string => `Hue ${degrees}`,
+  hex: 'Hex colour',
+  swatchNames: {
+    white: 'White',
+    cyan: 'Cyan',
+    violet: 'Violet',
+    pink: 'Pink',
+    red: 'Red',
+    orange: 'Orange',
+    yellow: 'Yellow',
+    green: 'Green',
+    blue: 'Blue',
+    black: 'Black',
+  },
+} as const;

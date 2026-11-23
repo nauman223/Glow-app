@@ -1,0 +1,52 @@
+<div class="relight-stage__fit">
+  <div
+    #frame
+    class="relight-stage__frame"
+    [class.relight-stage__frame--interactive]="interactive()"
+    [style.--light-x]="light().x"
+    [style.--light-y]="light().y"
+    [style.--relight-glow]="glowColour()"
+  >
+    @if (src(); as src) {
+      <img class="relight-stage__image" decoding="async" [src]="src" [alt]="alt()" />
+    }
+
+    @if (shimmer()) {
+      <app-skeleton class="relight-stage__shimmer" width="100%" height="100%" />
+    }
+
+    <span class="relight-stage__glow" aria-hidden="true"></span>
+
+    @if (interactive()) {
+      <svg
+        class="relight-stage__guide"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+        [attr.viewBox]="viewBox()"
+      >
+        <line
+          #line
+          [attr.x1]="guide().x1"
+          [attr.y1]="guide().y1"
+          [attr.x2]="guide().x2"
+          [attr.y2]="guide().y2"
+        />
+      </svg>
+
+      <button
+        type="button"
+        class="relight-stage__handle"
+        [attr.aria-label]="handleLabel()"
+        [attr.aria-describedby]="hintId"
+        (keydown)="onKeydown($event)"
+      ></button>
+
+      <span class="relight-stage__hint" aria-hidden="true">{{ strings.dragHint }}</span>
+      <span class="visually-hidden" [id]="hintId">{{ strings.lightHandleHint }}</span>
+    }
+  </div>
+
+  @if (busy()) {
+    <p class="relight-stage__pill" role="status">{{ busyLabel() }}</p>
+  }
+</div>

@@ -1,0 +1,57 @@
+// Ionic shell components (ion-app, ion-header, ion-toolbar, ion-content, ion-refresher,
+// ion-infinite-scroll) themed through Ionic's CSS variables, mapped to --app-* tokens.
+// Mapped on :root so they follow whichever theme is active.
+
+:root {
+  --ion-font-family: var(--app-font-family);
+  --ion-background-color: var(--app-bg);
+  --ion-background-color-rgb: #{to-rgb($app-bg)};
+  --ion-text-color: var(--app-text);
+  --ion-text-color-rgb: #{to-rgb($app-text)};
+  --ion-toolbar-background: var(--app-bg);
+  --ion-toolbar-color: var(--app-text);
+  --ion-toolbar-border-color: var(--app-divider);
+  --ion-border-color: var(--app-divider);
+  --ion-backdrop-color: #000;
+  --ion-backdrop-opacity: 0.6;
+  --ion-overlay-background-color: var(--app-surface);
+  --ion-color-primary: var(--app-primary);
+  --ion-color-primary-contrast: var(--app-on-primary);
+  --ion-color-step-50: var(--app-surface);
+  --ion-color-step-100: var(--app-surface-2);
+  --ion-color-step-150: var(--app-surface-3);
+}
+
+[data-bs-theme='light'] {
+  --ion-background-color-rgb: #{to-rgb($app-light-bg)};
+  --ion-text-color-rgb: #{to-rgb($app-light-text)};
+}
+
+// Top bar: 56px, flat (no Material shadow), title uses the `title` type role.
+ion-toolbar {
+  --min-height: var(--app-top-bar);
+  --padding-start: var(--app-space-1);
+  --padding-end: var(--app-space-3);
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --border-width: 0;
+}
+
+// Material mode gives `.header-md` a drop shadow; the design uses flat bars. The element
+// selector raises specificity above Ionic's runtime-injected `.header-md` rule.
+ion-header.header-md {
+  box-shadow: none;
+}
+
+ion-content {
+  --background: var(--app-bg);
+  --color: var(--app-text);
+}
+
+// Pull-to-refresh and infinite-scroll spinners are Ionic-internal; tint them on-brand.
+ion-refresher,
+ion-infinite-scroll {
+  --color: var(--app-primary-text);
+
+  color: var(--app-primary-text);
+}

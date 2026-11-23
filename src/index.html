@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-bs-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <title>Glow</title>
+    <base href="/" />
+    <!--
+      CSP notes:
+      - script-src 'wasm-unsafe-eval': MediaPipe Tasks Vision compiles WebAssembly at runtime;
+        this allows WASM compilation only (not JS eval). No inline scripts (critical CSS inlining
+        is disabled in angular.json for this reason).
+      - style-src 'unsafe-inline': required because Angular and Ionic inject component styles at runtime.
+      - img-src blob: data: + the Glow API hosts: photos and cloud AI results are object URLs;
+        catalog thumbnails come from the API. No other image host (ads render natively).
+      - worker-src blob:: on-device AI runs in a Web Worker.
+      - connect-src: the Glow API (cloud AI proxy + catalog), dev and prod hosts only.
+    -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://glow-api-dev.xenex-media.com.au https://glow-api.xenex-media.com.au; font-src 'self'; connect-src 'self' https://glow-api-dev.xenex-media.com.au https://glow-api.xenex-media.com.au; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content="Glow photo editor" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#121212" />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="preload" href="fonts/roboto-400.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="fonts/roboto-700.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  </head>
+  <body>
+    <app-root></app-root>
+    <noscript>Please enable JavaScript to use Glow.</noscript>
+  </body>
+</html>

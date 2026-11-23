@@ -1,0 +1,51 @@
+// Single global stylesheet entry point. Import order:
+// 1. Configuration: Glow tokens + Bootstrap overrides (no output)
+// 2. Fonts
+// 3. Only the Bootstrap partials the templates use
+// 4. Theme tokens (theme-independent, dark default, light)
+// 5. Base layer (resolves reboot vs Ionic conflicts)
+// 6. Global component primitives
+// 7. Utilities last so they win specificity ties
+
+// Not imported (unused by any template): grid (no .row/.col), alert, transitions, close,
+// modal, toasts and spinners (dialog, toast and loading states are custom components),
+// select, range, floating labels, input groups and every other component.
+
+// 1. Configuration
+@import 'abstracts/bootstrap-config';
+
+// 2. Fonts
+@import 'base/fonts';
+
+// 3. Bootstrap partials
+@import 'bootstrap/scss/root';
+@import 'bootstrap/scss/reboot';
+@import 'bootstrap/scss/type';
+@import 'bootstrap/scss/containers';
+@import 'bootstrap/scss/buttons';
+@import 'bootstrap/scss/forms/labels';
+@import 'bootstrap/scss/forms/form-text';
+@import 'bootstrap/scss/forms/form-control';
+@import 'bootstrap/scss/forms/form-check';
+@import 'bootstrap/scss/forms/validation';
+@import 'bootstrap/scss/card';
+@import 'bootstrap/scss/helpers/visually-hidden';
+
+// 4. Themes
+@import 'themes/tokens';
+@import 'themes/dark';
+@import 'themes/light';
+
+// 5. Base
+@import 'base/reboot-tweaks';
+@import 'base/typography';
+@import 'base/safe-area';
+
+// 6. Components
+@import 'components/ionic-shell';
+@import 'components/buttons';
+@import 'components/skeleton';
+@import 'components/scroll-fade';
+
+// 7. Utilities
+@import 'bootstrap/scss/utilities/api';

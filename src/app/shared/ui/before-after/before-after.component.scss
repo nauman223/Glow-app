@@ -1,0 +1,124 @@
+@use 'abstracts/mixins' as *;
+
+// --position (0-1, from inline-start) drives only clip-path and transform. The divider layer
+// is as wide as the host, so translating it by N% moves its edge line by N% of the host.
+:host {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  contain: layout paint;
+  touch-action: pan-y;
+  user-select: none;
+  cursor: col-resize;
+}
+
+.before-after__image {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.before-after__image--before {
+  clip-path: inset(0 calc((1 - var(--position)) * 100%) 0 0);
+
+  &:dir(rtl) {
+    clip-path: inset(0 0 0 calc((1 - var(--position)) * 100%));
+  }
+}
+
+.before-after__divider {
+  position: absolute;
+  inset: 0;
+  transform: translateX(calc(var(--position) * 100%));
+  pointer-events: none;
+
+  &:dir(rtl) {
+    transform: translateX(calc(var(--position) * -100%));
+  }
+
+  &::before {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: -1px;
+    inline-size: 2px;
+    background: #fff;
+    content: '';
+  }
+}
+
+.before-after__image--before,
+.before-after__divider {
+  transition:
+    clip-path var(--app-dur-medium) var(--app-ease),
+    transform var(--app-dur-medium) var(--app-ease);
+
+  :host(.before-after--dragging) & {
+    transition: none;
+  }
+
+  @include reduced-motion {
+    transition: none;
+  }
+}
+
+.before-after__handle {
+  @include touch-target-expand;
+
+  position: absolute;
+  inset-block-start: calc(50% - 1.125rem);
+  inset-inline-start: -1.125rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 2.25rem;
+  block-size: 2.25rem;
+  border-radius: 50%;
+  background: #fff;
+  color: #121212;
+  box-shadow: var(--app-shadow-1);
+  pointer-events: auto;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.before-after__tag,
+.before-after__ai {
+  position: absolute;
+  padding: 3px 9px;
+  border-radius: 10px;
+  font-size: 0.6875rem;
+  line-height: 1.4;
+  pointer-events: none;
+}
+
+.before-after__tag {
+  inset-block-end: 10px;
+  background: rgb(0 0 0 / 65%);
+  color: #fff;
+}
+
+.before-after__tag--before {
+  inset-inline-start: 10px;
+}
+
+.before-after__tag--after {
+  inset-inline-end: 10px;
+  color: var(--app-accent);
+}
+
+.before-after__ai {
+  inset-block-start: 10px;
+  inset-inline: 0;
+  inline-size: fit-content;
+  margin-inline: auto;
+  padding-inline: 10px;
+  background: var(--app-primary);
+  color: var(--app-on-primary);
+  font-weight: 700;
+  white-space: nowrap;
+}

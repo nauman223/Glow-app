@@ -1,0 +1,79 @@
+@use 'abstracts/mixins' as *;
+
+:host {
+  display: block;
+}
+
+.cloud-switch {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-3);
+  inline-size: 100%;
+  min-block-size: var(--app-touch-min);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--app-text);
+  text-align: start;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
+.cloud-switch__icon {
+  flex-shrink: 0;
+  color: var(--app-accent);
+}
+
+.cloud-switch__label {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  font-size: var(--app-font-body-size);
+}
+
+// Board 24: 48 × 28 track, 20px thumb, 4px inset.
+.cloud-switch__track {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  inline-size: 3rem;
+  block-size: 1.75rem;
+  padding: 0.25rem;
+  border-radius: var(--app-radius-pill);
+  background-color: var(--app-surface-3);
+  transition: background-color var(--app-dur-short) var(--app-ease);
+}
+
+.cloud-switch__thumb {
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+  border-radius: 50%;
+  background-color: var(--app-text);
+  transition: transform var(--app-dur-short) var(--app-ease);
+}
+
+.cloud-switch[aria-checked='true'] {
+  .cloud-switch__track {
+    background-color: var(--app-primary);
+  }
+
+  .cloud-switch__thumb {
+    transform: translateX(1.25rem);
+
+    &:dir(rtl) {
+      transform: translateX(-1.25rem);
+    }
+  }
+}
+
+@include reduced-motion {
+  .cloud-switch__track,
+  .cloud-switch__thumb {
+    transition: none;
+  }
+}

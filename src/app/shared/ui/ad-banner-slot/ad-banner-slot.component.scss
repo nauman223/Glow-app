@@ -1,0 +1,53 @@
+@use 'abstracts/mixins' as *;
+
+// Design (06-Components AdMob banner): 61px band, 1px top divider, #161616 fill, centred
+// 320x50 anchored-adaptive area with the yellow "Ad" badge. Height changes are instant on
+// purpose: animating block-size would relayout every frame.
+:host {
+  display: block;
+  flex: 0 0 auto;
+}
+
+// Pads above the gesture bar only while the band shows; collapsed, the page pads for itself.
+:host(.ad-banner-slot--visible.ad-banner-slot--safe-area) {
+  @include safe-area-block-end;
+}
+
+.ad-banner-slot__band {
+  display: none;
+  box-sizing: border-box;
+  block-size: var(--app-ad-banner);
+  border-block-start: 1px solid #333;
+  background: #161616;
+  overflow: hidden;
+
+  :host(.ad-banner-slot--visible) & {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.ad-banner-slot__frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  inline-size: min(320px, 100%);
+  block-size: 50px;
+}
+
+.ad-banner-slot__badge {
+  padding: 2px 5px;
+  border-radius: 3px;
+  background: var(--app-ad-badge);
+  color: var(--app-on-pro);
+  font-size: 0.625rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.ad-banner-slot__offline {
+  color: var(--app-text-muted);
+  font-size: var(--app-font-caption-size);
+}

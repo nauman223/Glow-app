@@ -1,0 +1,107 @@
+name: Release (Android AAB)
+
+# Run manually or by pushing a tag such as v1.2.3 (must match package.json version).
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*.*.*']
+
+concurrency:
+  group: release-android
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+# Actions are pinned to a full commit SHA (tag in the trailing comment); see ci.yml.
+
+jobs:
+  bundle:
+    name: Signed release bundle
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    environment: production
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - uses: actions/setup-java@77dd5b2ce225ea11469928ac317850245a74ae78 # v6.2.0
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+
+      - name: Install (lockfile only)
+        run: npm ci
+
+      - name: Audit runtime dependencies
+        run: npm audit --omit=dev --audit-level=high
+
+      - name: Check tag matches package.json version
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          PKG_VERSION="v$(node -p "require('./package.json').version")"
+          test "$PKG_VERSION" = "$GITHUB_REF_NAME" || { echo "Tag $GITHUB_REF_NAME != $PKG_VERSION"; exit 1; }
+
+      # Writes the AdMob unit IDs and legal URLs into src/environments/environment.ts for this
+      # build only (never committed). --require fails the job if any of them is missing.
+      # GLOW_API_BASE_URL (optional) must be a host allowed by the CSP in src/index.html.
+      - name: Inject release config from secrets
+        env:
+          GLOW_ADMOB_BANNER_ID: ${{ secrets.GLOW_ADMOB_BANNER_ID }}
+          GLOW_ADMOB_INTERSTITIAL_ID: ${{ secrets.GLOW_ADMOB_INTERSTITIAL_ID }}
+          GLOW_ADMOB_REWARDED_ID: ${{ secrets.GLOW_ADMOB_REWARDED_ID }}
+          GLOW_ADMOB_NATIVE_ID: ${{ secrets.GLOW_ADMOB_NATIVE_ID }}
+          GLOW_PRIVACY_POLICY_URL: ${{ secrets.GLOW_PRIVACY_POLICY_URL }}
+          GLOW_TERMS_URL: ${{ secrets.GLOW_TERMS_URL }}
+        run: node scripts/inject-env.mjs --require
+
+      # The committed versions should already match; this keeps the AAB right if they don't.
+      - name: Sync version to native projects
+        run: npm run version:sync
+
+      - name: Build web and sync Android
+        run: npm run build:prod && npx cap sync android
+
+      - name: Decode keystore
+        env:
+          GLOW_KEYSTORE_BASE64: ${{ secrets.GLOW_KEYSTORE_BASE64 }}
+        run: |
+          test -n "$GLOW_KEYSTORE_BASE64" || { echo "GLOW_KEYSTORE_BASE64 secret missing"; exit 1; }
+          echo "$GLOW_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/glow-release.jks"
+
+      # app/build.gradle fails the build without a real GLOW_ADMOB_APP_ID (the test ID is refused).
+      - name: Build signed AAB (R8 enabled)
+        working-directory: android
+        env:
+          GLOW_KEYSTORE_FILE: ${{ runner.temp }}/glow-release.jks
+          GLOW_KEYSTORE_PASSWORD: ${{ secrets.GLOW_KEYSTORE_PASSWORD }}
+          GLOW_KEY_ALIAS: ${{ secrets.GLOW_KEY_ALIAS }}
+          GLOW_KEY_PASSWORD: ${{ secrets.GLOW_KEY_PASSWORD }}
+          GLOW_ADMOB_APP_ID: ${{ secrets.GLOW_ADMOB_APP_ID }}
+        # chmod: the repo is authored on Windows, where git may not record gradlew's exec bit.
+        run: chmod +x gradlew && ./gradlew --no-daemon bundleRelease
+
+      - name: Remove keystore
+        if: always()
+        run: rm -f "$RUNNER_TEMP/glow-release.jks"
+
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: glow-release-aab
+          path: android/app/build/outputs/bundle/release/*.aab
+          if-no-files-found: error
+          retention-days: 14
+
+      # The AAB already embeds this mapping for Play Console; kept separately so crash stack
+      # traces from other sources (e.g. a sideloaded build) can be deobfuscated with retrace.
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: glow-release-mapping
+          path: android/app/build/outputs/mapping/release/mapping.txt
+          if-no-files-found: error
+          retention-days: 90

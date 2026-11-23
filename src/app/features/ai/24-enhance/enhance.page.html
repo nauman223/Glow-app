@@ -1,0 +1,54 @@
+<app-cloud-ai-screen
+  [eyebrow]="strings.eyebrow"
+  [heading]="strings.title"
+  [actionLabel]="strings.action"
+  [historyLabel]="strings.historyLabel"
+  [optionsLabel]="strings.optionsLabel"
+  [optionsKey]="optionsKey()"
+  (actionRequested)="run()"
+>
+  @if (readout(); as readout) {
+    <p cloudStageFooter class="enhance__readout" role="note" [attr.aria-label]="readout.label">
+      <span class="enhance__from" aria-hidden="true">{{ readout.from }}</span>
+      @if (readout.to; as to) {
+        <app-icon class="enhance__arrow" name="arrow-right" [size]="16" />
+        <span class="enhance__to" aria-hidden="true">{{ to }}</span>
+        @if (readout.badge; as badge) {
+          <span class="enhance__badge" aria-hidden="true">{{ badge }}</span>
+        }
+      }
+    </p>
+  }
+
+  <app-ai-option-row cloudOptions [label]="strings.upscale">
+    <app-ai-chips
+      [label]="strings.upscale"
+      [options]="scaleOptions"
+      [value]="choice()"
+      [disabled]="locked()"
+      (valueChange)="select($event)"
+    />
+  </app-ai-option-row>
+
+  <div cloudOptions class="enhance__toggles">
+    @for (row of toggleRows; track row.id) {
+      <app-cloud-switch-row
+        [label]="row.label"
+        [icon]="row.icon"
+        [checked]="toggles()[row.id]"
+        [disabled]="locked()"
+        (checkedChange)="setToggle(row.id, $event)"
+      />
+    }
+  </div>
+
+  @if (showUnlockBanner()) {
+    <app-cloud-unlock-banner
+      cloudOptions
+      [text]="strings.freeUpscale"
+      [actionLabel]="strings.watchAd"
+      [disabled]="locked()"
+      (action)="unlock()"
+    />
+  }
+</app-cloud-ai-screen>

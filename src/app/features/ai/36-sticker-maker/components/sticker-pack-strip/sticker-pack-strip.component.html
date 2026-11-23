@@ -1,0 +1,39 @@
+<span class="pack-strip__title" role="status">{{ title() }}</span>
+<ul class="pack-strip__list" appScrollFade [attr.aria-label]="strings.packLabel">
+  @for (item of items(); track item.id) {
+    <li>
+      <button
+        type="button"
+        class="pack-strip__tile"
+        [attr.aria-label]="item.label"
+        [disabled]="disabled()"
+        (click)="askRemove(item.index)"
+      >
+        <img class="pack-strip__image" decoding="async" loading="lazy" alt="" [src]="item.url" />
+      </button>
+    </li>
+  }
+  <li>
+    <button
+      type="button"
+      class="pack-strip__tile pack-strip__tile--add"
+      [attr.aria-label]="strings.addStickerLabel"
+      [disabled]="!canAdd()"
+      (click)="addRequested.emit()"
+    >
+      <app-icon name="plus" [size]="20" />
+    </button>
+  </li>
+</ul>
+
+<app-dialog [(open)]="confirmOpen" icon="trash" [heading]="strings.removeTitle">
+  <p>{{ strings.removeMessage }}</p>
+  <div class="pack-strip__actions" dialogActions>
+    <app-button variant="danger" block (pressed)="confirmRemove()">
+      {{ strings.remove }}
+    </app-button>
+    <app-button variant="secondary" block (pressed)="closeConfirm()">
+      {{ strings.keep }}
+    </app-button>
+  </div>
+</app-dialog>

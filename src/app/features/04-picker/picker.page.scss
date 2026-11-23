@@ -1,0 +1,168 @@
+@use 'abstracts/mixins' as *;
+
+ion-content {
+  --background: var(--app-bg-deep);
+}
+
+.app-picker {
+  @include safe-area-block-start;
+
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  block-size: 100%;
+}
+
+// Dimmed app bar behind the sheet-style panel (design: Glow at 35%).
+.app-picker__brand {
+  @include text-style(title);
+
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  block-size: var(--app-top-bar);
+  padding-inline: var(--app-gutter);
+  opacity: 0.35;
+}
+
+.app-picker__panel {
+  @include safe-area-block-end;
+
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-block-size: 0;
+  overflow: hidden;
+  border-start-start-radius: var(--app-radius-xl);
+  border-start-end-radius: var(--app-radius-xl);
+  background-color: var(--app-surface);
+}
+
+.app-picker__handle {
+  flex-shrink: 0;
+  align-self: center;
+  inline-size: 2rem;
+  block-size: 0.25rem;
+  margin-block-start: 0.625rem;
+  border-radius: 2px;
+  background-color: var(--app-text-disabled);
+}
+
+.app-picker__header {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--app-space-2) var(--app-space-2) var(--app-space-3) var(--app-space-5);
+}
+
+.app-picker__heading {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-inline-size: 0;
+}
+
+.app-picker__title {
+  @include text-style(title);
+
+  margin: 0;
+}
+
+.app-picker__album {
+  @include touch-target-expand;
+
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: var(--app-space-1);
+  max-inline-size: 100%;
+  padding: var(--app-space-1) 0;
+  border: 0;
+  background: none;
+  color: var(--app-primary-text);
+  font-size: var(--app-font-body-size);
+  font-weight: 500;
+}
+
+.app-picker__album-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.app-picker__close {
+  @include touch-target;
+
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--app-text);
+}
+
+.app-picker__album,
+.app-picker__close,
+.app-picker__notice-action {
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.app-picker__notice,
+.app-picker__more-error {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--app-space-2);
+  font-size: var(--app-font-caption-size);
+}
+
+.app-picker__notice {
+  margin: 0 var(--app-space-4) var(--app-space-3);
+  padding-inline: var(--app-space-3) var(--app-space-1);
+  border-radius: var(--app-radius-sm);
+  background-color: var(--app-surface-2);
+}
+
+.app-picker__notice-text {
+  margin: 0;
+  color: var(--app-text-muted);
+}
+
+.app-picker__notice-action {
+  @include touch-target;
+
+  flex-shrink: 0;
+  padding-inline: var(--app-space-3);
+  border: 0;
+  border-radius: var(--app-radius-sm);
+  background: none;
+  color: var(--app-primary-text);
+  font-weight: 700;
+}
+
+.app-picker__more-error {
+  padding-inline: var(--app-space-5) var(--app-space-2);
+  border-block-start: 1px solid var(--app-divider);
+}
+
+.app-picker__body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-block-size: 0;
+  overflow-y: auto;
+}
+
+.app-picker__grid {
+  flex: 1 1 auto;
+}
+
+.app-picker__skeleton {
+  padding-inline: var(--app-space-1);
+}

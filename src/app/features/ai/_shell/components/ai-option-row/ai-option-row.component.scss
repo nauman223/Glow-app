@@ -1,0 +1,24 @@
+:host {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-3);
+  min-block-size: var(--app-touch-min);
+}
+
+.ai-option-row__label {
+  flex: 0 0 5.25rem;
+  color: var(--app-text-muted);
+  font-size: 0.8125rem;
+}
+
+.ai-option-row__control {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: var(--app-space-2);
+  min-inline-size: 0;
+}
+
+:host(.ai-option-row--wrap) .ai-option-row__control {
+  flex-wrap: wrap;
+}

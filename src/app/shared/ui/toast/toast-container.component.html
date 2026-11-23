@@ -1,0 +1,28 @@
+<div class="app-toasts" aria-live="polite" aria-relevant="additions">
+  @for (viewModel of viewModels(); track viewModel.toast.id) {
+    <div
+      [class]="viewModel.cssClass"
+      [attr.role]="viewModel.role"
+      [attr.aria-live]="viewModel.live"
+      aria-atomic="true"
+      animate.enter="app-toast--enter"
+      animate.leave="app-toast--leave"
+    >
+      <app-icon class="app-toast__icon" [name]="viewModel.icon" [size]="20" />
+      <p class="app-toast__message">{{ viewModel.toast.message }}</p>
+      @if (viewModel.toast.action; as action) {
+        <button type="button" class="app-toast__action" (click)="runAction(viewModel.toast)">
+          {{ action.label }}
+        </button>
+      }
+      <button
+        type="button"
+        class="app-toast__close"
+        [attr.aria-label]="strings.dismiss"
+        (click)="dismiss(viewModel.toast.id)"
+      >
+        <app-icon name="close" [size]="20" />
+      </button>
+    </div>
+  }
+</div>

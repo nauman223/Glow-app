@@ -1,0 +1,35 @@
+@if (open()) {
+  <div
+    class="app-dialog__backdrop"
+    animate.enter="app-dialog__backdrop--enter"
+    animate.leave="app-dialog__backdrop--leave"
+  ></div>
+  <div
+    class="app-dialog__layer"
+    role="dialog"
+    aria-modal="true"
+    tabindex="-1"
+    [attr.aria-labelledby]="titleId"
+    [attr.aria-describedby]="bodyId"
+    animate.enter="app-dialog--enter"
+    animate.leave="app-dialog--leave"
+    (click)="onContainerClick($event)"
+    (keydown.escape)="requestClose()"
+  >
+    <div class="app-dialog" cdkTrapFocus [cdkTrapFocusAutoCapture]="true">
+      @if (icon(); as icon) {
+        <div class="app-dialog__icon">
+          <app-icon [name]="icon" [size]="32" />
+        </div>
+      }
+      <ng-content select="[dialogHero]" />
+      <h2 class="app-dialog__title" [id]="titleId">{{ heading() }}</h2>
+      <div class="app-dialog__body" [id]="bodyId">
+        <ng-content />
+      </div>
+      <div class="app-dialog__actions">
+        <ng-content select="[dialogActions]" />
+      </div>
+    </div>
+  </div>
+}

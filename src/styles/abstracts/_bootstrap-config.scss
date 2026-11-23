@@ -1,0 +1,61 @@
+// Bootstrap configuration layer: no CSS is emitted from this file.
+// Order matters: functions -> overrides -> variables -> dark variables -> maps -> mixins
+// -> utilities map.
+
+@use 'sass:map';
+@use 'sass:meta';
+@import 'bootstrap/scss/functions';
+@import 'variables';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/variables-dark';
+
+// Drop palettes nothing reads (saves the --bs-blue..--bs-gray-900 custom properties).
+$colors: ();
+$grays: ();
+
+// Templates only use `.is-invalid` / `.invalid-feedback`; skip the valid-state rules.
+$form-validation-states: map.remove($form-validation-states, 'valid');
+
+@import 'bootstrap/scss/maps';
+
+// Keep the per-colour emphasis/subtle maps in step with the trimmed $theme-colors.
+$theme-colors-text: map-get-multiple($theme-colors-text, map.keys($theme-colors));
+$theme-colors-bg-subtle: map-get-multiple($theme-colors-bg-subtle, map.keys($theme-colors));
+$theme-colors-border-subtle: map-get-multiple($theme-colors-border-subtle, map.keys($theme-colors));
+$theme-colors-text-dark: map-get-multiple($theme-colors-text-dark, map.keys($theme-colors));
+$theme-colors-bg-subtle-dark: map-get-multiple(
+  $theme-colors-bg-subtle-dark,
+  map.keys($theme-colors)
+);
+$theme-colors-border-subtle-dark: map-get-multiple(
+  $theme-colors-border-subtle-dark,
+  map.keys($theme-colors)
+);
+
+@import 'bootstrap/scss/mixins';
+@import 'bootstrap/scss/utilities';
+
+// Trim the utilities API to the classes templates actually use.
+// Add a key here before using a new utility class in a template.
+$utilities: map-get-multiple(
+  $utilities,
+  ('display', 'flex-direction', 'gap', 'margin-top', 'margin-bottom', 'padding-y', 'text-align')
+);
+
+// Responsive (sm/md/lg/xl/xxl) variants multiply CSS size and the app is phone-first,
+// so no utility keeps them.
+@each $key, $utility in $utilities {
+  @if meta.type-of($utility) == 'map' {
+    $utilities: map.merge(
+      $utilities,
+      (
+        $key: map.merge(
+            $utility,
+            (
+              responsive: false,
+            )
+          ),
+      )
+    );
+  }
+}

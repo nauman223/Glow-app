@@ -1,0 +1,37 @@
+<app-bottom-sheet modal showClose [heading]="strings.albumsTitle" [(open)]="open">
+  <ul class="app-albums">
+    @for (item of items(); track item.key) {
+      <li>
+        <button
+          type="button"
+          class="app-albums__row"
+          [attr.aria-current]="item.ariaCurrent"
+          (click)="choose(item.album)"
+        >
+          @if (item.album.coverUrl; as coverUrl) {
+            <img
+              class="app-albums__cover"
+              alt=""
+              width="48"
+              height="48"
+              loading="lazy"
+              decoding="async"
+              [src]="coverUrl"
+            />
+          } @else {
+            <span class="app-albums__cover app-albums__cover--empty">
+              <app-icon name="gallery" />
+            </span>
+          }
+          <span class="app-albums__text">
+            <span class="app-albums__name">{{ item.album.name }}</span>
+            <span class="app-albums__count">{{ item.countLabel }}</span>
+          </span>
+          @if (item.selected) {
+            <app-icon class="app-albums__check" name="check" />
+          }
+        </button>
+      </li>
+    }
+  </ul>
+</app-bottom-sheet>

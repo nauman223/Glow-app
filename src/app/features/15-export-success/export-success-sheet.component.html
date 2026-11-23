@@ -1,0 +1,40 @@
+<app-bottom-sheet modal [(open)]="open" [label]="strings.sheetLabel">
+  <div class="success">
+    <div class="success__hero">
+      @if (thumbnailUrl(); as url) {
+        <img
+          class="success__thumbnail"
+          decoding="async"
+          [src]="url"
+          [alt]="strings.thumbnailLabel"
+        />
+      }
+      <span
+        class="success__badge"
+        [class.success__badge--corner]="hasThumbnail()"
+        aria-hidden="true"
+      >
+        <app-icon name="check" [size]="checkSize()" />
+      </span>
+    </div>
+
+    <h2 class="success__title">{{ strings.title }}</h2>
+    <p class="success__location">{{ locationText() }}</p>
+
+    <button type="button" class="success__target" [disabled]="sharing()" (click)="share.emit()">
+      <span class="success__target-icon"><app-icon name="share" /></span>
+      {{ strings.share }}
+    </button>
+
+    <div class="success__actions">
+      <app-button size="lg" block (pressed)="editAnother.emit()">
+        {{ strings.editAnother }}
+      </app-button>
+      <app-button variant="link" block (pressed)="backToEditor.emit()">
+        {{ strings.backToEditor }}
+      </app-button>
+    </div>
+
+    <app-native-ad-card [active]="open()" />
+  </div>
+</app-bottom-sheet>

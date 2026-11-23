@@ -1,0 +1,55 @@
+<div class="colour-picker__row" appScrollFade>
+  <div class="colour-picker__group" role="radiogroup" [attr.aria-label]="label()">
+    @for (swatch of swatchViews(); track swatch.hex; let index = $index) {
+      <button
+        #swatchButton
+        type="button"
+        role="radio"
+        class="colour-picker__button"
+        [class.colour-picker__button--selected]="swatch.selected"
+        [attr.aria-checked]="swatch.selected"
+        [attr.aria-label]="swatch.name"
+        [tabIndex]="swatch.tabIndex"
+        (click)="select(swatch)"
+        (keydown)="onSwatchKeydown($event, index)"
+      >
+        <span class="colour-picker__dot" [style.--swatch-colour]="swatch.hex"></span>
+      </button>
+    }
+  </div>
+
+  <button
+    type="button"
+    class="colour-picker__button colour-picker__button--custom"
+    [class.colour-picker__button--selected]="isCustom()"
+    [attr.aria-label]="customLabel()"
+    [attr.aria-expanded]="customOpen()"
+    [attr.aria-controls]="editorId"
+    (click)="toggleCustom()"
+  >
+    <span class="colour-picker__dot"></span>
+  </button>
+
+  @if (eyedropper()) {
+    <button
+      type="button"
+      class="colour-picker__button colour-picker__button--eyedropper"
+      [attr.aria-label]="strings.eyedropper"
+      (click)="requestEyedropper()"
+    >
+      <span class="colour-picker__dot">
+        <app-icon name="eyedropper" [size]="16" />
+      </span>
+    </button>
+  }
+</div>
+
+@if (customOpen()) {
+  <app-hsv-picker
+    class="colour-picker__editor"
+    role="group"
+    [attr.id]="editorId"
+    [attr.aria-label]="strings.editorLabel"
+    [(value)]="value"
+  />
+}

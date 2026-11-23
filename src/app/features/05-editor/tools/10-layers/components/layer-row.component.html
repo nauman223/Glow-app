@@ -1,0 +1,60 @@
+<span class="layer-row__handle" cdkDragHandle [class.layer-row__handle--off]="!movable()">
+  <app-icon name="drag-handle" [size]="18" />
+</span>
+
+<button
+  type="button"
+  class="layer-row__main"
+  [attr.aria-pressed]="selected()"
+  (click)="selectRequested.emit()"
+>
+  <span class="layer-row__thumb" [class.layer-row__thumb--hidden]="!layer().visible">
+    @if (isText()) {
+      <span class="layer-row__glyph" aria-hidden="true">T</span>
+    } @else if (thumbnail(); as url) {
+      <img class="layer-row__image" alt="" decoding="async" [src]="url" />
+    }
+  </span>
+  <span class="layer-row__name">{{ name() }}</span>
+</button>
+
+@if (movable()) {
+  <button
+    type="button"
+    class="visually-hidden-focusable layer-row__move"
+    [disabled]="!canMoveUp()"
+    [attr.aria-label]="strings.moveUp(name())"
+    (click)="moveRequested.emit('forward')"
+  >
+    <app-icon name="chevron-down" class="layer-row__up" [size]="18" />
+  </button>
+  <button
+    type="button"
+    class="visually-hidden-focusable layer-row__move"
+    [disabled]="!canMoveDown()"
+    [attr.aria-label]="strings.moveDown(name())"
+    (click)="moveRequested.emit('backward')"
+  >
+    <app-icon name="chevron-down" [size]="18" />
+  </button>
+}
+
+<button
+  type="button"
+  class="layer-row__toggle layer-row__toggle--eye"
+  [class.layer-row__toggle--off]="!layer().visible"
+  [attr.aria-label]="visibilityLabel()"
+  (click)="visibilityToggled.emit()"
+>
+  <app-icon name="eye" [size]="18" />
+</button>
+<button
+  type="button"
+  class="layer-row__toggle"
+  [class.layer-row__toggle--on]="layer().locked"
+  [attr.aria-disabled]="isBase()"
+  [attr.aria-label]="lockLabel()"
+  (click)="lockToggled.emit()"
+>
+  <app-icon name="lock" [size]="18" />
+</button>

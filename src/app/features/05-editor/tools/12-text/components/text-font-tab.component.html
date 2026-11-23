@@ -1,0 +1,73 @@
+<div
+  class="font-tab__fonts"
+  appScrollFade
+  role="group"
+  [attr.aria-label]="strings.fontFamily"
+  [attr.aria-busy]="loading()"
+>
+  @for (font of fonts(); track font.id) {
+    <button
+      type="button"
+      class="font-tab__chip"
+      [class.font-tab__chip--selected]="font.selected"
+      [style.--chip-font]="font.previewFamily"
+      [attr.aria-pressed]="font.selected"
+      (click)="pickFont(font.id)"
+    >
+      {{ font.label }}
+    </button>
+  }
+</div>
+
+<div class="font-tab__tools" role="group" [attr.aria-label]="strings.formatting">
+  <button
+    type="button"
+    class="font-tab__tool"
+    [class.font-tab__tool--on]="boldPressed()"
+    [disabled]="!boldAvailable()"
+    [attr.aria-pressed]="boldPressed()"
+    [attr.aria-label]="strings.bold"
+    (click)="toggleBold()"
+  >
+    <span class="font-tab__face font-tab__face--bold" aria-hidden="true">B</span>
+  </button>
+  <button
+    type="button"
+    class="font-tab__tool"
+    [class.font-tab__tool--on]="style().italic"
+    [attr.aria-pressed]="style().italic"
+    [attr.aria-label]="strings.italic"
+    (click)="toggleItalic()"
+  >
+    <span class="font-tab__face font-tab__face--italic" aria-hidden="true">I</span>
+  </button>
+  @for (option of alignments(); track option.align) {
+    <button
+      type="button"
+      class="font-tab__tool"
+      [class.font-tab__tool--soft]="option.pressed"
+      [attr.aria-pressed]="option.pressed"
+      [attr.aria-label]="option.label"
+      (click)="align(option.align)"
+    >
+      <span class="font-tab__face"><app-icon [name]="option.icon" [size]="18" /></span>
+    </button>
+  }
+
+  <div class="font-tab__spacing">
+    <span class="font-tab__spacing-glyph" aria-hidden="true">VA</span>
+    <app-slider
+      class="font-tab__slider"
+      readout="none"
+      [label]="strings.letterSpacing"
+      [labelVisible]="false"
+      [min]="spacingRange.min"
+      [max]="spacingRange.max"
+      [step]="spacingRange.step"
+      [defaultValue]="0"
+      [value]="style().letterSpacing"
+      (valueChange)="setSpacing($event, 'preview')"
+      (committed)="setSpacing($event, 'commit')"
+    />
+  </div>
+</div>

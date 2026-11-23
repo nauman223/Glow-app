@@ -1,0 +1,79 @@
+@use 'abstracts/mixins' as *;
+
+// Bleeds to the sheet edges so tiles scroll under them, like the board's strip.
+:host {
+  display: flex;
+  gap: 0.625rem;
+  margin-inline: calc(var(--app-space-4) * -1);
+
+  // Room for the PRO badge, which overhangs the art by 2px.
+  padding-block-start: 2px;
+  padding-inline: var(--app-space-4);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+// The badge follows the name in the DOM ("Curly, Pro, locked") and sits on the art's corner.
+.hair-tile {
+  position: relative;
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.375rem;
+  min-inline-size: var(--app-touch-min);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--app-text-muted);
+  font-size: 0.75rem;
+  font-weight: 500;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+  }
+}
+
+.hair-tile--selected {
+  color: var(--app-text);
+}
+
+.hair-tile__art {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  inline-size: 4rem;
+  block-size: 4rem;
+  border: 3px solid transparent;
+  border-radius: 50%;
+  background-color: var(--app-surface-2);
+
+  .hair-tile--selected & {
+    border-color: var(--app-primary);
+  }
+}
+
+.hair-tile__svg {
+  inline-size: 2.875rem;
+  block-size: 2.875rem;
+}
+
+// Illustration colours from the board's thumbnails (not theme tokens).
+.hair-tile__face {
+  fill: #a86c48;
+}
+
+.hair-tile__hair {
+  fill: #2b1a12;
+}
+
+.hair-tile__pro {
+  position: absolute;
+  inset-block-start: -2px;
+  inset-inline-end: -2px;
+}

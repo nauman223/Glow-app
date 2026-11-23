@@ -1,0 +1,27 @@
+<span class="bg-swatches__label" [id]="labelId">{{ strings.newBackground }}</span>
+<div class="bg-swatches__list" role="group" [attr.aria-labelledby]="labelId">
+  @for (id of ids; track id) {
+    <button
+      type="button"
+      class="bg-swatch"
+      [class]="'bg-swatch--' + id"
+      [class.bg-swatch--selected]="id === value()"
+      [attr.aria-label]="strings.backgrounds[id]"
+      [attr.aria-pressed]="id === value()"
+      [disabled]="disabled()"
+      (click)="selected.emit(id)"
+    >
+      @switch (id) {
+        @case ('blur') {
+          @if (photoSrc(); as src) {
+            <img class="bg-swatch__photo" alt="" decoding="async" [src]="src" />
+          }
+          <span class="bg-swatch__tag" aria-hidden="true">{{ strings.blurTag }}</span>
+        }
+        @case ('photo') {
+          <app-icon name="gallery" [size]="20" />
+        }
+      }
+    </button>
+  }
+</div>

@@ -1,0 +1,69 @@
+@if (open()) {
+  @if (modal()) {
+    <div
+      class="app-sheet__scrim"
+      tabindex="-1"
+      aria-hidden="true"
+      animate.enter="app-sheet__scrim--enter"
+      animate.leave="app-sheet__scrim--leave"
+      (click)="requestClose()"
+      (keydown.escape)="requestClose()"
+    ></div>
+  }
+  <section
+    #panel
+    class="app-sheet"
+    role="dialog"
+    tabindex="-1"
+    [class.app-sheet--modal]="modal()"
+    [attr.aria-modal]="ariaModal()"
+    [attr.aria-labelledby]="labelledBy()"
+    [attr.aria-label]="ariaLabel()"
+    [cdkTrapFocus]="modal()"
+    animate.enter="app-sheet--enter"
+    animate.leave="app-sheet--leave"
+    (keydown.escape)="requestClose()"
+  >
+    @if (dismissible()) {
+      <button
+        type="button"
+        class="app-sheet__grabber"
+        [appSheetDrag]="panel"
+        [attr.aria-label]="strings.dragHandle"
+        (dismissed)="requestClose()"
+        (tapped)="requestClose()"
+      >
+        <span class="app-sheet__handle"></span>
+      </button>
+    } @else {
+      <div class="app-sheet__grabber" aria-hidden="true">
+        <span class="app-sheet__handle"></span>
+      </div>
+    }
+
+    <div class="app-sheet__header">
+      @if (heading(); as heading) {
+        <h2 class="app-sheet__title" [id]="titleId">{{ heading }}</h2>
+      }
+      <ng-content select="[sheetHeader]" />
+      @if (closeVisible()) {
+        <button
+          type="button"
+          class="app-sheet__close"
+          [attr.aria-label]="strings.close"
+          (click)="requestClose()"
+        >
+          <app-icon name="close" />
+        </button>
+      }
+    </div>
+
+    <div class="app-sheet__body">
+      <ng-content />
+    </div>
+
+    <div class="app-sheet__footer">
+      <ng-content select="[sheetFooter]" />
+    </div>
+  </section>
+}

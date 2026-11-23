@@ -1,0 +1,29 @@
+<app-cloud-ai-screen
+  [eyebrow]="strings.eyebrow"
+  [heading]="strings.title"
+  [actionLabel]="actionLabel()"
+  [historyLabel]="strings.historyLabel"
+  [optionsLabel]="strings.optionsLabel"
+  [optionsKey]="optionsKey()"
+  (actionRequested)="run()"
+>
+  <app-cartoon-style-grid
+    cloudOptions
+    [styles]="styles"
+    [value]="style()"
+    [label]="strings.stylesLabel"
+    [disabled]="locked()"
+    [proLocked]="proLocked()"
+    (selected)="select($event)"
+  />
+
+  <app-slider
+    cloudOptions
+    class="cartoon__likeness"
+    [label]="strings.likeness"
+    [value]="likeness()"
+    [defaultValue]="defaultLikeness"
+    [disabled]="locked()"
+    (committed)="setLikeness($event)"
+  />
+</app-cloud-ai-screen>

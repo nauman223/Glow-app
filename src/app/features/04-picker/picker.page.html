@@ -1,0 +1,149 @@
+<ion-content [scrollY]="false">
+  <div class="app-picker">
+    <div class="app-picker__brand" aria-hidden="true">{{ appName }}</div>
+
+    <main class="app-picker__panel" aria-labelledby="app-picker-title">
+      <span class="app-picker__handle" aria-hidden="true"></span>
+
+      <header class="app-picker__header">
+        <div class="app-picker__heading">
+          <h1 id="app-picker-title" class="app-picker__title">{{ title }}</h1>
+          @if (showAlbumSwitcher()) {
+            <button
+              type="button"
+              class="app-picker__album"
+              aria-haspopup="dialog"
+              [attr.aria-label]="albumButtonLabel()"
+              [attr.aria-expanded]="albumsOpen()"
+              (click)="openAlbums()"
+            >
+              <span class="app-picker__album-name">{{ albumName() }}</span>
+              <app-icon name="chevron-down" [size]="16" />
+            </button>
+          }
+        </div>
+        <button
+          type="button"
+          class="app-picker__close"
+          [attr.aria-label]="strings.close"
+          (click)="close()"
+        >
+          <app-icon name="close" />
+        </button>
+      </header>
+
+      @if (store.isLimited()) {
+        <div class="app-picker__notice">
+          <p class="app-picker__notice-text">{{ strings.limitedMessage }}</p>
+          <button
+            type="button"
+            class="app-picker__notice-action"
+            [attr.aria-busy]="store.isRequesting()"
+            (click)="onAccessAction()"
+          >
+            {{ strings.selectMore }}
+          </button>
+        </div>
+      }
+
+      <div class="app-picker__body">
+        @switch (bodyView()) {
+          @case ('grid') {
+            <app-photo-grid
+              class="app-picker__grid"
+              [assets]="store.assets()"
+              [selection]="store.selectionOrder()"
+              [numbered]="numbered()"
+              [pendingId]="opener.pendingAssetId()"
+              [busy]="busy()"
+              [canLoadMore]="store.canLoadMore()"
+              [loadingMore]="store.isLoadingMore()"
+              (assetPicked)="onAssetPicked($event)"
+              (cameraPicked)="onCamera()"
+              (endReached)="store.loadMore()"
+            />
+            @if (store.loadMoreFailed()) {
+              <div class="app-picker__more-error" role="alert">
+                <span>{{ strings.loadMoreFailed }}</span>
+                <button
+                  type="button"
+                  class="app-picker__notice-action"
+                  (click)="store.retryLoadMore()"
+                >
+                  {{ strings.retry }}
+                </button>
+              </div>
+            }
+          }
+          @case ('empty') {
+            <app-state-message
+              [heading]="strings.emptyHeading"
+              [message]="strings.emptyMessage"
+              [retryLabel]="strings.takePhoto"
+              (retry)="onCamera()"
+            />
+          }
+          @case ('error') {
+            <app-state-message
+              variant="error"
+              [heading]="strings.errorHeading"
+              [message]="strings.errorMessage"
+              [retryLabel]="strings.retry"
+              (retry)="store.reload()"
+            />
+          }
+          @case ('access') {
+            <app-permission-state
+              [kind]="accessKind()"
+              [busy]="accessBusy()"
+              [opensSettings]="store.opensSettings"
+              (action)="onAccessAction()"
+              (camera)="onCamera()"
+            />
+          }
+          @default {
+            <app-skeleton-grid
+              class="app-picker__skeleton"
+              [count]="skeletonTiles"
+              [label]="strings.loadingPhotos"
+            />
+          }
+        }
+      </div>
+
+      @if (config.collage !== null) {
+        <app-selection-footer
+          [count]="selectedCount()"
+          [max]="config.maxSelection"
+          [progress]="collage.progressLabel()"
+          [disabled]="busy()"
+          (continued)="onContinue()"
+        />
+      }
+    </main>
+  </div>
+
+  @if (view() === 'grid') {
+    <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)" />
+  }
+</ion-content>
+
+<span class="visually-hidden" role="status">{{ opener.statusMessage() }}</span>
+
+<input
+  #fileInput
+  type="file"
+  accept="image/*"
+  class="visually-hidden"
+  [multiple]="config.collage !== null"
+  tabindex="-1"
+  aria-hidden="true"
+  (change)="onFileChosen($event)"
+/>
+
+<app-album-sheet
+  [(open)]="albumsOpen"
+  [albums]="store.albums()"
+  [selectedId]="store.selectedAlbumId()"
+  (albumSelected)="onAlbumSelected($event)"
+/>

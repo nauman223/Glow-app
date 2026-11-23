@@ -1,0 +1,19 @@
+// Self-hosted Roboto (latin subset, WOFF2), served from public/fonts.
+// Root-relative URLs: Angular's esbuild CSS pipeline leaves `/...` URLs untouched (it
+// marks them external), so they resolve against the served root, which is also the
+// Capacitor WebView origin. index.html preloads 400 and 700.
+
+$app-roboto-weights: (400, 500, 700, 900);
+
+@each $weight in $app-roboto-weights {
+  @font-face {
+    font-display: swap;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: $weight;
+    src: url('/fonts/roboto-#{$weight}.woff2') format('woff2');
+    unicode-range:
+      U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+      U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+}

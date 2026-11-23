@@ -1,0 +1,84 @@
+// Same fitting as the shell's result stage: the largest box of the photo's aspect that fits.
+:host {
+  position: relative;
+  display: block;
+  flex: 1 1 auto;
+  inline-size: 100%;
+  min-block-size: 0;
+}
+
+// Size container on an absolute layer (definite height): see AiResultStageComponent.
+.cutout-stage__fit {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  container-type: size;
+}
+
+.cutout-stage__frame {
+  position: relative;
+  inline-size: min(100cqi, 100cqb * var(--cutout-aspect));
+  aspect-ratio: var(--cutout-aspect);
+  overflow: hidden;
+  border-radius: var(--app-radius-xs);
+  background-color: var(--app-surface);
+}
+
+.cutout-stage__canvas,
+.cutout-stage__before {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+.cutout-stage__canvas {
+  // Strokes and taps belong to the canvas, never to WebView scrolling or zoom.
+  touch-action: none;
+  cursor: crosshair;
+}
+
+.cutout-stage__before {
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.cutout-stage__ring {
+  position: absolute;
+  inset-block-start: var(--ring-y, 0);
+  inset-inline-start: var(--ring-x, 0);
+  inline-size: var(--ring-size, 0);
+  block-size: var(--ring-size, 0);
+  border: 2px solid var(--app-text);
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px var(--app-scrim);
+  opacity: 0;
+  pointer-events: none;
+  translate: -50% -50%;
+
+  &:dir(rtl) {
+    translate: 50% -50%;
+  }
+}
+
+.cutout-stage__ring--on {
+  opacity: 1;
+}
+
+.cutout-stage__pill {
+  position: absolute;
+  inset-block-end: var(--app-space-3);
+  inset-inline-start: 50%;
+  margin: 0;
+  padding: var(--app-space-1) var(--app-space-3);
+  border-radius: var(--app-radius-pill);
+  background-color: var(--app-scrim);
+  color: var(--app-text);
+  font-size: var(--app-font-caption-size);
+  translate: -50% 0;
+
+  &:dir(rtl) {
+    translate: 50% 0;
+  }
+}

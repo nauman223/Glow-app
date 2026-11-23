@@ -1,0 +1,44 @@
+@use 'abstracts/mixins' as *;
+
+// Three columns of 64 px tiles, 8 px apart (board 23).
+:host {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--app-space-2);
+}
+
+.beauty-tool {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--app-space-1);
+  min-block-size: 4rem;
+  padding-inline: var(--app-space-1);
+  border: 1px solid var(--app-surface-2);
+  border-radius: var(--app-radius-md);
+  background-color: var(--app-surface-2);
+  color: var(--app-text);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  transition:
+    background-color var(--app-dur-short) var(--app-ease),
+    border-color var(--app-dur-short) var(--app-ease);
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &:disabled {
+    color: var(--app-text-disabled);
+  }
+}
+
+.beauty-tool__icon {
+  color: var(--app-accent);
+}
+
+.beauty-tool--selected {
+  border-color: var(--app-primary);
+  background-color: var(--app-primary-tint);
+}

@@ -1,0 +1,61 @@
+// Global skeleton primitive (photo grids, AI progress, lists) so components render
+// placeholders without duplicating keyframes. The shimmer moves a highlight with
+// `transform` only (compositor-friendly) and stops for reduced-motion users.
+
+.skeleton {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: var(--app-radius-sm);
+  background-color: var(--app-skeleton-base);
+
+  &::after {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, var(--app-skeleton-highlight), transparent);
+    content: '';
+    transform: translateX(-100%);
+    animation: skeleton-shimmer 1.4s var(--app-ease) infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &::after {
+      animation: none;
+      opacity: 0;
+    }
+  }
+}
+
+// RTL: sweep from the inline start.
+[dir='rtl'] .skeleton::after {
+  animation-direction: reverse;
+}
+
+.skeleton--text {
+  block-size: 1em;
+}
+
+.skeleton--title {
+  block-size: 1.5em;
+  inline-size: 60%;
+}
+
+.skeleton--block {
+  block-size: 6rem;
+}
+
+.skeleton--thumb {
+  aspect-ratio: 1;
+  border-radius: var(--app-radius-md);
+}
+
+.skeleton--circle {
+  border-radius: 50%;
+  aspect-ratio: 1;
+}
+
+@keyframes skeleton-shimmer {
+  to {
+    transform: translateX(100%);
+  }
+}

@@ -1,0 +1,14 @@
+<ion-content [scrollY]="false">
+  <main class="splash">
+    <div class="splash__brand">
+      <div class="splash__logo">
+        <app-brand-logo tile [size]="128" />
+      </div>
+      <div class="splash__text">
+        <h1 class="splash__name">{{ strings.appName }}</h1>
+        <p class="splash__tagline">{{ strings.tagline }}</p>
+      </div>
+    </div>
+    <div class="splash__bar" aria-hidden="true"></div>
+  </main>
+</ion-content>

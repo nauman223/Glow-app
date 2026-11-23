@@ -1,0 +1,77 @@
+@use 'abstracts/mixins' as *;
+
+:host {
+  display: block;
+}
+
+.theme-card {
+  display: flex;
+  flex-direction: column;
+  inline-size: 100%;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--app-radius-md);
+  background-color: var(--app-surface);
+  color: var(--app-text);
+  text-align: start;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.theme-card__art {
+  position: relative;
+  order: -1;
+  display: block;
+  block-size: 9.375rem;
+  background-color: var(--app-surface-2);
+}
+
+.theme-card__image {
+  position: absolute;
+  inset: 0;
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}
+
+.theme-card__new,
+.theme-card__pro {
+  position: absolute;
+  inset-block-start: var(--app-space-2);
+}
+
+.theme-card__new {
+  inset-inline-start: var(--app-space-2);
+  padding: 0.125rem 0.375rem;
+  border-radius: var(--app-radius-xs);
+  background-color: var(--app-accent);
+  color: var(--app-on-accent);
+  font-size: 0.625rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.theme-card__pro {
+  inset-inline-end: var(--app-space-2);
+}
+
+.theme-card__text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  padding: var(--app-space-2) 0.625rem 0.625rem;
+}
+
+.theme-card__name {
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.theme-card__uses {
+  color: var(--app-text-muted);
+  font-size: 0.6875rem;
+}

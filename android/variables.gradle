@@ -1,0 +1,18 @@
+ext {
+    // Android 8.0 (decided by the user).
+    minSdkVersion = 26
+    compileSdkVersion = 36
+    targetSdkVersion = 36
+    androidxActivityVersion = '1.11.0'
+    androidxAppCompatVersion = '1.7.1'
+    androidxCoordinatorLayoutVersion = '1.3.0'
+    androidxCoreVersion = '1.17.0'
+    androidxFragmentVersion = '1.8.9'
+    coreSplashScreenVersion = '1.2.0'
+    androidxWebkitVersion = '1.14.0'
+    cordovaAndroidVersion = '14.0.1'
+    // Test-library versions (junit/espresso) are intentionally absent: the project has no tests.
+    // Plugins fall back to their own defaults for their (unused) test configurations.
+    // @capacitor-community/admob: playServicesAdsVersion / userMessagingPlatformVersion /
+    // androidxCoreKTXVersion are optional; the plugin README says to leave its pinned defaults.
+}

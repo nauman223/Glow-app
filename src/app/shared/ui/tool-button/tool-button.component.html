@@ -1,0 +1,17 @@
+<button
+  type="button"
+  class="app-tool"
+  [class.app-tool--selected]="selected()"
+  [disabled]="disabled()"
+  [attr.aria-pressed]="ariaPressed()"
+  (click)="handleClick($event)"
+>
+  <app-icon [name]="icon()" />
+  <span class="app-tool__label">{{ label() }}</span>
+  @if (pro()) {
+    <app-pro-badge class="app-tool__badge" />
+  } @else if (isNew()) {
+    <span class="app-tool__dot" aria-hidden="true"></span>
+    <span class="visually-hidden">{{ strings.new }}</span>
+  }
+</button>

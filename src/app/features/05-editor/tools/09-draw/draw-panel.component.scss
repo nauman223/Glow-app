@@ -1,0 +1,88 @@
+@use 'abstracts/mixins' as *;
+
+// The host is not positioned, so the clear button is placed against the editor layout
+// (the stage's top-end corner); it is outside the sheet, whose transform would capture it.
+:host {
+  display: block;
+  flex: 0 0 auto;
+}
+
+.draw-panel__clear {
+  @include touch-target-expand;
+
+  position: absolute;
+  z-index: 1;
+  inset-block-start: var(--app-space-4);
+  inset-inline-end: var(--app-space-4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  border: 0;
+  border-radius: 50%;
+  background-color: color-mix(in srgb, var(--app-surface) 90%, transparent);
+  color: var(--app-text);
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.draw-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  padding-block-end: var(--app-space-1);
+}
+
+.draw-panel__settings {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding-inline: var(--app-space-5);
+}
+
+.draw-panel__preview {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  border-radius: var(--app-radius-sm);
+  background-color: var(--app-surface-2);
+}
+
+.draw-panel__dot {
+  inline-size: 1.125rem;
+  block-size: 1.125rem;
+  border-radius: 50%;
+  background-color: var(--draw-colour);
+  opacity: var(--draw-opacity);
+}
+
+.draw-panel__dot--eraser {
+  border: 2px dashed var(--app-text-muted);
+  background-color: transparent;
+}
+
+.draw-panel__sliders {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-inline-size: 0;
+}
+
+.draw-panel__hint {
+  @include text-style(caption);
+
+  margin: 0;
+  padding-inline: var(--app-space-4);
+  color: var(--app-accent-text);
+  text-align: center;
+}
+
+.draw-panel__footer {
+  display: contents;
+}

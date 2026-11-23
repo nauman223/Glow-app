@@ -1,0 +1,49 @@
+@use 'abstracts/mixins' as *;
+
+// Board 24: violet-tinted card, cyan play icon, cyan "Watch ad" pill.
+:host {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-block-size: var(--app-touch-min);
+  padding-block: 0.625rem;
+  padding-inline: 0.75rem;
+  border-radius: 0.875rem;
+  background-color: var(--app-primary-tint);
+  color: var(--app-text);
+}
+
+.unlock-banner__icon {
+  flex-shrink: 0;
+  color: var(--app-accent);
+}
+
+.unlock-banner__text {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+.unlock-banner__action {
+  @include touch-target-expand;
+
+  flex-shrink: 0;
+  block-size: 2rem;
+  padding-block: 0;
+  padding-inline: 0.75rem;
+  border: 0;
+  border-radius: var(--app-radius-pill);
+  background-color: var(--app-accent);
+  color: var(--app-on-accent);
+  font-size: 0.75rem;
+  font-weight: 700;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}

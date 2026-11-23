@@ -1,0 +1,75 @@
+@use 'abstracts/mixins' as *;
+
+// Matches the native splash (#121212 + centred logo) so the hand-over is seamless.
+.splash {
+  @include safe-area-block-start;
+  @include safe-area-block-end(2.5rem);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-block-size: 100%;
+  overflow: hidden;
+}
+
+.splash__brand {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  align-items: center;
+  justify-content: center;
+  gap: var(--app-space-7);
+}
+
+// The violet/cyan halo sits behind the logo, slightly above its centre (400px in the design).
+.splash__logo {
+  position: relative;
+  isolation: isolate;
+  line-height: 0;
+
+  &::before {
+    position: absolute;
+    z-index: -1;
+    inset: -136px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      color-mix(in srgb, var(--app-primary) 32%, transparent) 0%,
+      color-mix(in srgb, var(--app-accent) 10%, transparent) 45%,
+      transparent 70%
+    );
+    content: '';
+    translate: 0 -36px;
+  }
+}
+
+.splash__text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--app-space-2);
+  text-align: center;
+}
+
+.splash__name {
+  margin: 0;
+  font-size: 2.125rem;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  line-height: 1.15;
+}
+
+.splash__tagline {
+  margin: 0;
+  color: var(--app-text-muted);
+  font-size: 0.9375rem;
+  letter-spacing: 2px;
+}
+
+.splash__bar {
+  flex-shrink: 0;
+  inline-size: 40px;
+  block-size: 4px;
+  border-radius: 2px;
+  background: var(--app-brand-gradient);
+}

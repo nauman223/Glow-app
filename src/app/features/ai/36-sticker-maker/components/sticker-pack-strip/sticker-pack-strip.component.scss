@@ -1,0 +1,63 @@
+@use 'abstracts/mixins' as *;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-2);
+}
+
+.pack-strip__title {
+  color: var(--app-text-muted);
+  font-size: 0.8125rem;
+}
+
+// One scrollable row of 52 px tiles (up to 30 stickers plus "+").
+.pack-strip__list {
+  display: flex;
+  gap: var(--app-space-2);
+  margin: 0;
+  padding: 0;
+  overflow-x: auto;
+  list-style: none;
+  scrollbar-width: none;
+}
+
+.pack-strip__tile {
+  @include touch-target;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 3.25rem;
+  block-size: 3.25rem;
+  padding: var(--app-space-1);
+  border: 0;
+  border-radius: var(--app-radius-sm);
+  background-color: var(--app-surface-2);
+  color: var(--app-text-muted);
+
+  &:focus-visible {
+    @include focus-ring;
+
+    outline-offset: -0.125rem;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
+.pack-strip__tile--add {
+  border: 1.5px dashed var(--app-control-border);
+  background: none;
+}
+
+.pack-strip__image {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain;
+}
+
+.pack-strip__actions {
+  display: contents;
+}

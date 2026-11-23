@@ -1,0 +1,19 @@
+@for (tile of tiles(); track tile.id) {
+  <button
+    type="button"
+    class="preset-tile"
+    [class.preset-tile--selected]="tile.selected"
+    [attr.aria-pressed]="tile.selected"
+    [disabled]="disabled()"
+    (click)="select(tile.id)"
+  >
+    <span class="preset-tile__frame">
+      @if (tile.thumbnail; as thumbnail) {
+        <img class="preset-tile__image" alt="" decoding="async" [src]="thumbnail" />
+      } @else {
+        <app-skeleton width="100%" height="100%" />
+      }
+    </span>
+    <span class="preset-tile__label">{{ tile.label }}</span>
+  </button>
+}

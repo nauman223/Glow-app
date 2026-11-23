@@ -1,0 +1,7 @@
+<footer class="selection-footer">
+  <p class="selection-footer__count" aria-hidden="true">{{ countText() }}</p>
+  <span class="visually-hidden" role="status">{{ countLabel() }}</span>
+  <app-button [disabled]="!canContinue()" [loading]="preparing()" (pressed)="continued.emit()">
+    {{ strings.continue }}
+  </app-button>
+</footer>

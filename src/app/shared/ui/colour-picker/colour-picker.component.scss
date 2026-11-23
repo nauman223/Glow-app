@@ -1,0 +1,84 @@
+@use 'abstracts/mixins' as *;
+
+// Swatches are drawn at 28px (design) inside 48px buttons, so the row scrolls horizontally
+// instead of shrinking the touch targets.
+:host {
+  display: block;
+}
+
+.colour-picker__row {
+  display: flex;
+  align-items: center;
+  padding-inline: var(--app-space-2);
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: none;
+}
+
+.colour-picker__group {
+  display: flex;
+}
+
+.colour-picker__button {
+  @include touch-target;
+
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--app-text);
+
+  &:focus-visible {
+    outline: none;
+
+    .colour-picker__dot {
+      @include focus-ring;
+    }
+  }
+}
+
+.colour-picker__dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  inline-size: 1.75rem;
+  block-size: 1.75rem;
+  border: 1px solid #4a4a4a;
+  border-radius: 50%;
+  background: var(--swatch-colour);
+  transition: transform var(--app-dur-short) var(--app-ease);
+
+  .colour-picker__button:active & {
+    transform: scale(0.9);
+  }
+
+  .colour-picker__button--selected & {
+    border: 3px solid #fff;
+  }
+}
+
+.colour-picker__button--custom .colour-picker__dot {
+  background: conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+}
+
+.colour-picker__button--custom.colour-picker__button--selected .colour-picker__dot {
+  background:
+    radial-gradient(var(--custom-colour) 0 45%, transparent 47%),
+    conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+}
+
+.colour-picker__button--eyedropper .colour-picker__dot {
+  inline-size: 1.875rem;
+  block-size: 1.875rem;
+  border: 1.5px dashed #9a9a9a;
+  background: none;
+}
+
+.colour-picker__editor {
+  display: block;
+  padding: var(--app-space-3) var(--app-space-4) 0;
+}

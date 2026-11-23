@@ -1,0 +1,17 @@
+// The background sits on the host: the row itself carries the scroll-fade mask.
+:host {
+  display: block;
+  flex: 0 0 auto;
+  background-color: var(--app-surface);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-1);
+  min-block-size: var(--app-tool-bar);
+  padding-inline: var(--app-space-2);
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: none;
+}

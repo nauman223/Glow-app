@@ -1,0 +1,107 @@
+@use 'abstracts/mixins' as *;
+
+.app-toasts {
+  @include safe-area-inline;
+
+  position: fixed;
+  z-index: var(--app-z-toast);
+
+  // Sits above the ad banner (--ad-height) and the gesture bar.
+  inset-block-end: calc(var(--ad-height) + env(safe-area-inset-bottom, 0px) + var(--app-space-4));
+  inset-inline: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--app-space-2);
+  pointer-events: none;
+
+  @include breakpoint-up(md) {
+    align-items: flex-end;
+  }
+}
+
+.app-toast {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-2);
+  inline-size: min(100%, 28rem);
+  min-block-size: var(--app-touch-min);
+  padding-inline: var(--app-space-4) var(--app-space-1);
+  border: 1px solid var(--app-divider);
+  border-radius: var(--app-radius-md);
+  background-color: var(--app-surface);
+  box-shadow: var(--app-shadow-2);
+  color: var(--app-text);
+  pointer-events: auto;
+}
+
+.app-toast__icon {
+  color: var(--app-primary-text);
+}
+
+.app-toast--success .app-toast__icon {
+  color: var(--app-success);
+}
+
+.app-toast--warning .app-toast__icon,
+.app-toast--danger .app-toast__icon {
+  color: var(--app-danger);
+}
+
+.app-toast__message {
+  flex-grow: 1;
+  margin: 0;
+  padding-block: var(--app-space-3);
+  font-size: var(--app-font-body-size);
+  line-height: var(--app-font-body-line-height);
+}
+
+.app-toast__action,
+.app-toast__close {
+  @include touch-target;
+
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: var(--app-radius-pill);
+  background: none;
+  color: inherit;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.app-toast__action {
+  padding-inline: var(--app-space-3);
+  color: var(--app-primary-text);
+  font-size: var(--app-font-label-size);
+  font-weight: 700;
+}
+
+.app-toast__close {
+  color: var(--app-text-muted);
+}
+
+.app-toast--enter {
+  animation: toast-in var(--app-dur-medium) var(--app-ease);
+}
+
+.app-toast--leave {
+  animation: toast-out var(--app-dur-short) var(--app-ease) forwards;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+}
+
+@keyframes toast-out {
+  to {
+    opacity: 0;
+  }
+}

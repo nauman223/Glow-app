@@ -1,0 +1,69 @@
+<span class="adjust-panel__badge" aria-hidden="true">{{ strings.livePreview }}</span>
+<app-compare-button
+  class="adjust-panel__compare"
+  [label]="strings.compare"
+  [ariaLabel]="strings.compareLabel"
+  (comparingChange)="compare($event)"
+/>
+
+<app-bottom-sheet [(open)]="sheetOpen" [label]="strings.panelLabel" (closed)="cancel()">
+  <div class="adjust-panel">
+    <div
+      class="adjust-panel__chips"
+      appScrollFade
+      role="group"
+      [attr.aria-label]="strings.adjustments"
+    >
+      @for (option of options(); track option.key) {
+        <button
+          type="button"
+          class="adjust-panel__chip"
+          [class.adjust-panel__chip--selected]="option.selected"
+          [attr.aria-pressed]="option.selected"
+          (click)="select(option.key)"
+        >
+          <app-icon [name]="option.icon" [size]="22" />
+          {{ option.label }}
+        </button>
+      }
+    </div>
+
+    <div class="adjust-panel__control">
+      <app-slider
+        class="adjust-panel__slider"
+        readout="bubble"
+        [label]="active().label"
+        [labelVisible]="false"
+        [min]="active().range.min"
+        [max]="active().range.max"
+        [bipolar]="active().bipolar"
+        [defaultValue]="0"
+        [disabled]="busy()"
+        [value]="value()"
+        (valueChange)="preview($event)"
+        (committed)="commit($event)"
+      />
+      <button
+        type="button"
+        class="adjust-panel__reset"
+        [attr.aria-label]="resetLabel()"
+        [disabled]="busy()"
+        (click)="reset()"
+      >
+        <app-icon name="reset" [size]="20" />
+      </button>
+    </div>
+
+    @if (editingLayer()) {
+      <p class="visually-hidden">{{ strings.editingLayer }}</p>
+    }
+    <p class="visually-hidden" aria-live="polite">{{ status() }}</p>
+  </div>
+
+  <div class="adjust-panel__footer" sheetFooter>
+    <app-button variant="ghost" [disabled]="busy()" (pressed)="cancel()">
+      {{ strings.cancel }}
+    </app-button>
+    <app-button size="sm" [disabled]="busy()" (pressed)="apply()">{{ strings.apply }}</app-button>
+  </div>
+</app-bottom-sheet>

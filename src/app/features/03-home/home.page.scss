@@ -1,0 +1,37 @@
+@use 'abstracts/mixins' as *;
+
+// Design header: 64px, 16px before the logo, 8px after the 48px settings button.
+.home__toolbar {
+  --min-height: 64px;
+  --padding-start: 0;
+  --padding-end: 0;
+}
+
+.home__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: var(--app-space-4) var(--app-space-2);
+}
+
+.home__settings {
+  @include touch-target;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: var(--app-text);
+}
+
+// Sections stack below the card; the bottom clears the gesture bar (the ad band sits in flow
+// below ion-content, so the content never scrolls under it).
+.home {
+  @include safe-area-block-end(var(--app-space-4));
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-4);
+  padding-block-start: var(--app-space-1);
+  padding-inline: var(--app-space-4);
+}

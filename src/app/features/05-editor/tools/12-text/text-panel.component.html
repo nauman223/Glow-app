@@ -1,0 +1,55 @@
+<app-bottom-sheet [(open)]="sheetOpen" [label]="strings.panelLabel" (closed)="cancel()">
+  <div class="text-panel">
+    <label class="visually-hidden" [for]="inputId">{{ strings.textLabel }}</label>
+    <textarea
+      #textInput
+      class="text-panel__input"
+      rows="1"
+      autocapitalize="sentences"
+      [id]="inputId"
+      [value]="fieldText()"
+      [placeholder]="strings.textPlaceholder"
+      (input)="onInput(textInput.value)"
+      (blur)="onBlur()"
+    ></textarea>
+
+    <app-tab-strip
+      [tabs]="tabs"
+      [(selected)]="tab"
+      [prefix]="tabPrefix"
+      [label]="strings.tabsLabel"
+    />
+
+    <div role="tabpanel" [id]="tabPanelId" [attr.aria-labelledby]="activeTabId()">
+      @switch (tab()) {
+        @case ('font') {
+          <app-text-font-tab
+            [style]="style()"
+            [loadedFonts]="loadedFonts()"
+            (changed)="onStyleChange($event)"
+          />
+        }
+        @case ('style') {
+          <app-text-style-tab [style]="style()" (changed)="onStyleChange($event)" />
+        }
+        @case ('colour') {
+          <app-text-colour-tab [style]="style()" (changed)="onStyleChange($event)" />
+        }
+        @case ('shadow') {
+          <app-text-slider-list
+            [items]="shadowSliders"
+            [style]="style()"
+            (changed)="onStyleChange($event)"
+          />
+        }
+      }
+    </div>
+  </div>
+
+  <div class="text-panel__footer" sheetFooter>
+    <app-button variant="ghost" [disabled]="busy()" (pressed)="cancel()">
+      {{ strings.cancel }}
+    </app-button>
+    <app-button size="sm" [disabled]="busy()" (pressed)="apply()">{{ strings.apply }}</app-button>
+  </div>
+</app-bottom-sheet>

@@ -1,0 +1,74 @@
+<app-cloud-ai-screen
+  [eyebrow]="strings.eyebrow"
+  [heading]="strings.title"
+  [actionLabel]="strings.action"
+  [historyLabel]="strings.historyLabel"
+  [optionsLabel]="strings.optionsLabel"
+  [optionsKey]="optionsKey()"
+  [actionDisabled]="actionDisabled()"
+  (actionRequested)="run()"
+>
+  @if (showsMask()) {
+    <app-cloud-mask-brush
+      cloudStageOverlay
+      [mask]="mask"
+      [tool]="brushTool()"
+      [erasing]="erasing()"
+      [radiusFraction]="radiusFraction()"
+      [label]="brushLabel()"
+    />
+  }
+
+  @if (showsBoxes()) {
+    <app-people-boxes
+      cloudStageOverlay
+      [people]="people()"
+      [selected]="selected()"
+      [regions]="regions()"
+      [disabled]="locked()"
+      (toggled)="toggle($event)"
+    />
+  }
+
+  <app-cloud-mask-status
+    cloudStageFooter
+    [text]="hint()"
+    [tools]="showsMask()"
+    [erasable]="erasable()"
+    [erasing]="erasing()"
+    [canUndo]="mask.canUndo()"
+    [canClear]="mask.canClear()"
+    [disabled]="locked()"
+    (erasingChange)="setErasing($event)"
+    (undo)="undo()"
+    (clear)="clear()"
+  />
+
+  <app-cloud-mask-modes
+    cloudOptions
+    [options]="modeOptions"
+    [value]="mode()"
+    [label]="strings.modesLabel"
+    [disabled]="locked()"
+    (selected)="select($event)"
+  />
+
+  @if (showsChips()) {
+    <app-people-chips
+      cloudOptions
+      [people]="people()"
+      [selected]="selected()"
+      [source]="bitmap()"
+      [loading]="detecting()"
+      [disabled]="locked()"
+      (toggled)="toggle($event)"
+    />
+  }
+
+  <app-cloud-mask-size
+    cloudOptions
+    [value]="brushSize()"
+    [disabled]="sizeDisabled()"
+    (valueChange)="setBrushSize($event)"
+  />
+</app-cloud-ai-screen>

@@ -1,0 +1,7 @@
+<app-bottom-sheet [(open)]="sheetOpen" [label]="strings.tools.aiTools" (closed)="close()">
+  <app-ai-feature-grid
+    class="ai-tools-panel__grid"
+    [features]="features()"
+    (featureSelected)="open($event)"
+  />
+</app-bottom-sheet>

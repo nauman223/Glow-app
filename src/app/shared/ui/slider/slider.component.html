@@ -1,0 +1,48 @@
+<label class="app-slider__label" [class.visually-hidden]="!labelVisible()" [for]="inputId">
+  {{ label() }}
+</label>
+
+<div class="app-slider__control">
+  @if (showBubble()) {
+    <div class="app-slider__scale" aria-hidden="true">
+      <span>{{ minText() }}</span>
+      @if (bipolar()) {
+        <span>{{ originText() }}</span>
+      }
+      <span>{{ maxText() }}</span>
+    </div>
+  }
+
+  <div class="app-slider__track-area">
+    <span class="app-slider__track" aria-hidden="true">
+      <span class="app-slider__fill"></span>
+      @if (bipolar()) {
+        <span class="app-slider__tick"></span>
+      }
+    </span>
+
+    @if (showBubble()) {
+      <span class="app-slider__bubble" aria-hidden="true">{{ valueText() }}</span>
+    }
+
+    <input
+      #range
+      class="app-slider__input"
+      type="range"
+      [id]="inputId"
+      [min]="min()"
+      [max]="max()"
+      [step]="step()"
+      [value]="value()"
+      [disabled]="disabled()"
+      [attr.aria-valuetext]="valueText()"
+      (input)="onInput(range.valueAsNumber)"
+      (change)="onCommit(range.valueAsNumber)"
+      (dblclick)="reset()"
+    />
+  </div>
+</div>
+
+@if (showEndReadout()) {
+  <span class="app-slider__value" aria-hidden="true">{{ valueText() }}</span>
+}

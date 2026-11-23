@@ -1,0 +1,13 @@
+<div class="cutout-stage__fit">
+  <div class="cutout-stage__frame">
+    <canvas #canvas class="cutout-stage__canvas" role="img" [attr.aria-label]="label()"></canvas>
+    @if (beforeSrc(); as before) {
+      <img class="cutout-stage__before" decoding="async" [src]="before" [alt]="strings.beforeAlt" />
+    }
+    <span #ring class="cutout-stage__ring" aria-hidden="true"></span>
+  </div>
+
+  @if (busy()) {
+    <p class="cutout-stage__pill" role="status">{{ busyLabel() }}</p>
+  }
+</div>

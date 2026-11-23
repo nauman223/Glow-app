@@ -1,0 +1,20 @@
+<div
+  class="colour-tab__targets"
+  appScrollFade
+  role="group"
+  [attr.aria-label]="strings.colourTargets"
+>
+  @for (target of targets(); track target.id) {
+    <button
+      type="button"
+      class="colour-tab__target"
+      [class.colour-tab__target--on]="target.pressed"
+      [attr.aria-pressed]="target.pressed"
+      (click)="selectTarget(target.id)"
+    >
+      {{ target.label }}
+    </button>
+  }
+</div>
+
+<app-colour-picker [label]="pickerLabel()" [value]="value()" (valueChange)="pick($event)" />

@@ -1,0 +1,66 @@
+@use 'abstracts/mixins' as *;
+
+// Sliders fill their option row (the row's label has a fixed width).
+.colour-boost__slider {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+
+// "Protect skin tones": 52 × 32 switch from the board, the whole row is the control.
+.colour-boost__switch {
+  @include touch-target;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--app-text);
+  font-size: var(--app-font-body-size);
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &:disabled {
+    color: var(--app-text-disabled);
+  }
+}
+
+.colour-boost__track {
+  display: flex;
+  align-items: center;
+  inline-size: 3.25rem;
+  block-size: 2rem;
+  padding: 0.25rem;
+  border-radius: var(--app-radius-pill);
+  background-color: var(--app-surface-3);
+  transition: background-color var(--app-dur-short) var(--app-ease);
+}
+
+.colour-boost__thumb {
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+  border-radius: 50%;
+  background-color: var(--app-text);
+  transition: transform var(--app-dur-short) var(--app-ease);
+
+  @include reduced-motion {
+    transition: none;
+  }
+}
+
+.colour-boost__switch[aria-checked='true'] {
+  .colour-boost__track {
+    background-color: var(--app-primary);
+  }
+
+  .colour-boost__thumb {
+    transform: translateX(1.25rem);
+
+    &:dir(rtl) {
+      transform: translateX(-1.25rem);
+    }
+  }
+}

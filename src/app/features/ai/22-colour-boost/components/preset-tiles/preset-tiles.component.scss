@@ -1,0 +1,60 @@
+@use 'abstracts/mixins' as *;
+
+// Five 62 px tiles across the 380 px sheet (board 22); scrolls on narrower screens.
+:host {
+  display: flex;
+  gap: var(--app-space-3);
+  justify-content: space-between;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.preset-tile {
+  @include touch-target;
+
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--app-text-muted);
+  font-size: 0.8125rem;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &:disabled {
+    color: var(--app-text-disabled);
+  }
+}
+
+.preset-tile__frame {
+  display: block;
+  inline-size: 3.875rem;
+  block-size: 3.875rem;
+  overflow: hidden;
+  border: 2px solid transparent;
+  border-radius: var(--app-radius-sm);
+  background-color: var(--app-surface-2);
+  transition: border-color var(--app-dur-short) var(--app-ease);
+}
+
+.preset-tile__image {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}
+
+.preset-tile--selected {
+  color: var(--app-text);
+  font-weight: 500;
+
+  .preset-tile__frame {
+    border-color: var(--app-primary);
+  }
+}

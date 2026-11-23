@@ -1,0 +1,127 @@
+:host {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--app-space-7);
+  isolation: isolate;
+
+  // Cyan halo behind the photo stack.
+  &::before {
+    position: absolute;
+    z-index: -1;
+    inset-block-start: -20px;
+    inline-size: 340px;
+    block-size: 340px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      color-mix(in srgb, var(--app-accent) 16%, transparent),
+      transparent 70%
+    );
+    content: '';
+  }
+}
+
+.layer__stack {
+  position: relative;
+  inline-size: 260px;
+  block-size: 300px;
+}
+
+.layer__base {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  inline-size: 210px;
+  block-size: 240px;
+  border-radius: 18px;
+  box-shadow: var(--app-shadow-2);
+}
+
+.layer__overlay {
+  position: absolute;
+  inset-block-start: 60px;
+  inset-inline-start: 56px;
+  inline-size: 200px;
+  block-size: 236px;
+  border-radius: 18px;
+  opacity: 0.6;
+  outline: 2px solid var(--app-primary);
+}
+
+// Transform handles on three corners of the selected layer.
+.layer__handle {
+  position: absolute;
+  inline-size: 14px;
+  block-size: 14px;
+  border: 2px solid var(--app-primary);
+  border-radius: 50%;
+  background: var(--app-on-primary);
+}
+
+.layer__handle--top-end {
+  inset-block-start: 50px;
+  inset-inline-start: 230px;
+}
+
+.layer__handle--bottom-end {
+  inset-block-start: 288px;
+  inset-inline-start: 230px;
+}
+
+.layer__handle--bottom-start {
+  inset-block-start: 288px;
+  inset-inline-start: 49px;
+}
+
+.layer__control {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-3);
+  inline-size: 280px;
+  padding: var(--app-space-3) var(--app-space-4);
+  border-radius: var(--app-radius-md);
+  background: var(--app-surface);
+}
+
+.layer__label {
+  color: var(--app-text-muted);
+  font-size: var(--app-font-label-size);
+}
+
+.layer__track {
+  position: relative;
+  flex-grow: 1;
+  block-size: var(--app-slider-track);
+  border-radius: 2px;
+  background: var(--app-surface-3);
+
+  // Filled part of the track (60%).
+  &::before {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    inline-size: 60%;
+    border-radius: inherit;
+    background: var(--app-primary);
+    content: '';
+  }
+}
+
+.layer__thumb {
+  position: absolute;
+  inset-block-start: -8px;
+  inset-inline-start: calc(60% - 10px);
+  inline-size: var(--app-slider-thumb);
+  block-size: var(--app-slider-thumb);
+  border: 3px solid var(--app-on-primary);
+  border-radius: 50%;
+  background: var(--app-primary);
+}
+
+.layer__value {
+  color: var(--app-accent-text);
+  font-size: var(--app-font-label-size);
+  font-weight: 700;
+}

@@ -1,0 +1,15 @@
+<ul class="ai-grid" [attr.aria-label]="strings.toolsLabel">
+  @for (feature of features(); track feature.id) {
+    <li class="ai-grid__cell">
+      <button
+        type="button"
+        class="ai-grid__tile"
+        [disabled]="disabled()"
+        (click)="featureSelected.emit(feature)"
+      >
+        <app-icon class="ai-grid__icon" [name]="feature.icon" />
+        <span class="ai-grid__label">{{ feature.label }}</span>
+      </button>
+    </li>
+  }
+</ul>

@@ -1,0 +1,34 @@
+<div class="app-text-field">
+  <label class="form-label" [for]="inputId">
+    {{ label() }}
+    @if (required()) {
+      <span class="app-text-field__required" aria-hidden="true">*</span>
+    }
+  </label>
+  <input
+    #control
+    class="form-control"
+    [id]="inputId"
+    [type]="type()"
+    [name]="name()"
+    [value]="value()"
+    [placeholder]="placeholder()"
+    [attr.autocomplete]="autocomplete()"
+    [disabled]="disabled()"
+    [readOnly]="readonly()"
+    [required]="required()"
+    [class.is-invalid]="showErrors()"
+    [attr.aria-invalid]="showErrors()"
+    [attr.aria-describedby]="describedBy()"
+    (input)="onInput($event)"
+    (blur)="onBlur()"
+  />
+  @if (hint(); as hint) {
+    <div class="form-text" [id]="hintId">{{ hint }}</div>
+  }
+  @if (showErrors()) {
+    <div [id]="errorId">
+      <app-field-errors [errors]="errors()" />
+    </div>
+  }
+</div>

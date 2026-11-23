@@ -1,0 +1,47 @@
+<app-cloud-ai-screen
+  [eyebrow]="strings.eyebrow"
+  [heading]="strings.title"
+  [actionLabel]="strings.action"
+  [applyLabel]="strings.apply"
+  [historyLabel]="strings.historyLabel"
+  [optionsLabel]="strings.optionsLabel"
+  [optionsKey]="optionsKey()"
+  (actionRequested)="run()"
+>
+  @if (resultLabel(); as label) {
+    <p cloudStageFooter class="hairstyle__look">{{ label }}</p>
+  }
+
+  <app-hairstyle-picker
+    cloudOptions
+    [styles]="styles"
+    [value]="style()"
+    [label]="strings.stylesLabel"
+    [disabled]="locked()"
+    [proLocked]="proLocked()"
+    (selected)="selectStyle($event)"
+  />
+
+  <div cloudOptions class="hairstyle__colours">
+    <span class="hairstyle__label" aria-hidden="true">{{ strings.colour }}</span>
+    <app-colour-picker
+      class="hairstyle__swatches"
+      [swatches]="colours"
+      [label]="strings.colourLabel"
+      [value]="colour()"
+      (valueChange)="setColour($event)"
+    />
+  </div>
+
+  <app-slider
+    cloudOptions
+    class="hairstyle__length"
+    readout="none"
+    unit="percent"
+    [label]="strings.length"
+    [value]="length()"
+    [defaultValue]="defaultLength"
+    [disabled]="locked()"
+    (committed)="setLength($event)"
+  />
+</app-cloud-ai-screen>

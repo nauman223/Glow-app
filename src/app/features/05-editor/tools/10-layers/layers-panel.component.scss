@@ -1,0 +1,134 @@
+@use 'abstracts/mixins' as *;
+
+// Board: 288px drawer from the inline end over a 60% scrim, 24px radius on its start side.
+.layers__scrim {
+  position: fixed;
+  z-index: var(--app-z-modal);
+  inset: 0;
+  background-color: var(--app-scrim);
+}
+
+.layers {
+  @include safe-area-block-start(var(--app-space-2));
+
+  position: fixed;
+  z-index: calc(var(--app-z-modal) + 1);
+  inset-block: 0 var(--ad-height, 0);
+  inset-inline-end: 0;
+  display: flex;
+  flex-direction: column;
+  inline-size: min(18rem, 85vw);
+  padding-block-end: calc(env(safe-area-inset-bottom, 0px) + var(--app-space-4));
+  border-start-start-radius: var(--app-radius-lg);
+  border-end-start-radius: var(--app-radius-lg);
+  background-color: var(--app-surface);
+  color: var(--app-text);
+  box-shadow: -12px 0 32px rgb(0 0 0 / 50%);
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.layers__header {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-2);
+  padding: var(--app-space-2) var(--app-space-2) var(--app-space-2) 1.25rem;
+}
+
+.layers__title {
+  flex-grow: 1;
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.layers__close,
+.layers__add {
+  @include touch-target;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.layers__close {
+  background: none;
+  color: var(--app-text);
+}
+
+.layers__add {
+  background-color: var(--app-primary);
+  color: var(--app-on-primary);
+
+  &:disabled {
+    opacity: 0.6;
+  }
+}
+
+.layers__empty {
+  margin: 0;
+  padding: var(--app-space-4) 1.25rem;
+  color: var(--app-text-muted);
+  font-size: 0.875rem;
+}
+
+.layers__list {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--app-space-1);
+  min-block-size: 0;
+  margin: 0;
+  padding: var(--app-space-1) var(--app-space-2);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  list-style: none;
+}
+
+.layers__item {
+  display: block;
+}
+
+// CDK drag-and-drop: the lifted row, the gap it leaves and the settle animation.
+.cdk-drag-preview {
+  border-radius: 0.875rem;
+  box-shadow: var(--app-shadow-2);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0.3;
+}
+
+.cdk-drag-animating,
+.layers__list.cdk-drop-list-dragging .layers__item:not(.cdk-drag-placeholder) {
+  transition: transform var(--app-dur-medium) var(--app-ease);
+}
+
+.layers--enter {
+  animation: drawer-in var(--app-dur-medium) var(--app-ease-emph);
+}
+
+.layers__scrim--enter {
+  animation: scrim-in var(--app-dur-medium) var(--app-ease);
+}
+
+@keyframes drawer-in {
+  from {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes scrim-in {
+  from {
+    opacity: 0;
+  }
+}

@@ -1,0 +1,20 @@
+@use 'abstracts/mixins' as *;
+
+// Gold pill with #1a1a1a text: 12.6:1 contrast in both themes.
+:host {
+  @include text-style(micro);
+
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 1px 5px;
+  border-radius: var(--app-radius-xs);
+  background-color: var(--app-pro);
+  color: var(--app-on-pro);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+:host([hidden]) {
+  display: none;
+}

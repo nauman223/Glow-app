@@ -1,0 +1,20 @@
+// Sliders fill their option row (the row's label has a fixed width).
+.natural-beauty__slider {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+
+// Board 23: a thin accent oval around each detected face.
+.natural-beauty__faces {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: visible;
+}
+
+.natural-beauty__oval {
+  fill: none;
+  stroke: var(--app-accent);
+  stroke-opacity: 0.9;
+  stroke-width: 1.5px;
+}

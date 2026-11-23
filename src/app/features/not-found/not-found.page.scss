@@ -1,0 +1,7 @@
+.app-not-found {
+  padding-block-start: calc(env(safe-area-inset-top) + var(--app-space-5));
+}
+
+.btn {
+  min-block-size: var(--app-touch-min);
+}

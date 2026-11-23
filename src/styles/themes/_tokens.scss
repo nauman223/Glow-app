@@ -1,0 +1,107 @@
+@use 'sass:list';
+@use 'sass:meta';
+
+// Theme-independent design tokens as CSS custom properties. Colour tokens are defined
+// per theme in _dark.scss / _light.scss so switching data-bs-theme re-themes at runtime.
+
+:root {
+  // Spacing (4-pt grid)
+  @each $step, $value in $app-spacers {
+    @if $step != 0 {
+      --app-space-#{$step}: #{$value};
+    }
+  }
+
+  --app-gutter: 1rem;
+
+  // Radius
+  --app-radius-xs: 0.375rem;
+  --app-radius-sm: 0.75rem;
+  --app-radius-md: 1rem;
+  --app-radius-lg: 1.5rem;
+  --app-radius-xl: 1.75rem;
+  --app-radius-pill: 999px;
+
+  // Typography: --app-font-<role>-size / -weight / -line-height
+  --app-font-family: #{meta.inspect($app-font-family)};
+
+  @each $role, $spec in $app-type-scale {
+    --app-font-#{$role}-size: #{list.nth($spec, 1)};
+    --app-font-#{$role}-weight: #{list.nth($spec, 2)};
+    --app-font-#{$role}-line-height: #{list.nth($spec, 3)};
+  }
+
+  --app-font-overline-letter-spacing: 0.0625rem;
+
+  // Sizes (px: touch and chrome sizes are physical, matching Android dp)
+  --app-touch-min: 48px;
+  --app-top-bar: 56px;
+  --app-tool-bar: 80px;
+  --app-button-height: 48px;
+  --app-chip-height: 36px;
+  --app-slider-track: 4px;
+  --app-slider-thumb: 20px;
+  --app-ad-banner: 61px;
+  --app-focus-width: 0.1875rem;
+
+  // Live ad banner height: 0 until the ad-banner component reserves its slot (61px).
+  --ad-height: 0px;
+
+  // Brand gradient (same in both themes)
+  --app-brand-gradient: linear-gradient(135deg, #{$app-primary} 0%, #{$app-accent} 100%);
+
+  // Light temperature scale, cool to warm (Relight slider track; same in both themes)
+  --app-temperature-cool: #6fb7ff;
+  --app-temperature-neutral: #fff;
+  --app-temperature-warm: #ffb36b;
+
+  // Motion
+  --app-ease: cubic-bezier(0.2, 0, 0, 1);
+  --app-ease-emph: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --app-dur-short: 150ms;
+  --app-dur-medium: 250ms;
+  --app-dur-long: 400ms;
+
+  // Layers
+  --app-z-banner: 1030;
+  --app-z-sheet: 1045;
+  --app-z-modal: 1055;
+  --app-z-toast: 1090;
+
+  @media (prefers-reduced-motion: reduce) {
+    --app-dur-short: 0ms;
+    --app-dur-medium: 0ms;
+    --app-dur-long: 0ms;
+  }
+}
+
+// Points Bootstrap's colour-mode variables at the active theme so Bootstrap components
+// (buttons, forms, cards, modal, toasts) follow --app-* tokens in both themes.
+// The *-rgb triples are needed because Bootstrap composes them with rgba().
+@mixin app-bootstrap-bridge($bg, $text, $muted, $link, $success, $danger) {
+  --bs-body-bg: var(--app-bg);
+  --bs-body-bg-rgb: #{to-rgb($bg)};
+  --bs-body-color: var(--app-text);
+  --bs-body-color-rgb: #{to-rgb($text)};
+  --bs-emphasis-color: var(--app-text);
+  --bs-emphasis-color-rgb: #{to-rgb($text)};
+  --bs-secondary-color: var(--app-text-muted);
+  --bs-secondary-color-rgb: #{to-rgb($muted)};
+  --bs-secondary-bg: var(--app-surface-2);
+  --bs-tertiary-color: var(--app-text-disabled);
+  --bs-tertiary-bg: var(--app-surface);
+  --bs-heading-color: inherit;
+  --bs-border-color: var(--app-divider);
+  --bs-border-color-translucent: var(--app-divider);
+  --bs-link-color: var(--app-primary-text);
+  --bs-link-color-rgb: #{to-rgb($link)};
+  --bs-link-hover-color: var(--app-primary-text);
+  --bs-link-hover-color-rgb: #{to-rgb($link)};
+  --bs-focus-ring-color: var(--app-focus);
+  --bs-form-valid-color: var(--app-success);
+  --bs-form-valid-border-color: var(--app-success);
+  --bs-form-invalid-color: var(--app-danger);
+  --bs-form-invalid-border-color: var(--app-danger);
+  --bs-success-rgb: #{to-rgb($success)};
+  --bs-danger-rgb: #{to-rgb($danger)};
+}

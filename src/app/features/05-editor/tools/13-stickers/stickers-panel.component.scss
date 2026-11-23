@@ -1,0 +1,49 @@
+@use 'abstracts/mixins' as *;
+
+:host {
+  display: block;
+  flex: 0 0 auto;
+}
+
+// Two 80px rows are visible, as on the board; the rest of a pack scrolls inside the grid.
+.stickers__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-rows: 5rem;
+  gap: 0.625rem;
+  max-block-size: calc(2 * 5rem + 0.625rem + 1.75rem);
+  padding: 0.875rem var(--app-space-4);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.stickers__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  border-radius: var(--app-radius-md);
+  background-color: var(--app-surface-2);
+  transition: transform var(--app-dur-short) var(--app-ease);
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.stickers__image {
+  inline-size: 3rem;
+  block-size: 3rem;
+  pointer-events: none;
+}
+
+.stickers__footer {
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: flex-end;
+}

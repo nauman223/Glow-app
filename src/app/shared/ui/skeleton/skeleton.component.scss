@@ -1,0 +1,24 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-2);
+}
+
+.app-skeleton__shape {
+  inline-size: var(--app-skeleton-width, 100%);
+  block-size: var(--app-skeleton-height, 6rem);
+}
+
+.app-skeleton__shape--circle {
+  inline-size: var(--app-skeleton-width, 3rem);
+  block-size: auto;
+}
+
+.app-skeleton__line {
+  inline-size: var(--app-skeleton-width, 100%);
+  block-size: var(--app-skeleton-height, 1em);
+
+  &:last-child:not(:first-child) {
+    inline-size: 60%;
+  }
+}

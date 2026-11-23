@@ -1,0 +1,64 @@
+<div class="props__opacity">
+  <div class="props__heading" aria-hidden="true">
+    <span>{{ strings.opacity }}</span>
+    <span class="props__value">{{ percentText() }}</span>
+  </div>
+  <app-slider
+    readout="none"
+    unit="percent"
+    [label]="strings.opacity"
+    [labelVisible]="false"
+    [min]="0"
+    [max]="100"
+    [defaultValue]="100"
+    [disabled]="none()"
+    [value]="percent()"
+    (valueChange)="onOpacityInput($event)"
+    (committed)="onOpacityCommit($event)"
+  />
+</div>
+
+<div class="props__blend">
+  <label class="props__label" [for]="selectId">{{ strings.blendMode }}</label>
+  <div class="props__select-wrap">
+    <select
+      #blend
+      class="props__select"
+      [id]="selectId"
+      [disabled]="none()"
+      (change)="onBlendChange(blend.value)"
+    >
+      @for (mode of modes; track mode) {
+        <option [value]="mode" [selected]="mode === blendMode()">
+          {{ strings.blendModes[mode] }}
+        </option>
+      }
+    </select>
+    <app-icon class="props__chevron" name="chevron-down" [size]="18" />
+  </div>
+</div>
+
+<div class="props__actions" role="group" [attr.aria-label]="strings.actionsLabel">
+  <button
+    type="button"
+    class="props__action"
+    [disabled]="none() || isBase()"
+    (click)="duplicateRequested.emit()"
+  >
+    <app-icon name="duplicate" [size]="18" />
+    {{ strings.duplicate }}
+  </button>
+  <button type="button" class="props__action" [disabled]="locked()" (click)="flipRequested.emit()">
+    <app-icon name="flip-horizontal" [size]="18" />
+    {{ strings.flip }}
+  </button>
+  <button
+    type="button"
+    class="props__action props__action--danger"
+    [disabled]="locked()"
+    (click)="deleteRequested.emit()"
+  >
+    <app-icon name="trash" [size]="18" />
+    {{ strings.delete }}
+  </button>
+</div>

@@ -1,0 +1,108 @@
+<app-bottom-sheet [(open)]="sheetOpen" [label]="strings.panelLabel" (closed)="cancel()">
+  <div class="collage-panel">
+    <div
+      class="collage-panel__templates"
+      appScrollFade
+      role="group"
+      [attr.aria-label]="strings.templates"
+    >
+      @for (option of templates(); track option.template.id) {
+        <button
+          type="button"
+          class="collage-panel__template"
+          [class.collage-panel__template--selected]="option.selected"
+          [attr.aria-label]="option.name"
+          [attr.aria-pressed]="option.selected"
+          [disabled]="busy()"
+          (click)="selectTemplate(option.template.id)"
+        >
+          <app-collage-template-icon [template]="option.template" [selected]="option.selected" />
+        </button>
+      }
+    </div>
+
+    @if (hint(); as text) {
+      <p class="collage-panel__hint">{{ text }}</p>
+    }
+
+    <div class="collage-panel__sliders">
+      <div class="collage-panel__slider">
+        <div class="collage-panel__readout" aria-hidden="true">
+          <span>{{ strings.border }}</span>
+          <span class="collage-panel__value">{{ view().style.border }}</span>
+        </div>
+        <app-slider
+          readout="none"
+          [label]="strings.border"
+          [labelVisible]="false"
+          [min]="borderRange.min"
+          [max]="borderRange.max"
+          [defaultValue]="borderRange.initial"
+          [disabled]="!hasCells()"
+          [value]="view().style.border"
+          (valueChange)="previewBorder($event)"
+          (committed)="commitBorder($event)"
+        />
+      </div>
+      <div class="collage-panel__slider">
+        <div class="collage-panel__readout" aria-hidden="true">
+          <span>{{ strings.radius }}</span>
+          <span class="collage-panel__value">{{ view().style.radius }}</span>
+        </div>
+        <app-slider
+          readout="none"
+          [label]="strings.radius"
+          [labelVisible]="false"
+          [min]="radiusRange.min"
+          [max]="radiusRange.max"
+          [defaultValue]="radiusRange.initial"
+          [disabled]="!hasCells()"
+          [value]="view().style.radius"
+          (valueChange)="previewRadius($event)"
+          (committed)="commitRadius($event)"
+        />
+      </div>
+    </div>
+
+    @if (view().emptyCells > 0) {
+      <div class="collage-panel__row">
+        <span class="collage-panel__label">{{ emptyLabel() }}</span>
+        <button type="button" class="collage-panel__chip" [disabled]="busy()" (click)="addPhoto()">
+          <app-icon name="plus" [size]="14" />
+          {{ strings.addPhoto }}
+        </button>
+      </div>
+    }
+
+    <div class="collage-panel__row collage-panel__row--background">
+      <span class="collage-panel__label" aria-hidden="true">{{ strings.background }}</span>
+      <app-colour-picker
+        class="collage-panel__colours"
+        [label]="strings.backgroundColour"
+        [swatches]="swatches"
+        [value]="view().background"
+        (valueChange)="setBackground($event)"
+      />
+      <button
+        type="button"
+        class="collage-panel__chip"
+        [class.collage-panel__chip--selected]="view().backgroundPhoto"
+        [attr.aria-label]="strings.backgroundImageLabel"
+        [attr.aria-pressed]="view().backgroundPhoto"
+        [disabled]="busy()"
+        (click)="chooseBackgroundPhoto()"
+      >
+        <app-icon name="gallery" [size]="14" />
+        {{ strings.backgroundImage }}
+      </button>
+    </div>
+    <p class="visually-hidden" aria-live="polite">{{ status() }}</p>
+  </div>
+
+  <div class="collage-panel__footer" sheetFooter>
+    <app-button variant="ghost" [disabled]="busy()" (pressed)="cancel()">
+      {{ strings.cancel }}
+    </app-button>
+    <app-button size="sm" [disabled]="busy()" (pressed)="apply()">{{ strings.apply }}</app-button>
+  </div>
+</app-bottom-sheet>

@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar class="home__toolbar">
+    <div class="home__bar">
+      <app-brand-logo variant="lockup" [size]="32" />
+      <a
+        class="home__settings"
+        [routerLink]="settingsRoute"
+        [attr.aria-label]="strings.settingsLabel"
+      >
+        <app-icon name="settings" />
+      </a>
+    </div>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <main class="home">
+    <app-start-editing-card
+      [heading]="strings.startEditing.heading"
+      [subheading]="strings.startEditing.subheading"
+      [actions]="startActions"
+      [busyActionId]="busyActionId()"
+      (actionSelected)="run($event)"
+    />
+    <app-home-chips
+      [actions]="chips"
+      [label]="strings.chipsLabel"
+      [disabled]="busyActionId() !== null"
+      (actionSelected)="run($event)"
+    />
+    @for (section of sections; track section.id) {
+      @switch (section.kind) {
+        @case ('recent-projects') {
+          <!-- Off the first paint: the list reads device storage, the card loads at once. -->
+          @defer (on idle) {
+            <app-recent-projects [section]="section" />
+          }
+        }
+        @case ('templates') {
+          <app-collage-templates [section]="section" />
+        }
+      }
+    }
+  </main>
+
+  <!-- The sheet (and the feature flags it reads) loads on first open. -->
+  @defer (when aiToolsOpen()) {
+    <app-ai-tools-sheet [(open)]="aiToolsOpen" (featureSelected)="startAiTool($event)" />
+  }
+</ion-content>
+<!-- In flow under the content: the band is reserved before the native banner loads. -->
+<app-ad-banner-slot [suspended]="aiToolsOpen()" />

@@ -1,0 +1,197 @@
+@use 'abstracts/mixins' as *;
+
+:host {
+  display: block;
+}
+
+.app-sheet {
+  --app-sheet-drag: 0px;
+  --app-sheet-min-stage: 144px;
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-4);
+  max-block-size: 100%;
+  padding-block-end: var(--app-space-2);
+  border-start-start-radius: var(--app-radius-lg);
+  border-start-end-radius: var(--app-radius-lg);
+  background-color: var(--app-surface);
+  color: var(--app-text);
+  transform: translateY(var(--app-sheet-drag));
+  transition: transform var(--app-dur-medium) var(--app-ease);
+
+  // Programmatic focus target only; inner controls carry the visible focus ring.
+  &:focus {
+    outline: none;
+  }
+}
+
+// Docked (editor) sheets sit in a flex column with no definite height, so `100%` caps nothing:
+// cap them by the viewport, always leaving part of the photo on screen. The body scrolls beyond
+// that (the 17-tile AI tools sheet rose behind the top bar on a 360 × 640 dp phone).
+.app-sheet:not(.app-sheet--modal) {
+  max-block-size: calc(
+    100dvh - var(--app-top-bar) - env(safe-area-inset-top, 0px) - var(--app-sheet-min-stage)
+  );
+}
+
+.app-sheet--dragging {
+  transition: none;
+}
+
+// Modal: fixed above the ad slot; the safe-area pad applies only when no ad sits below.
+.app-sheet--modal {
+  position: fixed;
+  z-index: calc(var(--app-z-sheet) + 1);
+  inset-inline: 0;
+  inset-block-end: var(--ad-height);
+
+  // The sheet starts above the ad band, so the band comes off its height too (without it, a
+  // tall sheet rose behind the top bar on 640 dp phones).
+  max-block-size: calc(
+    100% - var(--app-top-bar) - env(safe-area-inset-top, 0px) - var(--ad-height, 0px)
+  );
+  padding-block-end: max(
+    var(--app-space-2),
+    calc(env(safe-area-inset-bottom, 0px) - var(--ad-height))
+  );
+  box-shadow: var(--app-shadow-2);
+}
+
+.app-sheet__scrim {
+  position: fixed;
+  z-index: var(--app-z-sheet);
+  inset: 0;
+  background-color: var(--app-scrim);
+}
+
+// 80 x 28 visual zone (10px above the 4px handle); the hit area extends 20px upwards to 48px.
+.app-sheet__grabber {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  inline-size: 5rem;
+  block-size: 1.75rem;
+  margin-block-end: calc(var(--app-space-4) * -1);
+  padding: 0.625rem 0 0;
+  border: 0;
+  border-radius: var(--app-radius-sm);
+  background: none;
+  touch-action: none;
+  cursor: grab;
+
+  &::before {
+    position: absolute;
+    inset: -1.25rem 0 0;
+    content: '';
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.app-sheet__handle {
+  inline-size: 2rem;
+  block-size: 0.25rem;
+  border-radius: 2px;
+  background-color: var(--app-control-border);
+}
+
+.app-sheet__header {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-2);
+  min-block-size: var(--app-touch-min);
+  padding-inline: var(--app-space-4) var(--app-space-2);
+
+  &:empty {
+    display: none;
+  }
+}
+
+.app-sheet__title {
+  @include text-style(title-sm);
+
+  flex-grow: 1;
+  margin: 0;
+}
+
+.app-sheet__close {
+  @include touch-target;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-inline-start: auto;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: inherit;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.app-sheet__body {
+  flex: 1 1 auto;
+  min-block-size: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.app-sheet__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--app-space-2);
+  padding: var(--app-space-1) var(--app-space-4) 0;
+  border-block-start: 1px solid var(--app-divider);
+
+  &:empty {
+    display: none;
+  }
+}
+
+.app-sheet--enter {
+  animation: sheet-in var(--app-dur-medium) var(--app-ease-emph);
+}
+
+// No `from`: a drag-dismissed sheet continues from where the finger left it.
+.app-sheet--leave {
+  animation: sheet-out var(--app-dur-short) var(--app-ease) forwards;
+}
+
+.app-sheet__scrim--enter {
+  animation: scrim-in var(--app-dur-medium) var(--app-ease);
+}
+
+.app-sheet__scrim--leave {
+  animation: scrim-out var(--app-dur-short) var(--app-ease) forwards;
+}
+
+@keyframes sheet-in {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes sheet-out {
+  to {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes scrim-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes scrim-out {
+  to {
+    opacity: 0;
+  }
+}

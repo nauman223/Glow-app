@@ -1,0 +1,102 @@
+@use 'abstracts/mixins' as *;
+
+// Design: 140px card, 96px thumbnail, 16px radius, surface fill; 13/12px text.
+:host {
+  display: block;
+  flex: 0 0 140px;
+  inline-size: 140px;
+}
+
+:host(.project-card-host--fluid) {
+  flex-basis: auto;
+  inline-size: auto;
+}
+
+.project-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--app-radius-md);
+  background-color: var(--app-surface);
+}
+
+.project-card__open {
+  display: flex;
+  flex-direction: column;
+  inline-size: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--app-text);
+  text-align: start;
+
+  &:focus-visible {
+    @include focus-ring;
+
+    outline-offset: -0.25rem;
+  }
+}
+
+.project-card__thumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 100%;
+  block-size: auto;
+  aspect-ratio: 140 / 96;
+  object-fit: cover;
+  background-color: var(--app-surface-2);
+}
+
+.project-card__thumb--empty {
+  color: var(--app-text-muted);
+}
+
+// Room at the end for the options button, which overlays this row.
+.project-card__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-block-size: 48px;
+  padding-block: 6px;
+  padding-inline: 12px 40px;
+}
+
+.project-card__title,
+.project-card__date {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.project-card__title {
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+.project-card__date {
+  color: var(--app-text-muted);
+  font-size: 0.75rem;
+}
+
+// 40 × 48 visual column at the end of the text row; the hit area is expanded to 48px.
+.project-card__more {
+  @include touch-target-expand;
+
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline-end: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 40px;
+  block-size: 48px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--app-radius-sm);
+  background: none;
+  color: var(--app-text-muted);
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}

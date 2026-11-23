@@ -1,0 +1,19 @@
+// Safe-area helpers for content outside ion-header / ion-content (Ionic already maps
+// env(safe-area-inset-*) to --ion-safe-area-* in core.css). The bottom helper also clears
+// the ad banner (--ad-height) so fixed content never sits under it.
+
+.safe-area-top {
+  padding-block-start: env(safe-area-inset-top, 0);
+}
+
+.safe-area-bottom {
+  padding-block-end: calc(env(safe-area-inset-bottom, 0px) + var(--ad-height));
+}
+
+.safe-area-inline {
+  padding-inline: max(
+    var(--app-gutter),
+    env(safe-area-inset-left, 0px),
+    env(safe-area-inset-right, 0px)
+  );
+}

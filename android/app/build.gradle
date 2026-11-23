@@ -1,0 +1,128 @@
+apply plugin: 'com.android.application'
+
+// ---------------------------------------------------------------------------------------------
+// AdMob application ID. Supplied by CI (env var) or locally (-PGLOW_ADMOB_APP_ID=... or
+// ~/.gradle/gradle.properties); never committed. Debug builds fall back to Google's public test
+// app ID. Release builds fail (see verifyReleaseConfig) unless a real ID is provided.
+// ---------------------------------------------------------------------------------------------
+def admobTestAppId = 'ca-app-pub-3940256099942544~3347511713'
+def admobAppId = providers.gradleProperty('GLOW_ADMOB_APP_ID')
+        .orElse(providers.environmentVariable('GLOW_ADMOB_APP_ID'))
+        .map { it.trim() }
+        .getOrElse('')
+def hasRealAdmobAppId = admobAppId ==~ /ca-app-pub-\d{16}~\d{10}/ && admobAppId != admobTestAppId
+
+// ---------------------------------------------------------------------------------------------
+// Release signing. The keystore lives in CI secrets; all four env vars must be set together.
+// Without them, debug builds work as usual and release output is left unsigned.
+// ---------------------------------------------------------------------------------------------
+def signingEnvNames = ['GLOW_KEYSTORE_FILE', 'GLOW_KEYSTORE_PASSWORD', 'GLOW_KEY_ALIAS', 'GLOW_KEY_PASSWORD']
+def signingEnv = signingEnvNames.collectEntries { name ->
+    [(name): providers.environmentVariable(name).getOrElse('')]
+}
+def presentSigningEnv = signingEnv.findAll { it.value }
+def hasReleaseSigning = presentSigningEnv.size() == signingEnvNames.size()
+if (!presentSigningEnv.isEmpty() && !hasReleaseSigning) {
+    throw new GradleException("Incomplete release signing config. Missing: ${(signingEnvNames - presentSigningEnv.keySet()).join(', ')}")
+}
+
+// ---------------------------------------------------------------------------------------------
+// Release test build (npm run android:release-test, -PGLOW_RELEASE_TEST=true): an R8 release
+// APK for sideloading on a real phone. It keeps the AdMob test app ID and is signed with the
+// local debug key, which Play Console rejects, so it can never be uploaded by mistake.
+// ---------------------------------------------------------------------------------------------
+def isReleaseTest = providers.gradleProperty('GLOW_RELEASE_TEST').map { it.trim() == 'true' }.getOrElse(false)
+if (isReleaseTest && hasReleaseSigning) {
+    throw new GradleException('GLOW_RELEASE_TEST cannot be combined with the GLOW_KEYSTORE_* upload key: test builds are debug-signed only.')
+}
+
+android {
+    namespace = "com.nadev.glow"
+    compileSdk = rootProject.ext.compileSdkVersion
+    defaultConfig {
+        applicationId "com.nadev.glow"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        // Managed by scripts/sync-version.mjs (npm run version:sync) from package.json.
+        versionCode 100
+        versionName "0.1.0"
+        manifestPlaceholders = [admobAppId: hasRealAdmobAppId ? admobAppId : admobTestAppId]
+        aaptOptions {
+             // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
+             // Default: https://android.googlesource.com/platform/frameworks/base/+/282e181b58cf72b6ca770dc7ca5f91f135444502/tools/aapt/AaptAssets.cpp#61
+            ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
+        }
+    }
+    signingConfigs {
+        if (hasReleaseSigning) {
+            release {
+                storeFile file(signingEnv.GLOW_KEYSTORE_FILE)
+                storePassword signingEnv.GLOW_KEYSTORE_PASSWORD
+                keyAlias signingEnv.GLOW_KEY_ALIAS
+                keyPassword signingEnv.GLOW_KEY_PASSWORD
+            }
+        }
+    }
+    buildTypes {
+        release {
+            // R8 code shrinking/obfuscation and resource shrinking for release builds.
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (hasReleaseSigning) {
+                signingConfig signingConfigs.release
+            } else if (isReleaseTest) {
+                signingConfig signingConfigs.debug
+                versionNameSuffix '-test'
+            }
+        }
+    }
+}
+
+// Fails any release build (assembleRelease, bundleRelease, ...) that would ship the AdMob test ID.
+def verifyReleaseConfig = tasks.register('verifyReleaseConfig') {
+    group = 'verification'
+    description = 'Fails the release build when GLOW_ADMOB_APP_ID is missing, malformed or the test ID.'
+    def admobOk = hasRealAdmobAppId
+    def signed = hasReleaseSigning
+    def releaseTest = isReleaseTest
+    doLast {
+        if (releaseTest) {
+            logger.warn('GLOW_RELEASE_TEST: release APK with test ads, signed with the debug key. Not for Play.')
+            return
+        }
+        if (!admobOk) {
+            throw new GradleException('Release build blocked: set GLOW_ADMOB_APP_ID (env var or Gradle property) to the real AdMob app ID (ca-app-pub-XXXXXXXXXXXXXXXX~XXXXXXXXXX). The Google test ID is not allowed in release.')
+        }
+        if (!signed) {
+            logger.warn('GLOW_KEYSTORE_* env vars not set: the release output is unsigned and cannot be uploaded to Play.')
+        }
+    }
+}
+tasks.matching { it.name == 'preReleaseBuild' }.configureEach { it.dependsOn(verifyReleaseConfig) }
+
+repositories {
+    flatDir{
+        dirs '../capacitor-cordova-android-plugins/src/main/libs', 'libs'
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
+    implementation "androidx.coordinatorlayout:coordinatorlayout:$androidxCoordinatorLayoutVersion"
+    implementation "androidx.core:core-splashscreen:$coreSplashScreenVersion"
+    implementation project(':capacitor-android')
+    implementation project(':capacitor-cordova-android-plugins')
+}
+
+apply from: 'capacitor.build.gradle'
+
+try {
+    def servicesJSON = file('google-services.json')
+    if (servicesJSON.text) {
+        apply plugin: 'com.google.gms.google-services'
+    }
+} catch(Exception e) {
+    logger.info("google-services.json not found, google-services plugin not applied. Push Notifications won't work")
+}

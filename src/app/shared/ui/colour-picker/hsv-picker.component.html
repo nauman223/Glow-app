@@ -1,0 +1,39 @@
+<div
+  class="hsv-picker__area"
+  role="slider"
+  tabindex="0"
+  appPointerFraction
+  aria-valuemin="0"
+  aria-valuemax="100"
+  [attr.aria-label]="strings.saturationBrightness"
+  [attr.aria-valuenow]="saturationPercent()"
+  [attr.aria-valuetext]="areaValueText()"
+  (fractionChange)="onAreaPointer($event)"
+  (keydown)="onAreaKey($event)"
+>
+  <span class="hsv-picker__marker hsv-picker__marker--area" aria-hidden="true"></span>
+</div>
+
+<div
+  class="hsv-picker__hue"
+  role="slider"
+  tabindex="0"
+  appPointerFraction
+  aria-valuemin="0"
+  aria-valuemax="359"
+  [attr.aria-label]="strings.hue"
+  [attr.aria-valuenow]="hueDegrees()"
+  [attr.aria-valuetext]="hueValueText()"
+  (fractionChange)="onHuePointer($event)"
+  (keydown)="onHueKey($event)"
+>
+  <span class="hsv-picker__marker hsv-picker__marker--hue" aria-hidden="true"></span>
+</div>
+
+<app-text-field
+  class="hsv-picker__hex"
+  [label]="strings.hex"
+  [value]="hexDraft()"
+  (valueChange)="onHexInput($event)"
+  (touch)="onHexBlur()"
+/>
